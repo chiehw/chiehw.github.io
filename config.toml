@@ -3,6 +3,7 @@ languageCode = "en-us"
 title = "Chieh Wang"
 
 theme = "paper"
+publishDir = "docs"
 
 [params]
 description = "programmer"
