@@ -1,0 +1,26 @@
+baseURL: 'http://example.org/'
+languageCode: en-us
+title: Chieh Wang
+publishdir: docs
+theme: hugo-PaperMod
+params:
+  author: Chieh Wang (王杰)
+  description: programmer
+permalinks:
+  posts: '/:filename/'
+languages:
+    en:
+        languageName: "English"
+        weight: 1
+        taxonomies:
+          category: categories
+          tag: tags
+          series: series
+        menu:
+            main:
+              - name: 归档
+                url: archives
+                weight: 5
+              - name: 标签
+                url: tags/
+                weight: 10
