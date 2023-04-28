@@ -124,13 +124,17 @@ friends:
   # site: 地址
   # meta: 描述
   -
-    nickname: Zcheng
-    site: https://zcheng.site/
-    meta:
+    nickname: David Tolnay
+    site: https://github.com/dtolnay
+    meta: Rust API 组的大佬
   -
-    nickname: Hexo
-    site: https://hexo.io/
-    meta:
+    nickname: 阿莱克西斯
+    site: https://www.zhihu.com/people/ming-zi-zong-shi-hen-nan-qi
+    meta: 自学思想指导，分布式和 ML 领域
+  -
+    nickname: L0nm4r
+    site: https://lonmar.cn/
+    meta: 安全领域的朋友
 
 # 页脚信息
 footer:
