@@ -91,12 +91,12 @@ navbar:
     key: archives
   -
     name: Categories
-    enable: false
+    enable: true
     path: /categories/
     key: categories
   -
     name: Tags
-    enable: true
+    enable: false
     path: /tags/
     key: tags
   -
@@ -145,7 +145,7 @@ footer:
     -
       name: github
       icon: github
-      path: https://github.com/zchengsite/hexo-theme-oranges
+      path: https://github.com/https://github.com/chiehwzchengsite/hexo-theme-oranges
     # -
     #   name: email
     #   icon: envelope
@@ -166,12 +166,12 @@ footer:
     #   name: weibo
     #   icon: weibo
     #   path:
-    # -
-    #   # rss需安装 hexo-generator-feed 插件
-    #   # 具体参照https://github.com/hexojs/hexo-generator-feed
-    #   name: rss
-    #   icon: rss
-    #   path: /atom.xml
+    -
+      # rss需安装 hexo-generator-feed 插件
+      # 具体参照https://github.com/hexojs/hexo-generator-feed
+      name: rss
+      icon: rss
+      path: /atom.xml
 
   more:
     # 支持变量显示，可自定义扩展，具体见主题/layout/_partial/footer.ejs
@@ -229,7 +229,7 @@ postShare:
 codeBlock:
   # 代码块风格，默认normal
   # 可选：默认风格'normal'；mac黑色风格：'mac-black'
-  style: 'normal'
+  style: 'mac-black'
   # 代码复制
   copy:
     enable: true
