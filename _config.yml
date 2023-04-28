@@ -116,3 +116,8 @@ feed:
   icon: icon.png
   autodiscovery: true
   template:
+
+search:
+  path: search.xml
+  field: post
+  content: true
