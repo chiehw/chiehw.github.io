@@ -27,7 +27,7 @@ favicon:
 # 用户头像与昵称
 avatar:
   author_photo: /images/avatar.png
-  author_nickname: Oranges
+  author_nickname: Chieh Wang
   path: /
 
 # Google 分析
@@ -57,9 +57,9 @@ comments:
   valine:
     # https://valine.js.org/quickstart.html#%E8%8E%B7%E5%8F%96APP-ID-%E5%92%8C-APP-Key
     # 进入以上网址查看官方教程
-    enable: false
-    appId:
-    appKey:
+    enable: true
+    appId: ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz
+    appKey: 8JFk6edtiIlTX0CcOOnneFWO
     placeholder: Welcome!
     avatar: retro
     vempty_display: false
@@ -182,7 +182,7 @@ footer:
     # 一般用来显示根据各种场景需要切换的文本，如时间年份
     # 如：{thisYear} 会被替换为今年年份
     -
-      name: Copyright © {thisYear} Oranges
+      name: Copyright © {thisYear} Chieh Wang
       path: https://github.com/zchengsite/hexo-theme-oranges
     -
       name: Theme by Oranges | Powered by Hexo
