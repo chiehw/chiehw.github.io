@@ -1,7 +1,10 @@
 ---
 title: 《算法 第4版》-排序算法实现
 date: 2023-04-28 19:35:27
-categories: 算法
+categories: 程序人生
+tags: 
+- 算法
+- 《算法 第4版》
 ---
 本文选用 LeetCode 中的 [912. 排序数组](https://leetcode.cn/problems/sort-an-array/) 作为练习题。
 
