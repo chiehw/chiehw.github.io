@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《Effective C++》-2 资源管理 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《Effective C++》-2 资源管理</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-10-15 18:21:58
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/C/" title="C++">
+                    #C++
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                    #《Effective C++》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="条款13：以对象管理资源"><a href="#条款13：以对象管理资源" class="headerlink" title="条款13：以对象管理资源"></a>条款13：以对象管理资源</h1><h2 id="01-资源管理的核心是什么？"><a href="#01-资源管理的核心是什么？" class="headerlink" title="01 资源管理的核心是什么？"></a>01 资源管理的核心是什么？</h2><p><strong>获取资源后立即放进管理对象</strong>。有时候获得得资源被拿来赋值某个管理对象，但无论哪一种做法，每一笔资源都在获得得同时立即被放进管理对象中。如 createInvestment 应该将返回值存储在智能指针对象内部，而不是让用户自己去封装。</p>
+<p><strong>管理对象运用析构函数确保资源被释放</strong>。无论控制流如何离开区块，一旦对象被销毁其析构函数自然会被自动调用，于是资源被释放。如果资源释放动作可能导致抛出异常，可以考虑利用普通函数来处理这种容易报错得操作。</p>
+<h2 id="02-auto-ptr-如何防止多个指针指向同一个对象？"><a href="#02-auto-ptr-如何防止多个指针指向同一个对象？" class="headerlink" title="02 auto_ptr 如何防止多个指针指向同一个对象？"></a>02 auto_ptr 如何防止多个指针指向同一个对象？</h2><p>若通过 copy 构造函数或 copy assignment 操作符复制他们，它们会变成 null，而复制所得得指针将取得资源得唯一拥有权。类似 rust 中得复制，这样可以让对象在同一时间只有一个所有者。</p>
+<p>STL 容器要求其元素需要发挥正常的复制行为，因此这些容器不能使用 auto_ptr，只能使用引用计数型的智能指针（Reference-Counting Smart Pointer，RCSP）。</p>
+<h2 id="03-为什么不要将数组放在智能指针中？"><a href="#03-为什么不要将数组放在智能指针中？" class="headerlink" title="03 为什么不要将数组放在智能指针中？"></a>03 为什么不要将数组放在智能指针中？</h2><p>auto_ptr 和 shared_ptr 两者都在其析构函数内做 delete 而不是 delete[]。因为 vector 和 string 几乎总是可以取代动态分配而得的数组。</p>
+<h2 id="04-unique-ptr-修复了-auto-ptr-的什么问题？"><a href="#04-unique-ptr-修复了-auto-ptr-的什么问题？" class="headerlink" title="04 unique_ptr 修复了 auto_ptr 的什么问题？"></a>04 unique_ptr 修复了 auto_ptr 的什么问题？</h2><ol>
+<li>所有权转移的语义不够清晰：auto_ptr 的所有权转移语义有时会导致不太明显的行为，比如复制、移动和赋值操作并不总是按预期方式工作。</li>
+<li>不可传递：auto_ptr <strong>不能被安全的放入标准容器或作为函数参数</strong>（因为复制不能保证正常），unique_ptr 通过移动构造函数和移动复制运算符解决了这个问题。</li>
+<li><strong>不支持自定义删除器</strong>：auto_ptr没有提供一种简单的方式来自定义删除其，因此它智能用于管理动态分配的单个对象。unique_ptr 允许用户自定义删除其，这使得它可以用于管理动态分配的数组、动态分配的对象和其他资源。</li>
+</ol>
+<h1 id="条款14：在资源管理类中小心copying行为"><a href="#条款14：在资源管理类中小心copying行为" class="headerlink" title="条款14：在资源管理类中小心copying行为"></a>条款14：在资源管理类中小心copying行为</h1><h2 id="01-当一个-RAII-对象被复制，会发生什么？"><a href="#01-当一个-RAII-对象被复制，会发生什么？" class="headerlink" title="01 当一个 RAII 对象被复制，会发生什么？"></a>01 当一个 RAII 对象被复制，会发生什么？</h2><ul>
+<li><strong>禁止复制</strong>。许多时候允许 RAII 赋值并不合理。只需要将拷贝操作（拷贝赋值、拷贝构造）申明为 private 即可。如 Mutex</li>
+<li><strong>对底层资源使用“引用技术”</strong>。有时候我们希望保有资源，直到它的最后一个使用者被销毁。这种情况就需要对资源进行引用技术——shared_ptr。如对象。</li>
+<li><strong>复制底部资源</strong>。复制资源管理对象时，进行的是深度拷贝。例如 heap 内存。</li>
+<li><strong>转移资源的拥有权</strong>。某些罕见场合下你可能希望确保永远只有一个 RAII 对象指向一个资源，即使 RAII 对象被复制依然如此。如 unique_ptr。</li>
+</ul>
+<h1 id="条款15：在资源管理类中提供对原始资源的访问"><a href="#条款15：在资源管理类中提供对原始资源的访问" class="headerlink" title="条款15：在资源管理类中提供对原始资源的访问"></a>条款15：在资源管理类中提供对原始资源的访问</h1><h2 id="01-RAII-如何访问原始资源？"><a href="#01-RAII-如何访问原始资源？" class="headerlink" title="01 RAII 如何访问原始资源？"></a>01 RAII 如何访问原始资源？</h2><p>RAII class 并不是为了封装某物而存在的，它们的存在是为了一个特殊的行为——资源释放——一定会发生，因此 RAII class 含有返回原始资源的函数很正常。通常有两种方式：显示转换比较安全，隐式转换对客户比较方便。</p>
+<p><strong>显式转换</strong>：shared_ptr 和 auto_ptr 都提供了 get 函数成员，用来执行显示转换（也就是返回指针内部的原始指针），shared_ptr 和 auto_ptr 也重载了指针取值（pointer dereferencing）和操作符（operator-&gt;和operator*）。</p>
+<p><strong>隐式转换</strong>：使用类型转换运算符（Type Conversion Operator），即类似<code>operator FontHandle() const</code>。需要注意的是，类型转换运算符应该谨慎使用，因为它们可能会导致意外的类型转换和类型错误。因此，应该旨在确实需要自定义类型转换时才使用。</p>
+<p>更推荐显式转换，因为最佳实践是“让接口容易被使用，不容易被误用”。</p>
+<h1 id="条款16：成对使用new和delete要采取相同的形式"><a href="#条款16：成对使用new和delete要采取相同的形式" class="headerlink" title="条款16：成对使用new和delete要采取相同的形式"></a>条款16：成对使用new和delete要采取相同的形式</h1><h1 id="条款17：以独立语句将-newed-对象放入智能指针中"><a href="#条款17：以独立语句将-newed-对象放入智能指针中" class="headerlink" title="条款17：以独立语句将 newed 对象放入智能指针中"></a>条款17：以独立语句将 newed 对象放入智能指针中</h1><h2 id="01-为什么需要用独立的语句？"><a href="#01-为什么需要用独立的语句？" class="headerlink" title="01 为什么需要用独立的语句？"></a>01 为什么需要用独立的语句？</h2><p>以独立语句将 newed 对象存储于只能指针内，如果不这样做，一旦异常被抛出，可能导致难以察觉的资源泄露。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">processWidget</span>(std::tr1::<span class="built_in">shared_ptr</span>&lt;Widget&gt;(<span class="keyword">new</span> Widget), <span class="built_in">priority</span>());</span><br><span class="line"><span class="comment">// 正确写法</span></span><br><span class="line"><span class="function">shared_ptr&lt;Widget&gt; <span class="title">pw</span><span class="params">(<span class="keyword">new</span> Widget)</span></span>;</span><br><span class="line"><span class="built_in">processWidget</span>(pw, <span class="built_in">priority</span>());</span><br></pre></td></tr></table></figure>
+
+<p>上面这个语句要做 3 件事：</p>
+<ol>
+<li>执行 new Widget</li>
+<li>调用 priority</li>
+<li>调用 shared_ptr 的构造函数。</li>
+</ol>
+<p>这三件事无法确定 priority 和 new Widiget 的次序，<strong>如果 priority 在 new Widget 和 shared_ptr 的构造函数之间，priority 在调用时发生了异常，那么 new Widget 的指针就无法放入 shared_ptr，从而会进一步导致资源泄露</strong>。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/06/10/effective-cpp-1-object/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-10-15 18:21:58
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/C/" title="C++">
+                        #C++
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                        #《Effective C++》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/06/10/effective-cpp-3-design/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE13%EF%BC%9A%E4%BB%A5%E5%AF%B9%E8%B1%A1%E7%AE%A1%E7%90%86%E8%B5%84%E6%BA%90"><span class="toc-text">条款13：以对象管理资源</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%9A%84%E6%A0%B8%E5%BF%83%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">01 资源管理的核心是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-auto-ptr-%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E5%A4%9A%E4%B8%AA%E6%8C%87%E9%92%88%E6%8C%87%E5%90%91%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%9F"><span class="toc-text">02 auto_ptr 如何防止多个指针指向同一个对象？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%A6%81%E5%B0%86%E6%95%B0%E7%BB%84%E6%94%BE%E5%9C%A8%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%B8%AD%EF%BC%9F"><span class="toc-text">03 为什么不要将数组放在智能指针中？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-unique-ptr-%E4%BF%AE%E5%A4%8D%E4%BA%86-auto-ptr-%E7%9A%84%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">04 unique_ptr 修复了 auto_ptr 的什么问题？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE14%EF%BC%9A%E5%9C%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E4%B8%AD%E5%B0%8F%E5%BF%83copying%E8%A1%8C%E4%B8%BA"><span class="toc-text">条款14：在资源管理类中小心copying行为</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%BD%93%E4%B8%80%E4%B8%AA-RAII-%E5%AF%B9%E8%B1%A1%E8%A2%AB%E5%A4%8D%E5%88%B6%EF%BC%8C%E4%BC%9A%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">01 当一个 RAII 对象被复制，会发生什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE15%EF%BC%9A%E5%9C%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B1%BB%E4%B8%AD%E6%8F%90%E4%BE%9B%E5%AF%B9%E5%8E%9F%E5%A7%8B%E8%B5%84%E6%BA%90%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-text">条款15：在资源管理类中提供对原始资源的访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-RAII-%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%8E%9F%E5%A7%8B%E8%B5%84%E6%BA%90%EF%BC%9F"><span class="toc-text">01 RAII 如何访问原始资源？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE16%EF%BC%9A%E6%88%90%E5%AF%B9%E4%BD%BF%E7%94%A8new%E5%92%8Cdelete%E8%A6%81%E9%87%87%E5%8F%96%E7%9B%B8%E5%90%8C%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="toc-text">条款16：成对使用new和delete要采取相同的形式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE17%EF%BC%9A%E4%BB%A5%E7%8B%AC%E7%AB%8B%E8%AF%AD%E5%8F%A5%E5%B0%86-newed-%E5%AF%B9%E8%B1%A1%E6%94%BE%E5%85%A5%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%B8%AD"><span class="toc-text">条款17：以独立语句将 newed 对象放入智能指针中</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%94%A8%E7%8B%AC%E7%AB%8B%E7%9A%84%E8%AF%AD%E5%8F%A5%EF%BC%9F"><span class="toc-text">01 为什么需要用独立的语句？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2023 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8AEffective%20C%2B%2B%E3%80%8B-2%20%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86 + '&url=' + http%3A%2F%2Fexample.com%2F2023%2F06%2F10%2Feffective-cpp-2-resources%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://example.com/2023/06/10/effective-cpp-2-resources/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

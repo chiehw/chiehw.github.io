@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《Effective C++》-5 继承 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《Effective C++》-5 继承</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-10-15 18:21:58
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/C/" title="C++">
+                    #C++
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                    #《Effective C++》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="条款-32：确定你的-public-继承塑膜出-is-a-关系"><a href="#条款-32：确定你的-public-继承塑膜出-is-a-关系" class="headerlink" title="条款 32：确定你的 public 继承塑膜出 is-a 关系"></a>条款 32：确定你的 public 继承塑膜出 is-a 关系</h1><h2 id="01-继承的含义是什么？"><a href="#01-继承的含义是什么？" class="headerlink" title="01 继承的含义是什么？"></a>01 继承的含义是什么？</h2><p>public inheritance（公开继承）意味着 “is-a” 的关系。</p>
+<p>如果你令 class D 以 public 形式继承 class B，你便是告诉 C++ 编译器说，每一个类型为 D 的对象同时也是一个类型为 B 的对象，反之不成立。你的意思是 B 比 D 表现出更一般化的概念，而 D 比 B 表现出更特殊化的概念。你主张 B 对象比 D 表现更一般化的概念，而 D 比 B 表现出更特殊化的概念。你主张 B 对象可派上用场的地方，D 对象一样可以派上用场，此即 Liskov Substitution Principle，因为每一个 D 对象都是一种 B 对象。反之如果你需要一个 D 对象，B 对象无法效劳，因为虽然每个 D 对象都是一个 B 对象，反之并不成立。</p>
+<h2 id="02-为什么拒绝在运行期检查错误？"><a href="#02-为什么拒绝在运行期检查错误？" class="headerlink" title="02 为什么拒绝在运行期检查错误？"></a>02 为什么拒绝在运行期检查错误？</h2><p>在编译期拒绝用户编译，可以更好的避免让用户错误的使用接口。因为好的接口可以防止无效的代码通过编译，而不是只在运行时才能检测出来。</p>
+<h2 id="03-如何使用-public-继承？"><a href="#03-如何使用-public-继承？" class="headerlink" title="03 如何使用 public 继承？"></a>03 如何使用 public 继承？</h2><p>public 继承会导致 base class 对象身上的每件事都可以施行于 derived class 身上，如果不能实现这样的效果，那么这样的继承会导致它们之间的关系不确定。编译器会让你通过编译，但是一如我们所见，这并不保证程序的行为正确。这就像程序员一定学过的：代码通过编译并不代表就可以正常运行。</p>
+<p>避免遮掩继承而来的名称。如果遮蔽继承而带来的名称，就会导致 base class 和 derived class 之间的 is-a 关系被破坏</p>
+<h1 id="条款-33：避免遮掩继承而来的名称"><a href="#条款-33：避免遮掩继承而来的名称" class="headerlink" title="条款 33：避免遮掩继承而来的名称"></a>条款 33：避免遮掩继承而来的名称</h1><h2 id="01-如果不想继承所有的函数，那该怎么办？"><a href="#01-如果不想继承所有的函数，那该怎么办？" class="headerlink" title="01 如果不想继承所有的函数，那该怎么办？"></a>01 如果不想继承所有的函数，那该怎么办？</h2><p>在 public 的继承中，这绝对不可能，因为它违反了 public 继承所暗示的 base 和 derived classes 之间的 is-a 关系。</p>
+<p>可以考虑使用 private 继承。私有继承会让基类成为一种单独的类型，对于外界来说 derived classes 并没有继承 base classes，在派生类中，基类的共有函数会编程私有函数，不能被外部访问。</p>
+<h1 id="条款-34：区分接口继承和实现继承"><a href="#条款-34：区分接口继承和实现继承" class="headerlink" title="条款 34：区分接口继承和实现继承"></a>条款 34：区分接口继承和实现继承</h1><h2 id="01-virtual-函数和普通函数的区别？"><a href="#01-virtual-函数和普通函数的区别？" class="headerlink" title="01 virtual 函数和普通函数的区别？"></a>01 virtual 函数和普通函数的区别？</h2><p>如果一个成员函数在基类中被声明为 virtual，那么它就可以被派生类覆盖，并根据运行时对象的实际类型来动态的调用相关函数。与普通函数不同的是，virtual 函数在运行时决定调用哪个函数，而不是在编译时就决定。</p>
+<p>普通函数不能被继承或覆盖，只有虚函数才能被派生类覆盖。</p>
+<h2 id="02-需要关心-virtual-函数的成本吗？"><a href="#02-需要关心-virtual-函数的成本吗？" class="headerlink" title="02 需要关心 virtual 函数的成本吗？"></a>02 需要关心 virtual 函数的成本吗？</h2><p>一个典型的程序有 80% 的执行时间花费在 20% 的代码上，这一法则十分重要，这意味着，平均而言你的函数调用中可以有 80% 是 virtual，而不冲击程序的大体效率。</p>
+<p>当你担心是否有能力负担 virtual 函数的成本之前，请先将心力放在那举足轻重的 20% 代码上。</p>
+<h2 id="03-接口继承和实现继承的区别？"><a href="#03-接口继承和实现继承的区别？" class="headerlink" title="03 接口继承和实现继承的区别？"></a>03 接口继承和实现继承的区别？</h2><p>接口继承是指一个类继承了另一个类的接口，即继承了另一个类的公共方法和属性，但没有继承其实现。接口继承的目的是为了实现其多态性，即让不同的类可以实现同样的接口，从而让它们可以替换使用。在接口继承中，一个类可以同时继承多个接口，从而实现多重继承。</p>
+<p>实现继承是指一个类继承了另一个类的接口和实现，即继承了另一个类的公共方法和属性，同时也继承了其实现。实现继承的目的是为了代码的复用性，即让一个类可以重用另一个类的视线，从而减少代码的重复。在实现继承中，一个类只能继承一个父类，从而实现单继承。</p>
+<h1 id="条款-35：考虑-virtual-函数以外的选择"><a href="#条款-35：考虑-virtual-函数以外的选择" class="headerlink" title="条款 35：考虑 virtual 函数以外的选择"></a>条款 35：考虑 virtual 函数以外的选择</h1><h2 id="01-为什么要使用-private-virtual？"><a href="#01-为什么要使用-private-virtual？" class="headerlink" title="01 为什么要使用 private virtual？"></a>01 为什么要使用 private virtual？</h2><p><strong>令客户通过 public non-virtual 成员函数之间间接调用 private virtual 函数，称为 non-virtual interface（NVI）手法</strong>。它是 Template Method 设计模式的一种独特表现形式。我把这个 non-virtual 函数称为 virtual 函数的外覆器（Wrapper）。</p>
+<p><strong>NVI 手法的一个优点隐身在上述代码注释“做一些事前工作”和“做一些事后工作”之中</strong>。那些注释用来告诉你当时代码保证在“virtual 函数进行真正工作之前和之后”被调用。这意味着 wrapper 得确保得以在一个virtual 函数被调用之前设定好适当的场景，并在调用结束之后。</p>
+<p>事前工作可以包括锁定互斥体 Mutex、制造运转日志记录项（log entry）、验证 class 约束条件、验证函数先决条件等等。事后工作可以包括互斥体解除锁定、验证函数事后条件、再次验证 class 约束条件等等。如果你让客户直接调用 virtual 函数，就没有更好的办法做这些事情。</p>
+<h2 id="02-什么是策略模式-Strategy？"><a href="#02-什么是策略模式-Strategy？" class="headerlink" title="02 什么是策略模式 Strategy？"></a>02 什么是策略模式 Strategy？</h2><p>策略模式是一种行为型设计模式，它允许在运行时动态地改变算法或策略，而无需更改客户端使用的代码。该模式通过将不同的算法封装到独立的类中，并使它们之间相互替换来实现这一点。</p>
+<h2 id="03-什么是-Template-Method-模式？"><a href="#03-什么是-Template-Method-模式？" class="headerlink" title="03 什么是 Template Method 模式？"></a>03 什么是 Template Method 模式？</h2><p>模版方法模式是一种行为型设计模式，它定义了一个高效的算法框架，将算法的默写步骤延迟到子类中实现。模版方法模式可以提高代码的复用性和可用性，而因为它把算法的公共部分封装在抽象类中，而把算法的具体实现留给子类去完成。</p>
+<h2 id="04-tr1-function-是什么？"><a href="#04-tr1-function-是什么？" class="headerlink" title="04 tr1::function 是什么？"></a>04 tr1::function 是什么？</h2><p>tr1::function 是 C++ 11 标准库中的一个函数对象类，它可以用于封装任意可调用对象（如函数指针、成员函数指针、函数对象等），并支持在运行时动态地进行绑定和解绑定。</p>
+<p>tr1::function 可以让我们将函数和函数对象作为参数传递给其他函数，或者存储在容器中，从而实现更加灵活的编程。这样的对象可以持有任何可调用的对象，包括函数指针、函数对象或成员函数指针，只要签名式兼容需求端。所谓兼容，意思是这个可调用物的参数可以被隐式转换。</p>
+<h2 id="05-传统-Strategy-模式和现有的-Strategy-模式区别？"><a href="#05-传统-Strategy-模式和现有的-Strategy-模式区别？" class="headerlink" title="05 传统 Strategy 模式和现有的 Strategy 模式区别？"></a>05 传统 Strategy 模式和现有的 Strategy 模式区别？</h2><p>传统的 Strategy 模式，会将继承体系内的 virtual 函数替换为另一个继承体系内的 virtual 函数。也就是主要利用继承来实现策略的替换。顶一个一个抽象的策略接口和一组具体的策略类，每个具体的策略类都实现了策略接口的方法。然后在客户端代码中，我们通过创建具体的策略类的对象来选择不同的算法。（这种方法的缺点在于它需要定义多个策略类，而且客户端代码需要知道所有的策略类，从而导致代码的复杂度和耦合性增加）</p>
+<p>现有的 Strategy 模式使用函数指针、函数对象或 Lambda 表达式来实现策略的替换，即定义一个接受函数指针、函数对象或 Lambda 表达式作为参数的函数或类模版，然后在客户端代码中传递不同的函数指针、函数对象或Lambda 表达式来选择不同的算法。</p>
+<h1 id="条款-36：绝不重新定义继承而来的-non-virtual-函数"><a href="#条款-36：绝不重新定义继承而来的-non-virtual-函数" class="headerlink" title="条款 36：绝不重新定义继承而来的 non-virtual 函数"></a>条款 36：绝不重新定义继承而来的 non-virtual 函数</h1><h2 id="01-重新定义-non-virtual-函数会怎样？"><a href="#01-重新定义-non-virtual-函数会怎样？" class="headerlink" title="01 重新定义 non-virtual 函数会怎样？"></a>01 重新定义 non-virtual 函数会怎样？</h2><p>non-virtual 函数是静态绑定，当使用指针调用函数时，会根据指针的类型来调用不同的函数。但，virtual 函数可以识别指针背后的对象类型（动态绑定）。</p>
+<h1 id="条款-37：绝不重新定义继承而来的缺省参数值"><a href="#条款-37：绝不重新定义继承而来的缺省参数值" class="headerlink" title="条款 37：绝不重新定义继承而来的缺省参数值"></a>条款 37：绝不重新定义继承而来的缺省参数值</h1><h2 id="01-为什么不要重新定义缺省参数值？"><a href="#01-为什么不要重新定义缺省参数值？" class="headerlink" title="01 为什么不要重新定义缺省参数值？"></a>01 为什么不要重新定义缺省参数值？</h2><p>virtual 函数是动态绑定的，而缺省参数值却是静态绑定的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Shape *ps;						<span class="comment">// 静态类型是 Shape</span></span><br><span class="line">Shape *pc = <span class="keyword">new</span> Circle;			<span class="comment">// 静态类型是 Shape</span></span><br><span class="line">Shape *pr = <span class="keyword">new</span> Rectangle;		<span class="comment">// 静态类型是 Shape</span></span><br></pre></td></tr></table></figure>
+
+<p>无论它们真正指向什么，它们的静态类型都是 Shape*，静态类型和指针类型有关。对象的所谓动态类型则是指目前所指对象的类型。也就是说，动态类型可以表现出一个对象将会有什么行为。pc 的动态类型是 Circle，pr 的动态类型是 Rectangle。ps 没有动态类型。</p>
+<p>virtual 函数是动态绑定而来，意思是调用一个 virtual 函数时，究竟调用哪一份函数实现代码，取决于发出调用的那个对象的动态类型。</p>
+<h1 id="条款-38：通过复合塑膜出-has-a-或根据某物实现出"><a href="#条款-38：通过复合塑膜出-has-a-或根据某物实现出" class="headerlink" title="条款 38：通过复合塑膜出 has-a 或根据某物实现出"></a>条款 38：通过复合塑膜出 has-a 或根据某物实现出</h1><h2 id="01-复合和继承的区别？"><a href="#01-复合和继承的区别？" class="headerlink" title="01 复合和继承的区别？"></a>01 复合和继承的区别？</h2><p>复合（composition）是类型之间的一种关系，当某种类型的对象内含它种对象时，便是这种关系。public 继承通常表示 is-a 的意义（是一种），复合通常表示 is-implemented-in-term-of（根据某物实现出）</p>
+<h1 id="条款-39：明智而审慎地使用-private-继承"><a href="#条款-39：明智而审慎地使用-private-继承" class="headerlink" title="条款 39：明智而审慎地使用 private 继承"></a>条款 39：明智而审慎地使用 private 继承</h1><h2 id="01-private-继承有什么意义？"><a href="#01-private-继承有什么意义？" class="headerlink" title="01 private 继承有什么意义？"></a>01 private 继承有什么意义？</h2><p>Private 继承意味着 implemented-in-term-of（根据某物实现出）。如果你让 class D 以 private 形式继承 class B，你的用意是为了采用 class B 内已经备妥的某些特性，而不是因为 B 对象和 D 对象存在有任何观念上的关系。</p>
+<p>private 继承纯粹只是一种实现技术（这就是为什么继承一个 private base class 的每样东西在你的 class 都是 private：因为它们都只是实现枝节而已）。Private 继承在软件设计层面上没有意义，其意义只及于软件实现层面。</p>
+<h1 id="条款-40：明智而审慎地使用多重继承"><a href="#条款-40：明智而审慎地使用多重继承" class="headerlink" title="条款 40：明智而审慎地使用多重继承"></a>条款 40：明智而审慎地使用多重继承</h1><h2 id="01-菱形继承会导致什么问题？"><a href="#01-菱形继承会导致什么问题？" class="headerlink" title="01 菱形继承会导致什么问题？"></a>01 菱形继承会导致什么问题？</h2><p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/05/upgit_20230526_1685080825.png" alt="image-20230526140025264"></p>
+<p>类 A 派生出类 B 和 类 C，类 D 继承自类 B 和类 C，这时候类 A 中的成员变量和成员函数继承到类 D 中变成两份，一份来自 A-&gt;B-&gt;D 这条路径，另一份来自 A-&gt;C-&gt;D 这条路径。</p>
+<p>在一个派生类中保留间接基类的多份同名称成员，虽然可以在不同成员变量中存放不同的数据，但大多数情况下是多余的，因为保留多份成员变量不仅占用较多的存储空间，还容易产生命名冲突。假如类 A 有一个成员变量 a，那么在类 D 中直接访问 a 就会产生歧义，编译器不知道它究竟来自 A-&gt;B-&gt;D 这条路径，还是来自 A-&gt;C-&gt;D 这条路径。</p>
+<h2 id="02-虚继承和虚函数的区别？"><a href="#02-虚继承和虚函数的区别？" class="headerlink" title="02 虚继承和虚函数的区别？"></a>02 虚继承和虚函数的区别？</h2><p>虚函数用于实现 C++ 中的动态多态性。在 C++ 中，通过使用虚函数，可以在运行时确定调用的函数实现，而不是在编译时确定。这样，就可以根据基类指针或引用调用同名函数时，根据对象实际类型调用对应的函数实现。</p>
+<p>虚继承用于解决 C++ 多重继承中的菱形继承问题。在菱形继承中，派生类从多个基类中继承同一个间接基类，导致该间接基类在派生类中存在多个实例，从而引起命名冲突和资源浪费的问题。<strong>通过在基类继承关系中使用虚继承，可以让共同的间接基类在派生类中只有一个实例</strong>，从而避免这些问题。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/06/10/effective-cpp-4-impl/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-10-15 18:21:58
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/C/" title="C++">
+                        #C++
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                        #《Effective C++》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/06/10/effective-cpp-6-my-new/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-32%EF%BC%9A%E7%A1%AE%E5%AE%9A%E4%BD%A0%E7%9A%84-public-%E7%BB%A7%E6%89%BF%E5%A1%91%E8%86%9C%E5%87%BA-is-a-%E5%85%B3%E7%B3%BB"><span class="toc-text">条款 32：确定你的 public 继承塑膜出 is-a 关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E7%BB%A7%E6%89%BF%E7%9A%84%E5%90%AB%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">01 继承的含义是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8B%92%E7%BB%9D%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%9C%9F%E6%A3%80%E6%9F%A5%E9%94%99%E8%AF%AF%EF%BC%9F"><span class="toc-text">02 为什么拒绝在运行期检查错误？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-public-%E7%BB%A7%E6%89%BF%EF%BC%9F"><span class="toc-text">03 如何使用 public 继承？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-33%EF%BC%9A%E9%81%BF%E5%85%8D%E9%81%AE%E6%8E%A9%E7%BB%A7%E6%89%BF%E8%80%8C%E6%9D%A5%E7%9A%84%E5%90%8D%E7%A7%B0"><span class="toc-text">条款 33：避免遮掩继承而来的名称</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%83%B3%E7%BB%A7%E6%89%BF%E6%89%80%E6%9C%89%E7%9A%84%E5%87%BD%E6%95%B0%EF%BC%8C%E9%82%A3%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-text">01 如果不想继承所有的函数，那该怎么办？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-34%EF%BC%9A%E5%8C%BA%E5%88%86%E6%8E%A5%E5%8F%A3%E7%BB%A7%E6%89%BF%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF"><span class="toc-text">条款 34：区分接口继承和实现继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-virtual-%E5%87%BD%E6%95%B0%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">01 virtual 函数和普通函数的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E9%9C%80%E8%A6%81%E5%85%B3%E5%BF%83-virtual-%E5%87%BD%E6%95%B0%E7%9A%84%E6%88%90%E6%9C%AC%E5%90%97%EF%BC%9F"><span class="toc-text">02 需要关心 virtual 函数的成本吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E6%8E%A5%E5%8F%A3%E7%BB%A7%E6%89%BF%E5%92%8C%E5%AE%9E%E7%8E%B0%E7%BB%A7%E6%89%BF%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">03 接口继承和实现继承的区别？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-35%EF%BC%9A%E8%80%83%E8%99%91-virtual-%E5%87%BD%E6%95%B0%E4%BB%A5%E5%A4%96%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">条款 35：考虑 virtual 函数以外的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8-private-virtual%EF%BC%9F"><span class="toc-text">01 为什么要使用 private virtual？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%BB%80%E4%B9%88%E6%98%AF%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F-Strategy%EF%BC%9F"><span class="toc-text">02 什么是策略模式 Strategy？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E4%BB%80%E4%B9%88%E6%98%AF-Template-Method-%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="toc-text">03 什么是 Template Method 模式？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-tr1-function-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">04 tr1::function 是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E4%BC%A0%E7%BB%9F-Strategy-%E6%A8%A1%E5%BC%8F%E5%92%8C%E7%8E%B0%E6%9C%89%E7%9A%84-Strategy-%E6%A8%A1%E5%BC%8F%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">05 传统 Strategy 模式和现有的 Strategy 模式区别？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-36%EF%BC%9A%E7%BB%9D%E4%B8%8D%E9%87%8D%E6%96%B0%E5%AE%9A%E4%B9%89%E7%BB%A7%E6%89%BF%E8%80%8C%E6%9D%A5%E7%9A%84-non-virtual-%E5%87%BD%E6%95%B0"><span class="toc-text">条款 36：绝不重新定义继承而来的 non-virtual 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E9%87%8D%E6%96%B0%E5%AE%9A%E4%B9%89-non-virtual-%E5%87%BD%E6%95%B0%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="toc-text">01 重新定义 non-virtual 函数会怎样？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-37%EF%BC%9A%E7%BB%9D%E4%B8%8D%E9%87%8D%E6%96%B0%E5%AE%9A%E4%B9%89%E7%BB%A7%E6%89%BF%E8%80%8C%E6%9D%A5%E7%9A%84%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E5%80%BC"><span class="toc-text">条款 37：绝不重新定义继承而来的缺省参数值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%A6%81%E9%87%8D%E6%96%B0%E5%AE%9A%E4%B9%89%E7%BC%BA%E7%9C%81%E5%8F%82%E6%95%B0%E5%80%BC%EF%BC%9F"><span class="toc-text">01 为什么不要重新定义缺省参数值？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-38%EF%BC%9A%E9%80%9A%E8%BF%87%E5%A4%8D%E5%90%88%E5%A1%91%E8%86%9C%E5%87%BA-has-a-%E6%88%96%E6%A0%B9%E6%8D%AE%E6%9F%90%E7%89%A9%E5%AE%9E%E7%8E%B0%E5%87%BA"><span class="toc-text">条款 38：通过复合塑膜出 has-a 或根据某物实现出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A4%8D%E5%90%88%E5%92%8C%E7%BB%A7%E6%89%BF%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">01 复合和继承的区别？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-39%EF%BC%9A%E6%98%8E%E6%99%BA%E8%80%8C%E5%AE%A1%E6%85%8E%E5%9C%B0%E4%BD%BF%E7%94%A8-private-%E7%BB%A7%E6%89%BF"><span class="toc-text">条款 39：明智而审慎地使用 private 继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-private-%E7%BB%A7%E6%89%BF%E6%9C%89%E4%BB%80%E4%B9%88%E6%84%8F%E4%B9%89%EF%BC%9F"><span class="toc-text">01 private 继承有什么意义？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-40%EF%BC%9A%E6%98%8E%E6%99%BA%E8%80%8C%E5%AE%A1%E6%85%8E%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF"><span class="toc-text">条款 40：明智而审慎地使用多重继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E8%8F%B1%E5%BD%A2%E7%BB%A7%E6%89%BF%E4%BC%9A%E5%AF%BC%E8%87%B4%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">01 菱形继承会导致什么问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E8%99%9A%E7%BB%A7%E6%89%BF%E5%92%8C%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">02 虚继承和虚函数的区别？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2023 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8AEffective%20C%2B%2B%E3%80%8B-5%20%E7%BB%A7%E6%89%BF + '&url=' + http%3A%2F%2Fexample.com%2F2023%2F06%2F10%2Feffective-cpp-5-inheritance%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://example.com/2023/06/10/effective-cpp-5-inheritance/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

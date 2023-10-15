@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《精通 LevelDB》-3 常见问题 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《精通 LevelDB》-3 常见问题</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-10-15 18:21:58
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" title="存储引擎">
+                    #存储引擎
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8A%E7%B2%BE%E9%80%9A-LevelDB%E3%80%8B/" title="《精通 LevelDB》">
+                    #《精通 LevelDB》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="第-1-章：LevelDB-背景"><a href="#第-1-章：LevelDB-背景" class="headerlink" title="第 1 章：LevelDB 背景"></a>第 1 章：LevelDB 背景</h1><h2 id="01-LevelDB-的设计思路与核心优势？"><a href="#01-LevelDB-的设计思路与核心优势？" class="headerlink" title="01 LevelDB 的设计思路与核心优势？"></a>01 LevelDB 的设计思路与核心优势？</h2><p>LevelDB 是依赖 Log Structed Merge Tree 的原理实现的，Log Structed Merge Tree 写性能非常好。其原理简单来说就是，磁盘的顺序写性能远高于随机写性能，而 Log Structed Merge Tree 可以将磁盘的随机写转化为顺序写，从而大大提升写速度。</p>
+<p>RocksDB 在 LevelDB 的基础上针对 SSD 硬盘进行了优化，改进数据压缩，减少数据写入，增加 SSD 的寿命。</p>
+<h2 id="02-LevelDB-是如何提供可靠性的？"><a href="#02-LevelDB-是如何提供可靠性的？" class="headerlink" title="02 LevelDB 是如何提供可靠性的？"></a>02 LevelDB 是如何提供可靠性的？</h2><p>持久化的存储系统为了防止机器掉电或系统宕机造成正在写入的数据丢失，在写操作时通常都会先写日志文件，将要写入的数据先保存下来，若发生机器掉电或系统宕机，机器恢复后，可以读该日志文件恢复待写入的数据。LevelDB 也是如此。</p>
+<p>LevelDB 在写入内存 MemTable 之前，先写入 Log 日志文件，再写入 MemTable。当发生异常情况时，均可以通过 Log 日志文件进行恢复。</p>
+<h2 id="03-LevelDB-是如何实现并发控制的？"><a href="#03-LevelDB-是如何实现并发控制的？" class="headerlink" title="03 LevelDB 是如何实现并发控制的？"></a>03 LevelDB 是如何实现并发控制的？</h2><p>LevelDB 使用 MVCC 实现并发控制，不支持事务，支持单个写操作和多个读操作同时执行：</p>
+<ul>
+<li>每个成功的写操作会更新内部 db 维护的顺序递增的 sequence，sequence 会追加到 key 后同时保存。</li>
+<li>读操作会使用最新的 sequence，只会读到小于等于自己的最大 sequence 数据。</li>
+</ul>
+<h2 id="04-LevelDB-为什么需要版本控制？"><a href="#04-LevelDB-为什么需要版本控制？" class="headerlink" title="04 LevelDB 为什么需要版本控制？"></a>04 LevelDB 为什么需要版本控制？</h2><p>正常来说，当版本 A 升级到版本 B 后，版本 A 就是老版本了，这个时候实际上可以删掉的。但是，在 LevelDB 中，版本 A 可能还在服务读请求，因此，还不能扔掉，那么就需要同时保留这两版本 A、B，因此就形成了 A-&gt;B 这样的链接关系来记录，所有 VersionSet 就是利用链表来组织的，其中 Version dummy_version 是双向链表的头指针。当某个 Version 不再服务读请求之后，这个 Version 就会从双向链表移除。</p>
+<h2 id="05-为什么需要原子写-WriteBatch？"><a href="#05-为什么需要原子写-WriteBatch？" class="headerlink" title="05 为什么需要原子写 WriteBatch？"></a>05 为什么需要原子写 WriteBatch？</h2><p>有时候，我们需要对象数据库连续执行操作。例如如果需要将 key1 对应的 value 移动到 key2 下，将连续调用 Put、Delete 和 Get 方法来修改&#x2F;查找数据库。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">std::string value;</span><br><span class="line"> leveldb::Status s = db-&gt;<span class="built_in">Get</span>(leveldb::<span class="built_in">ReadOptions</span>(), key1, &amp;value);</span><br><span class="line"> <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) s = db-&gt;<span class="built_in">Put</span>(leveldb::<span class="built_in">WriteOptions</span>(), key2, value);</span><br><span class="line"> <span class="keyword">if</span> (s.<span class="built_in">ok</span>()) s = db-&gt;<span class="built_in">Delete</span>(leveldb::<span class="built_in">WriteOptions</span>(), key1);</span><br></pre></td></tr></table></figure>
+
+<p>这个时候如果进程在 Put Key2 后 Delete Key1 之前挂了，那么同样的 value 将会被存储在多个 Key 下。这时候如果使用 WriteBatch 就可以将整个操作组合成一个操作，从而避免出现上面的问题。</p>
+<p>除了原子性，WriteBatch 也能加速更新过程，因为可以把一大批独立的操作添加到同一个 batch 中然后一次性执行。</p>
+<h1 id="第-2-章：Log-Structed-Merge-Tree"><a href="#第-2-章：Log-Structed-Merge-Tree" class="headerlink" title="第 2 章：Log Structed Merge Tree"></a>第 2 章：Log Structed Merge Tree</h1><h2 id="01-LSM-Tree-的写过程是怎样的？"><a href="#01-LSM-Tree-的写过程是怎样的？" class="headerlink" title="01 LSM-Tree 的写过程是怎样的？"></a>01 LSM-Tree 的写过程是怎样的？</h2><p>put 会首先追加到 WAL 日志中（Write Ahead Log，也就是真正写入之前先记录到日志，防止宕机丢失数据），接下来加到 C0 内存树，当 C0 层的数据达到一定大小，会触发 C0 层和 C1 层合并，类似归并排序，这个过程就是 Compaction。而归并操作本身也只是顺序写，合并出来的新的 new-C1 会替换掉原来的 old-C1。当 C1 层达到一定大小，则会继续和下层 Ck 合并。合并之后的旧文件都可以删掉，只留下新的。</p>
+<p>由于 Key-Value 的写入可能重复，新版本需要覆盖老版本。比如，先写 a&#x3D;10，再写 a&#x3D;20，20 就是新版本。如果 a&#x3D;10 的老版本已经到了 Ck 层了，这时候 C0 层来了个新版本 a&#x3D;20，此时并不会去管底层文件有没有老版本 a&#x3D;10，老版本 a&#x3D;10 的清理是在合并 Compaction 的时候清理掉。写入过程基本只用到了内存，Compaction 是在后台异步完成的，不阻塞写入。</p>
+<h2 id="02-LSM-Tree-的读过程是怎样的？"><a href="#02-LSM-Tree-的读过程是怎样的？" class="headerlink" title="02 LSM-Tree 的读过程是怎样的？"></a>02 LSM-Tree 的读过程是怎样的？</h2><p>由于最新的数据在内存的 C0 层，最老的数据在 CK 层，因此查询也是先查 C0 层，如果没有要查的 key，再查 C1，依次逐层查。由于一次查询可能需要多次查找操作，因此读操作会稍微慢一些。所以 LSM-tree 主要针对写多读少的场景。</p>
+<p>读的顺序如下，只要读到对应的 key 就会停止：</p>
+<ul>
+<li>MemTable</li>
+<li>ImmuTable MemTable</li>
+<li>Level0 中单个文件中的键是有序的，但是 Level0 中所有文件可能会出现键重叠的情况，读取时从新到旧读取。</li>
+<li>从 Level1 到 Level6，不只单个文件中的键是有序的，每个层级中的所有文件也不会有键重叠。每层最多只要读 1 个文件，按照层的顺序从低到高读取。</li>
+</ul>
+<h2 id="03-实现-LSM-Tree-的难点？"><a href="#03-实现-LSM-Tree-的难点？" class="headerlink" title="03 实现 LSM-Tree 的难点？"></a>03 实现 LSM-Tree 的难点？</h2><p>LSM-Tree 是一种设计思想，没有固定的实现方式，其中最重要的是 compaction 的实现。</p>
+<p>Compaction 的实现涉及 MemTable 和 SSTable 间的合并方式、SSTable 的组织方式、 compaction 的时机。compaction 对读写性能起着至关重要的影响，它会清理无效的数据，能够降低磁盘的使用并降低读取的延时，但是也会带来极大的 IO 压力。</p>
+<h1 id="第-3-章：Log-模块"><a href="#第-3-章：Log-模块" class="headerlink" title="第 3 章：Log 模块"></a>第 3 章：Log 模块</h1><h2 id="01-LevelDB-如何实现数据恢复？"><a href="#01-LevelDB-如何实现数据恢复？" class="headerlink" title="01 LevelDB 如何实现数据恢复？"></a>01 LevelDB 如何实现数据恢复？</h2><p>持久化的存储系统为了防止机器掉电或系统宕机造成正在写入的数据丢失，在写操作时，通常都会先写日志，将要写入的数据先保存下来，若发生机器掉电或宕机，机器恢复后，可以读该日志文件恢复待写入的数据。LevelDB 也是如此，LevelDB 在写入内存 MemTable 之前，先写入 Log 日志文件，再写入内存 MemTable。当发生以下异常情况时，均可以通过 Log 日志文件进行恢复：</p>
+<ol>
+<li>写 Log 时，进程异常。</li>
+<li>写 Log 完成，写内存完成，进程异常。</li>
+<li>写操作完成（写 Log、写内存 MemTable 均完成），进程异常。</li>
+<li>Immutable MemTable 持久化过程中进程异常。</li>
+<li>其他压缩异常。</li>
+</ol>
+<p>当出现 1 异常时，数据库重启读取 Log 日志文件，发现 Log 日志文件异常，则认为此次用户写入操作失败，这样保障了数据的一致性。当 2、3、4 异常发生时，用户上次写入的数据、MemTable、Immutable MemTable 中的内存数据必然丢失，而数据库重启要读取 Log 日志文件，都可以重新恢复出用户上次写入的数据。这也意味着 Log 日志文件保留了所有的写入数据（包括旧数据），随着频繁的写操作，Log 日志文件必然随之膨胀。已经持久化的 SSTable 文件，不应该再回复，它只在数据库损坏情况下，修复数据库时用来恢复 SSTable 文件，此时，如果 Log 日志文件太大，势必恢复起来非常耗费时间。</p>
+<h1 id="第-4-章：MemTable-模块"><a href="#第-4-章：MemTable-模块" class="headerlink" title="第 4 章：MemTable 模块"></a>第 4 章：MemTable 模块</h1><h2 id="01-MemTable-是如何组织和存储数据的？"><a href="#01-MemTable-是如何组织和存储数据的？" class="headerlink" title="01 MemTable 是如何组织和存储数据的？"></a>01 MemTable 是如何组织和存储数据的？</h2><p>MemTable 就是一个在内存中进行数据组织和维护的数据结构，其本质是一个跳表 SkipList，而之所以选用跳表这种数据结构，是由于其应用场景决定的。跳表 SkipList 这种数据结构的设计来源于数组的二分查找算法，把指针通过设计成数据的方式实现了数组二分查找的高效，使用了空间换时间的思想。</p>
+<p>跳表 SkipList 在查找效率上可比拟二叉查找树，绝大多数情况下时间复杂度 O(logn)，这契合 LevelDB 快速查找 Key 的需要。在 MemTable 中，所有数据按用户自定义的排序方法排序后有序存储，当其数据容量达到阈值（默认是 4 MB），则其转换为一个只读的 MemTable，同时创建一个新的 MemTable 供用户继续读写。</p>
+<h1 id="第-5-章：SSTable-模块"><a href="#第-5-章：SSTable-模块" class="headerlink" title="第 5 章：SSTable 模块"></a>第 5 章：SSTable 模块</h1><h2 id="01-SSTable-文件数据格式是怎样的？"><a href="#01-SSTable-文件数据格式是怎样的？" class="headerlink" title="01 SSTable 文件数据格式是怎样的？"></a>01 SSTable 文件数据格式是怎样的？</h2><ul>
+<li>Data Block：是用来存储数据的，Data Block 有多个，LevelDB 将数据存放在多个 Data Block  里面，即：每个 SSTable 文件包含多个 DataBlock。每个 DataBlock 有一定的大小，并且按照键的顺序进行排序，后一个 DataBlock 的第一个 Key 大于前一个 DataBlock 的最后一个 Key。</li>
+<li>Filter Block：这是为了快速判断一个 Key 是否存在于该 SSTable 文件。当查找一个 Key 的时候，如果 Key 不在内存 MemTable 中，那就需要遍历 SSTable 文件，这显然太慢了。为了提高查找效率，于是就设计了一个 Filter Block 在 SSTable 文件中，这样就提高了读取的速度。可以有多个 Filter Block，目前只有一个布隆过滤器。</li>
+<li>Meta Index Block：它记录了 Filter Block 对象的偏移起始位置和整个 Filter Block 的大小。</li>
+<li>Index Block：它记录了 DataBlock 对象的偏移起始位置和整个 DataBlock 的大小。</li>
+<li>Footer：它记录了一个文件最关键的两个信息 Meta Index Block 和 Index Block。</li>
+</ul>
+<p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/06/upgit_20230605_1685948233.png" alt="image-20230605145712872"></p>
+<h2 id="02-为什么要在-SSTable-中放置布隆过滤器？"><a href="#02-为什么要在-SSTable-中放置布隆过滤器？" class="headerlink" title="02 为什么要在 SSTable 中放置布隆过滤器？"></a>02 为什么要在 SSTable 中放置布隆过滤器？</h2><p>布隆过滤器是一种概率型的数据结构，特点是高效的插入和查询，它的作用是为了快速判断一个 Key 是否存在。这不是精确判断：如果一个 Key 判断存在，实际不一定存在；但是如果判定一个 Key 不存在，那就一定不存在，其结果是假阳性。利用这个特性，可以快速判断一个 Key 是否存在，如果不存在就不需要再去查找了，直接返回错误。如果判断存在，则需要进一步判断 Key 是否存在。</p>
+<p>DataBlock 数据量太大，可能不会缓存在内存中，这样就需要一次磁盘 IO，查询效率必然不高。布隆过滤器就可以解决这个问题，布隆过滤器比较小，可以缓存在内存中，这样就可以通过布隆过滤器快速判断对应的键有没有在这个 SSTable 里。<strong>选择布隆过滤器是因为布隆过滤器的空间占用非常小，可以加载到内存中，进行快速的判定</strong>。</p>
+<p>LevelDB 采用了多个布隆过滤器，默认情况下，每 2 KB的数据开启一个布隆过滤器，因此，布隆过滤器也必然是一个数组结构。</p>
+<h1 id="第-6-章：多版本管理与-Compaction-模块"><a href="#第-6-章：多版本管理与-Compaction-模块" class="headerlink" title="第 6 章：多版本管理与 Compaction 模块"></a>第 6 章：多版本管理与 Compaction 模块</h1><h2 id="01-VersionEdit、Version、VersionSet-的关系？"><a href="#01-VersionEdit、Version、VersionSet-的关系？" class="headerlink" title="01 VersionEdit、Version、VersionSet 的关系？"></a>01 VersionEdit、Version、VersionSet 的关系？</h2><p>VersionSet 是 LevelDB 中管理和维护所有版本的主要数据结构，而 Version 和 VersionEdit 是 VersionSet 中关键的元素。当需要创建新的 Version 时，客户端会创建出新的 VersionEdit，并将其提交给 VersionSet。VersionSet 会将这个 VersionEdit 应用到自己的状态中，从而创建一个新的 Version。当需要删除或修改 Version 时，客户端也会创建一个相应的 VersionEdit，并将其提交给 VersionSet，以便进行相应的操作。</p>
+<p>LevelDB 使用版本 Version 来管理每个层级拥有的文件信息，每次执行 Compaction 操作之后会生成一个新的版本。生成新版本的过程中，LevelDB 会使用一个中间状态的 VersionEdit 来临时保存信息，最后将当前版本和中间状态的 VersionEdit 合并处理后生成一个新的版本，并将最新版本赋值为当前版本。</p>
+<p>一系列的版本构成一个版本集合，LevelDB 中版本集合 VersionSet 是一个双向的链表结构。</p>
+<h2 id="02-什么时机触发-Compaction？"><a href="#02-什么时机触发-Compaction？" class="headerlink" title="02 什么时机触发 Compaction？"></a>02 什么时机触发 Compaction？</h2><p>写操作：如果内存中的 MemTable 写入超过限制，则会从 MemTable 生成一个 SSTable 并且将其写入 Level 0，此时 Level 0 文件可能会超出限制，从而触发 Compaction。</p>
+<p>读操作：当无效读取次数 allowed_seeks 过大。</p>
+<blockquote>
+<p>假设 Level n 层包含一个名称为 f1 的文件，该文件的键范围为 [L1, H1]，n+1 层某个文件 f2 的键范围为 [L2, H2]。当我们查找 key1 时，假设 key1 即位于 [L1, H1] 和 [L2, H2] 的范围，则先查找 Level n 层的 f1 文件，如果没有查到，则继续查找 Level n+1 层的 f2 文件，此时 f1 文件的读取就算<strong>一次无效读取</strong>。</p>
+</blockquote>
+<h2 id="03-有哪些策略可以触发-Compaction？"><a href="#03-有哪些策略可以触发-Compaction？" class="headerlink" title="03 有哪些策略可以触发 Compaction？"></a>03 有哪些策略可以触发 Compaction？</h2><p>策略 1：通过判断层级中文件个数 Level 0 或总文件大小（Level 1 ~ Level 5）来计算得出 compaction_score 和 compaction_level_。</p>
+<p>策略 2：通过判断文件无效读取次数 allowed_seek 的大小。</p>
+<h2 id="04-Compaction-的流程是怎样的？"><a href="#04-Compaction-的流程是怎样的？" class="headerlink" title="04 Compaction 的流程是怎样的？"></a>04 Compaction 的流程是怎样的？</h2><p>在 Compaction 过程中，首先对参与压缩的 SSTable 文件按 key 进行归并排序，然后将排序后结果写入到新的 SSTable 文件中，删除参与 Compaction 的旧 SSTable 文件。</p>
+<p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/06/upgit_20230605_1685947669.png" alt="image-20230605144749367"></p>
+<h2 id="05-为何会有-Compaction？它的作用是什么？"><a href="#05-为何会有-Compaction？它的作用是什么？" class="headerlink" title="05 为何会有 Compaction？它的作用是什么？"></a>05 为何会有 Compaction？它的作用是什么？</h2><p>LevelDB 的写操作都是追加 Append 操作，只要写入 MemTable 即可，如果带 Sync 同步的，也只是把写入日志 Log 的数据刷新到磁盘上而已。这就意味着同一个 key 的增删改全部记录下来了，数据的冗余度必然直线上升，庞大的数据冗余必然带来大量的文件，读的操作成本很高，读性能很差，精简文件的数量就十分必要。</p>
+<p>从 SSTable 的角度来看，何为 SSTable？就是 Sorted String Table，有序的固化表文件，有序体现在 Key 是按序存储的，也体现在除了 Level-0 之外，其他 Level 中的 SSTable 文件之间也是有序的，即：Key 不重叠。这就要求有专门的工程来做 Key 的合并排序工作，这也是增加 Compaction 的必然要求。</p>
+<p>所以 Compaction 的作用：1）清理过期的数据；2）维护数据的有序性。</p>
+<h1 id="RocksDB"><a href="#RocksDB" class="headerlink" title="RocksDB"></a>RocksDB</h1><h2 id="01-RocksDB-在哪些地方优于-LevelDB？"><a href="#01-RocksDB-在哪些地方优于-LevelDB？" class="headerlink" title="01 RocksDB 在哪些地方优于 LevelDB？"></a>01 RocksDB 在哪些地方优于 LevelDB？</h2><ul>
+<li>更好的性能：RocksDB 在性能方面表现更优秀，尤其是在写入操作和随机读取操作方面。</li>
+<li>更好的可拓展性：RocksDB 支持多种压缩算法和压缩格式，可以节约存储空间的同时，提高读取性能和吞吐量。</li>
+<li>更丰富的功能：RocksDB 支持多种功能和特性，可以满足更多的场景和需求。例如多层缓存、动态调节缓存大小、数据分区、高级查询。</li>
+</ul>
+<h2 id="02-RocksDB-如何优化写过程？"><a href="#02-RocksDB-如何优化写过程？" class="headerlink" title="02 RocksDB 如何优化写过程？"></a>02 RocksDB 如何优化写过程？</h2><ul>
+<li>优化 Wait：减少条件变量的使用。从 FUTEX_WAIT 和 FUTEX_WAKE 平均需要 10 us 的时间，这个代价太大了。通过下面 3 种方法：<ul>
+<li>Loop：通过循环忙等待一段有限的时间（大约 1us），绝大多数情况下，这 1us 忙等足以让 state 条件满足。忙等待占用 CPU，但不会发生上下文切换，所以减小了额外的开销。</li>
+<li>Short-Wait：通过让出 CPU，减少线程占用和等待的时间。大约 9 us。</li>
+<li>Long-Wait：通过利用 CondVar 来等待。</li>
+</ul>
+</li>
+</ul>
+<h2 id="03-Page-Cache-是什么？"><a href="#03-Page-Cache-是什么？" class="headerlink" title="03 Page Cache 是什么？"></a>03 Page Cache 是什么？</h2><p>Page Cache 是通过将磁盘中的数据缓存到内存中，从而减少磁盘 IO 操作，从而提升性能。此外，还要确保 Page Cache 中数据的更改能够被同步到磁盘上（Page Write Back，即 Page 回写）。</p>
+<p>Page Cache 由内存中的物理 Page 组成，其内容对应磁盘上的 Block，Page Cache 的大小是动态变化的，可以扩大，也可以在内存不足时缩小，Cache 缓存的存储设备被称为后备存储（Backing Store）。一个 Page 通常包含多个 Block，这些 Block 不一定是连续的。</p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><ul>
+<li>01| LevelDB架构分析：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/436037845">https://zhuanlan.zhihu.com/p/436037845</a></li>
+<li>02| LevelDB SSTable文件数据布局：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/458192046">https://zhuanlan.zhihu.com/p/458192046</a></li>
+<li>LevelDB：<a target="_blank" rel="noopener" href="https://youjiali1995.github.io/categories/#Storage">https://youjiali1995.github.io/categories/#Storage</a></li>
+<li>RocksDB 源码分析 – I&#x2F;O：<a target="_blank" rel="noopener" href="https://youjiali1995.github.io/rocksdb/io/">https://youjiali1995.github.io/rocksdb/io/</a></li>
+<li>【rocksdb源码分析】写优化之JoinBatchGroup：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30717524">https://zhuanlan.zhihu.com/p/30717524</a></li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/06/10/leveldb-2-read-code/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-10-15 18:21:58
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" title="存储引擎">
+                        #存储引擎
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8A%E7%B2%BE%E9%80%9A-LevelDB%E3%80%8B/" title="《精通 LevelDB》">
+                        #《精通 LevelDB》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-1-%E7%AB%A0%EF%BC%9ALevelDB-%E8%83%8C%E6%99%AF"><span class="toc-text">第 1 章：LevelDB 背景</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-LevelDB-%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF%EF%BC%9F"><span class="toc-text">01 LevelDB 的设计思路与核心优势？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-LevelDB-%E6%98%AF%E5%A6%82%E4%BD%95%E6%8F%90%E4%BE%9B%E5%8F%AF%E9%9D%A0%E6%80%A7%E7%9A%84%EF%BC%9F"><span class="toc-text">02 LevelDB 是如何提供可靠性的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-LevelDB-%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E7%9A%84%EF%BC%9F"><span class="toc-text">03 LevelDB 是如何实现并发控制的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-LevelDB-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%EF%BC%9F"><span class="toc-text">04 LevelDB 为什么需要版本控制？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8E%9F%E5%AD%90%E5%86%99-WriteBatch%EF%BC%9F"><span class="toc-text">05 为什么需要原子写 WriteBatch？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-2-%E7%AB%A0%EF%BC%9ALog-Structed-Merge-Tree"><span class="toc-text">第 2 章：Log Structed Merge Tree</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-LSM-Tree-%E7%9A%84%E5%86%99%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">01 LSM-Tree 的写过程是怎样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-LSM-Tree-%E7%9A%84%E8%AF%BB%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">02 LSM-Tree 的读过程是怎样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E5%AE%9E%E7%8E%B0-LSM-Tree-%E7%9A%84%E9%9A%BE%E7%82%B9%EF%BC%9F"><span class="toc-text">03 实现 LSM-Tree 的难点？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-3-%E7%AB%A0%EF%BC%9ALog-%E6%A8%A1%E5%9D%97"><span class="toc-text">第 3 章：Log 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-LevelDB-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D%EF%BC%9F"><span class="toc-text">01 LevelDB 如何实现数据恢复？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-4-%E7%AB%A0%EF%BC%9AMemTable-%E6%A8%A1%E5%9D%97"><span class="toc-text">第 4 章：MemTable 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-MemTable-%E6%98%AF%E5%A6%82%E4%BD%95%E7%BB%84%E7%BB%87%E5%92%8C%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E7%9A%84%EF%BC%9F"><span class="toc-text">01 MemTable 是如何组织和存储数据的？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-5-%E7%AB%A0%EF%BC%9ASSTable-%E6%A8%A1%E5%9D%97"><span class="toc-text">第 5 章：SSTable 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-SSTable-%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">01 SSTable 文件数据格式是怎样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%9C%A8-SSTable-%E4%B8%AD%E6%94%BE%E7%BD%AE%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%EF%BC%9F"><span class="toc-text">02 为什么要在 SSTable 中放置布隆过滤器？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-6-%E7%AB%A0%EF%BC%9A%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E4%B8%8E-Compaction-%E6%A8%A1%E5%9D%97"><span class="toc-text">第 6 章：多版本管理与 Compaction 模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-VersionEdit%E3%80%81Version%E3%80%81VersionSet-%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="toc-text">01 VersionEdit、Version、VersionSet 的关系？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%BB%80%E4%B9%88%E6%97%B6%E6%9C%BA%E8%A7%A6%E5%8F%91-Compaction%EF%BC%9F"><span class="toc-text">02 什么时机触发 Compaction？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E6%9C%89%E5%93%AA%E4%BA%9B%E7%AD%96%E7%95%A5%E5%8F%AF%E4%BB%A5%E8%A7%A6%E5%8F%91-Compaction%EF%BC%9F"><span class="toc-text">03 有哪些策略可以触发 Compaction？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-Compaction-%E7%9A%84%E6%B5%81%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">04 Compaction 的流程是怎样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E4%B8%BA%E4%BD%95%E4%BC%9A%E6%9C%89-Compaction%EF%BC%9F%E5%AE%83%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">05 为何会有 Compaction？它的作用是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RocksDB"><span class="toc-text">RocksDB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-RocksDB-%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9%E4%BC%98%E4%BA%8E-LevelDB%EF%BC%9F"><span class="toc-text">01 RocksDB 在哪些地方优于 LevelDB？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-RocksDB-%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96%E5%86%99%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="toc-text">02 RocksDB 如何优化写过程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-Page-Cache-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">03 Page Cache 是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="toc-text">相关链接</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2023 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8A%E7%B2%BE%E9%80%9A%20LevelDB%E3%80%8B-3%20%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98 + '&url=' + http%3A%2F%2Fexample.com%2F2023%2F06%2F10%2Fleveldb-3-questions%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://example.com/2023/06/10/leveldb-3-questions/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
