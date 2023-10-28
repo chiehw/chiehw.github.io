@@ -36,7 +36,7 @@ avatar:
 # 如之前已有注册账号，在管理/跟踪信息/跟踪代码/找到跟踪ID，一般格式为UA-xxxxxxx-x
 gtag:
   enable: true
-  gtagkey: G-73MB6LK6CD
+  gtagkey: G-ZT31KVFKP0
 
 # 文章评论系统
 comments:
