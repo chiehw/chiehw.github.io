@@ -11,7 +11,7 @@
   
   <title>
     
-      archive_a: 2023 
+      如何统计访问人数？ 
       
       
       |
@@ -125,185 +125,175 @@
 
 
       <div class="flex-container">
-        <!-- 归档页，展示本站所有文章，按照年份降序归类，url形式：https://yoursite/archives/ -->
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
-<!-- last: 按年份把文章分组，当前遍历到的年份 -->
-<!-- now: 当前遍历到的文章的发布年份 -->
 
-<div class="container archives">
-  <div class="post-list">
-    
-        <!-- 后续文章的发布年份呈现 -->
-        <div class="content-title">
-          <h2>
-            <span>2023</span>
-          </h2>
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">如何统计访问人数？</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-10-28 23:39:06
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="01-为什么-Google-Analysis-国内可用？"><a href="#01-为什么-Google-Analysis-国内可用？" class="headerlink" title="01 为什么 Google Analysis 国内可用？"></a>01 为什么 Google Analysis 国内可用？</h2><p>Google统计的脚本的后台服务器是在中国，可以使用下面的命令来查看域名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig www.google-analytics.com</span><br></pre></td></tr></table></figure>
+
+<p>我这边解析到的地址是<code>180.163.151.33</code>，根据IP归属地查询网站，可以查到归属地是上海。符合v友的答案——在中国有合法的广告业务和牌照，在上海和北京有机房。</p>
+<h2 id="02-如何验证gtag是否有效？"><a href="#02-如何验证gtag是否有效？" class="headerlink" title="02 如何验证gtag是否有效？"></a>02 如何验证gtag是否有效？</h2><p>教程上说 gtag 是 UA 开头。Universal Analytics 资源媒体使用的是跟踪ID（以 UA- 开头），而 Google Analytics 分析4 媒体资源使用的是 Google 代码 ID（通常以 G- 开头）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- <span class="title class_">Google</span> tag (gtag.<span class="property">js</span>) --&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="variable language_">window</span>.<span class="property">dataLayer</span> = <span class="variable language_">window</span>.<span class="property">dataLayer</span> || [];</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="keyword">function</span> <span class="title function_">gtag</span>(<span class="params"></span>)&#123;dataLayer.<span class="title function_">push</span>(<span class="variable language_">arguments</span>);&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">gtag</span>(<span class="string">&#x27;js&#x27;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>());</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">gtag</span>(<span class="string">&#x27;config&#x27;</span>, <span class="string">&#x27;G-ZT31KVFKP0&#x27;</span>);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Tag Assistant：<a target="_blank" rel="noopener" href="https://tagassistant.google.com/">https://tagassistant.google.com</a> ，这个网站可以用于测试是否能够 gtag 是否生效。</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/10/28/%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-10-28 23:39:06
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
       
-      <div class="post-item" title="如何统计访问人数？">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F/">
-            <span>如何统计访问人数？</span>
-          </a>
-        </div>
-      </div>
+    </div>
     
-      <div class="post-item" title="更方便的输入德语字符">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6/">
-            <span>更方便的输入德语字符</span>
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88-Google-Analysis-%E5%9B%BD%E5%86%85%E5%8F%AF%E7%94%A8%EF%BC%9F"><span class="toc-text">01 为什么 Google Analysis 国内可用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81gtag%E6%98%AF%E5%90%A6%E6%9C%89%E6%95%88%EF%BC%9F"><span class="toc-text">02 如何验证gtag是否有效？</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="走遍德国(欧标德语A1)-第21课">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E8%B5%B0%E9%81%8D%E5%BE%B7%E5%9B%BD-%E6%AC%A7%E6%A0%87%E5%BE%B7%E8%AF%ADA1-%E7%AC%AC21%E8%AF%BE/">
-            <span>走遍德国(欧标德语A1)-第21课</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="德福考试内容？">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E5%BE%B7%E7%A6%8F%E8%80%83%E8%AF%95%E5%86%85%E5%AE%B9%EF%BC%9F/">
-            <span>德福考试内容？</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="APS考核内容？">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/APS%E8%80%83%E6%A0%B8%E5%86%85%E5%AE%B9%EF%BC%9F/">
-            <span>APS考核内容？</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《精通 LevelDB》-3 常见问题">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/leveldb-3-questions/">
-            <span>《精通 LevelDB》-3 常见问题</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《精通 LevelDB》-2 源码初识">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/leveldb-2-read-code/">
-            <span>《精通 LevelDB》-2 源码初识</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《精通 LevelDB》-1 基础理论">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/leveldb-1-theory/">
-            <span>《精通 LevelDB》-1 基础理论</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Linux 多线程服务端编程》-1 智能指针">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/multi-thread-programming-in-linux-smart-pointer/">
-            <span>《Linux 多线程服务端编程》-1 智能指针</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-6 定制 new">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-6-my-new/">
-            <span>《Effective C++》-6 定制 new</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-5 继承">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-5-inheritance/">
-            <span>《Effective C++》-5 继承</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-4 实现功能">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-4-impl/">
-            <span>《Effective C++》-4 实现功能</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-3 封装与设计">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-3-design/">
-            <span>《Effective C++》-3 封装与设计</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-2 资源管理">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-2-resources/">
-            <span>《Effective C++》-2 资源管理</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-1 面向对象">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-1-object/">
-            <span>《Effective C++》-1 面向对象</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="信仰 Breif">
-        <div class="time-m-d">06-04</div>
-        <div class="title">
-          <a href="/2023/06/04/belief/">
-            <span>信仰 Breif</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序算法实现">
-        <div class="time-m-d">04-28</div>
-        <div class="title">
-          <a href="/2023/04/28/algorithm-4th-1-sort-impl/">
-            <span>《算法 第4版》-排序算法实现</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序">
-        <div class="time-m-d">04-28</div>
-        <div class="title">
-          <a href="/2023/04/28/algorithm-4th-1-sort/">
-            <span>《算法 第4版》-排序</span>
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
       </div>
     
   </div>
-</div>
+
 
         
 <div class="footer">
@@ -564,6 +554,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F + '&url=' + http%3A%2F%2Fexample.com%2F2023%2F10%2F28%2F%25E5%25A6%2582%25E4%25BD%2595%25E7%25BB%259F%25E8%25AE%25A1%25E8%25AE%25BF%25E9%2597%25AE%25E4%25BA%25BA%25E6%2595%25B0%25EF%25BC%259F%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://example.com/2023/10/28/%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>

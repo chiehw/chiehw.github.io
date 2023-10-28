@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-10-28T11:10:29.281Z</updated>
+  <updated>2023-10-28T15:39:06.447Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何统计访问人数？</title>
+    <link href="http://example.com/2023/10/28/%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F/"/>
+    <id>http://example.com/2023/10/28/%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F/</id>
+    <published>2023-10-28T15:38:29.000Z</published>
+    <updated>2023-10-28T15:39:06.447Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;01-为什么-Google-Analysis-国内可用？&quot;&gt;&lt;a href=&quot;#01-为什么-Google-Analysis-国内可用？&quot; class=&quot;headerlink&quot; title=&quot;01 为什么 Google Analysis</summary>
+        
+      
+    
+    
+    
+    <category term="程序人生" scheme="http://example.com/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>更方便的输入德语字符</title>

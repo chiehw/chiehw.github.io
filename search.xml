@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>如何统计访问人数？</title>
+      <link href="/2023/10/28/%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F/"/>
+      <url>/2023/10/28/%E5%A6%82%E4%BD%95%E7%BB%9F%E8%AE%A1%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0%EF%BC%9F/</url>
+      
+        <content type="html"><![CDATA[<h2 id="01-为什么-Google-Analysis-国内可用？"><a href="#01-为什么-Google-Analysis-国内可用？" class="headerlink" title="01 为什么 Google Analysis 国内可用？"></a>01 为什么 Google Analysis 国内可用？</h2><p>Google统计的脚本的后台服务器是在中国，可以使用下面的命令来查看域名。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig www.google-analytics.com</span><br></pre></td></tr></table></figure><p>我这边解析到的地址是<code>180.163.151.33</code>，根据IP归属地查询网站，可以查到归属地是上海。符合v友的答案——在中国有合法的广告业务和牌照，在上海和北京有机房。</p><h2 id="02-如何验证gtag是否有效？"><a href="#02-如何验证gtag是否有效？" class="headerlink" title="02 如何验证gtag是否有效？"></a>02 如何验证gtag是否有效？</h2><p>教程上说 gtag 是 UA 开头。Universal Analytics 资源媒体使用的是跟踪ID（以 UA- 开头），而 Google Analytics 分析4 媒体资源使用的是 Google 代码 ID（通常以 G- 开头）。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- <span class="title class_">Google</span> tag (gtag.<span class="property">js</span>) --&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="variable language_">window</span>.<span class="property">dataLayer</span> = <span class="variable language_">window</span>.<span class="property">dataLayer</span> || [];</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="keyword">function</span> <span class="title function_">gtag</span>(<span class="params"></span>)&#123;dataLayer.<span class="title function_">push</span>(<span class="variable language_">arguments</span>);&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">gtag</span>(<span class="string">&#x27;js&#x27;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>());</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">gtag</span>(<span class="string">&#x27;config&#x27;</span>, <span class="string">&#x27;G-ZT31KVFKP0&#x27;</span>);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure><ul><li>Tag Assistant：<a href="https://tagassistant.google.com/">https://tagassistant.google.com</a> ，这个网站可以用于测试是否能够 gtag 是否生效。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>更方便的输入德语字符</title>
       <link href="/2023/10/28/%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6/"/>
       <url>/2023/10/28/%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6/</url>
