@@ -11,7 +11,7 @@
   
   <title>
     
-      archive_a: 2023/4 
+      更方便的输入德语字符 
       
       
       |
@@ -115,176 +115,155 @@
 
 
       <div class="flex-container">
-        <!-- 归档页，展示本站所有文章，按照年份降序归类，url形式：https://yoursite/archives/ -->
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
-<!-- last: 按年份把文章分组，当前遍历到的年份 -->
-<!-- now: 当前遍历到的文章的发布年份 -->
 
-<div class="container archives">
-  <div class="post-list">
-    
-        <!-- 后续文章的发布年份呈现 -->
-        <div class="content-title">
-          <h2>
-            <span>2023</span>
-          </h2>
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">更方便的输入德语字符</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-10-28 19:10:29
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E5%BE%B7%E5%9B%BD%E7%95%99%E5%AD%A6/" title="德国留学">
+                    <b>#</b> 德国留学
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>在搜狗输入法中输入自定义短语：</p>
+<ul>
+<li>sss代表ß。</li>
+<li>sa代表ä。</li>
+<li>so代表ö</li>
+<li>su代表ü。</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/10/28/%E8%B5%B0%E9%81%8D%E5%BE%B7%E5%9B%BD-%E6%AC%A7%E6%A0%87%E5%BE%B7%E8%AF%ADA1-%E7%AC%AC21%E8%AF%BE/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-10-28 19:10:29
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E5%BE%B7%E5%9B%BD%E7%95%99%E5%AD%A6/" title="德国留学">
+                        <b>#</b> 德国留学
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
       
-      <div class="post-item" title="更方便的输入德语字符">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6/">
-            <span>更方便的输入德语字符</span>
-          </a>
-        </div>
-      </div>
+    </div>
     
-      <div class="post-item" title="走遍德国(欧标德语A1)-第21课">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E8%B5%B0%E9%81%8D%E5%BE%B7%E5%9B%BD-%E6%AC%A7%E6%A0%87%E5%BE%B7%E8%AF%ADA1-%E7%AC%AC21%E8%AF%BE/">
-            <span>走遍德国(欧标德语A1)-第21课</span>
-          </a>
-        </div>
-      </div>
+
     
-      <div class="post-item" title="德福考试内容？">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/%E5%BE%B7%E7%A6%8F%E8%80%83%E8%AF%95%E5%86%85%E5%AE%B9%EF%BC%9F/">
-            <span>德福考试内容？</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="APS考核内容？">
-        <div class="time-m-d">10-28</div>
-        <div class="title">
-          <a href="/2023/10/28/APS%E8%80%83%E6%A0%B8%E5%86%85%E5%AE%B9%EF%BC%9F/">
-            <span>APS考核内容？</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《精通 LevelDB》-3 常见问题">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/leveldb-3-questions/">
-            <span>《精通 LevelDB》-3 常见问题</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《精通 LevelDB》-2 源码初识">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/leveldb-2-read-code/">
-            <span>《精通 LevelDB》-2 源码初识</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《精通 LevelDB》-1 基础理论">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/leveldb-1-theory/">
-            <span>《精通 LevelDB》-1 基础理论</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Linux 多线程服务端编程》-1 智能指针">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/multi-thread-programming-in-linux-smart-pointer/">
-            <span>《Linux 多线程服务端编程》-1 智能指针</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-6 定制 new">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-6-my-new/">
-            <span>《Effective C++》-6 定制 new</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-5 继承">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-5-inheritance/">
-            <span>《Effective C++》-5 继承</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-4 实现功能">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-4-impl/">
-            <span>《Effective C++》-4 实现功能</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-3 封装与设计">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-3-design/">
-            <span>《Effective C++》-3 封装与设计</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-2 资源管理">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-2-resources/">
-            <span>《Effective C++》-2 资源管理</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-1 面向对象">
-        <div class="time-m-d">06-10</div>
-        <div class="title">
-          <a href="/2023/06/10/effective-cpp-1-object/">
-            <span>《Effective C++》-1 面向对象</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="信仰 Breif">
-        <div class="time-m-d">06-04</div>
-        <div class="title">
-          <a href="/2023/06/04/belief/">
-            <span>信仰 Breif</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序算法实现">
-        <div class="time-m-d">04-28</div>
-        <div class="title">
-          <a href="/2023/04/28/algorithm-4th-1-sort-impl/">
-            <span>《算法 第4版》-排序算法实现</span>
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序">
-        <div class="time-m-d">04-28</div>
-        <div class="title">
-          <a href="/2023/04/28/algorithm-4th-1-sort/">
-            <span>《算法 第4版》-排序</span>
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
       </div>
     
   </div>
-</div>
+
 
         
 <div class="footer">
@@ -545,6 +524,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6 + '&url=' + http%3A%2F%2Fexample.com%2F2023%2F10%2F28%2F%25E6%259B%25B4%25E6%2596%25B9%25E4%25BE%25BF%25E7%259A%2584%25E8%25BE%2593%25E5%2585%25A5%25E5%25BE%25B7%25E8%25AF%25AD%25E5%25AD%2597%25E7%25AC%25A6%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://example.com/2023/10/28/%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E8%BE%93%E5%85%A5%E5%BE%B7%E8%AF%AD%E5%AD%97%E7%AC%A6/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
