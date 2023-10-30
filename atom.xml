@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-10-30T05:05:23.366Z</updated>
+  <updated>2023-10-30T05:07:04.786Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>德语儿歌 Häschen klein</title>
+    <link href="http://example.com/2023/10/30/%E5%BE%B7%E8%AF%AD%E5%84%BF%E6%AD%8C-Haschen-klein/"/>
+    <id>http://example.com/2023/10/30/%E5%BE%B7%E8%AF%AD%E5%84%BF%E6%AD%8C-Haschen-klein/</id>
+    <published>2023-10-30T05:07:04.000Z</published>
+    <updated>2023-10-30T05:07:04.786Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>ja和doch如何使用?</title>
+    <link href="http://example.com/2023/10/30/ja%E5%92%8Cdoch%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/"/>
+    <id>http://example.com/2023/10/30/ja%E5%92%8Cdoch%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/</id>
+    <published>2023-10-30T05:06:02.000Z</published>
+    <updated>2023-10-30T05:06:14.462Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;01-doch的作用？&quot;&gt;&lt;a href=&quot;#01-doch的作用？&quot; class=&quot;headerlink&quot; title=&quot;01 doch的作用？&quot;&gt;&lt;/a&gt;01</summary>
+        
+      
+    
+    
+    
+    <category term="德国留学" scheme="http://example.com/categories/%E5%BE%B7%E5%9B%BD%E7%95%99%E5%AD%A6/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>如何办理保证金账户</title>
