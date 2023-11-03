@@ -11,6 +11,11 @@
   
   <title>
     
+      return resolve() 含义 
+      
+      
+      |
+    
      王杰杰的博客
   </title>
 
@@ -120,149 +125,185 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="return resolve() 含义">
-        <div class="time-m-d">2023-11-04</div>
-        <div class="title">
-          <a href="/2023/11/04/return-resolve-in-js/">
-            
-              
-                <span>return resolve() 含义</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">return resolve() 含义</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-04 01:10:14
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
-    
-      <div class="post-item" title="what is nextTick">
-        <div class="time-m-d">2023-11-04</div>
-        <div class="title">
-          <a href="/2023/11/04/what-is-nextTick/">
-            
-              
-                <span>what is nextTick</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h2 id="01-promise解决了什么问题"><a href="#01-promise解决了什么问题" class="headerlink" title="01 promise解决了什么问题"></a>01 promise解决了什么问题</h2><p>Promise 是异步编程的一种解决方案。</p>
+<ul>
+<li>Promise 是一个构造函数，对外提供统一的 API（.then，catch），对内提供方案（resolve 调用外部的then，reject 调用外部的 catch）。</li>
+</ul>
+<h2 id="02-resolve-有什么用？"><a href="#02-resolve-有什么用？" class="headerlink" title="02 resolve 有什么用？"></a>02 resolve 有什么用？</h2><p>平时只会用最简单的 Promise。开发时，设计 Promise 时，resolve 代表 then，reject 代表 catch。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Request</span>()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    	<span class="variable language_">this</span>.<span class="title function_">get</span>(url, params, <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">resolve</span>(res)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="03-return-resolve-含义"><a href="#03-return-resolve-含义" class="headerlink" title="03 return resolve()含义"></a>03 return resolve()含义</h2><p>如果 Promise 任务结束后，需要进入下一个任务，可以使用 return 的方式进入下一个 then，此时 return 有一下特点：</p>
+<ol>
+<li>返回 Promise，可以继续使用 .then 可以连续调用（不过下一个 .then 的参数由新的 Promise 决定）。</li>
+<li>如果返回其他值（如 resolve），也可以在 .then 获取到。</li>
+</ol>
+<p>根据 A 接口的结果调用 B 接口，再调用 C 接口。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">interfaceA</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">interfaceB</span>();</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">interfaceC</span>();</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>axios因token过期导致弹出多条信息提示，简单处理解决！：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_46156566/article/details/113976916">https://blog.csdn.net/m0_46156566/article/details/113976916</a></li>
+<li>从 promise 到底要不要加 return 开始：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6879692911680684040">https://juejin.cn/post/6879692911680684040</a></li>
+<li>JavaScript Promise 全介紹：<a target="_blank" rel="noopener" href="https://www.casper.tw/development/2020/02/16/all-new-promise/">https://www.casper.tw/development/2020/02/16/all-new-promise/</a></li>
+</ol>
+
       </div>
-    
-      <div class="post-item" title="如何将Vue组件转换为HTML">
-        <div class="time-m-d">2023-11-04</div>
-        <div class="title">
-          <a href="/2023/11/04/vue-to-html/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>如何将Vue组件转换为HTML</span>
-              
+              <a href="/2023/11/04/what-is-nextTick/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-04 01:10:14
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="如何操作在Vue中显示HTML">
-        <div class="time-m-d">2023-11-02</div>
-        <div class="title">
-          <a href="/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/">
-            
-              
-                <span>如何操作在Vue中显示HTML</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-promise%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">01 promise解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-resolve-%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-text">02 resolve 有什么用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-return-resolve-%E5%90%AB%E4%B9%89"><span class="toc-text">03 return resolve()含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="axios同时弹出多条登陆错误提醒">
-        <div class="time-m-d">2023-11-02</div>
-        <div class="title">
-          <a href="/2023/11/02/axios%E5%90%8C%E6%97%B6%E5%BC%B9%E5%87%BA%E5%A4%9A%E6%9D%A1%E7%99%BB%E9%99%86%E9%94%99%E8%AF%AF/">
-            
-              
-                <span>axios同时弹出多条登陆错误提醒</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何自动引入axios">
-        <div class="time-m-d">2023-11-02</div>
-        <div class="title">
-          <a href="/2023/11/02/%E5%A6%82%E4%BD%95%E8%87%AA%E5%8A%A8%E5%BC%95%E5%85%A5axios/">
-            
-              
-                <span>如何自动引入axios</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何为元素添加计数器？">
-        <div class="time-m-d">2023-10-31</div>
-        <div class="title">
-          <a href="/2023/10/31/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%85%83%E7%B4%A0%E6%B7%BB%E5%8A%A0%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%9F/">
-            
-              
-                <span>如何为元素添加计数器？</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何更方便的写 Router？">
-        <div class="time-m-d">2023-10-31</div>
-        <div class="title">
-          <a href="/2023/10/31/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%96%B9%E4%BE%BF%E7%9A%84%E5%86%99-Router%EF%BC%9F/">
-            
-              
-                <span>如何更方便的写 Router？</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何全局设置 ElementPlus 组件样式">
-        <div class="time-m-d">2023-10-31</div>
-        <div class="title">
-          <a href="/2023/10/31/%E5%A6%82%E4%BD%95%E5%85%A8%E5%B1%80%E8%AE%BE%E7%BD%AE-ElementPlus-%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F/">
-            
-              
-                <span>如何全局设置 ElementPlus 组件样式</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Vite 如何使用环境变量？">
-        <div class="time-m-d">2023-10-31</div>
-        <div class="title">
-          <a href="/2023/10/31/Vite-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%EF%BC%9F/">
-            
-              
-                <span>Vite 如何使用环境变量？</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-    <span class="page-num">1 / 4</span>
-    
-      <a href="/page/2/"><i class="iconfont icon-angleright"></i></a>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -523,6 +564,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + return%20resolve()%20%E5%90%AB%E4%B9%89 + '&url=' + https%3A%2F%2Fchieh.wang%2F2023%2F11%2F04%2Freturn-resolve-in-js%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/2023/11/04/return-resolve-in-js/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>

@@ -4,6 +4,63 @@
   
     
     <entry>
+      <title>return resolve() 含义</title>
+      <link href="/2023/11/04/return-resolve-in-js/"/>
+      <url>/2023/11/04/return-resolve-in-js/</url>
+      
+        <content type="html"><![CDATA[<h2 id="01-promise解决了什么问题"><a href="#01-promise解决了什么问题" class="headerlink" title="01 promise解决了什么问题"></a>01 promise解决了什么问题</h2><p>Promise 是异步编程的一种解决方案。</p><ul><li>Promise 是一个构造函数，对外提供统一的 API（.then，catch），对内提供方案（resolve 调用外部的then，reject 调用外部的 catch）。</li></ul><h2 id="02-resolve-有什么用？"><a href="#02-resolve-有什么用？" class="headerlink" title="02 resolve 有什么用？"></a>02 resolve 有什么用？</h2><p>平时只会用最简单的 Promise。开发时，设计 Promise 时，resolve 代表 then，reject 代表 catch。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Request</span>()&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">get</span>(url, params, <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">resolve</span>(res)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="03-return-resolve-含义"><a href="#03-return-resolve-含义" class="headerlink" title="03 return resolve()含义"></a>03 return resolve()含义</h2><p>如果 Promise 任务结束后，需要进入下一个任务，可以使用 return 的方式进入下一个 then，此时 return 有一下特点：</p><ol><li>返回 Promise，可以继续使用 .then 可以连续调用（不过下一个 .then 的参数由新的 Promise 决定）。</li><li>如果返回其他值（如 resolve），也可以在 .then 获取到。</li></ol><p>根据 A 接口的结果调用 B 接口，再调用 C 接口。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">interfaceA</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">interfaceB</span>();</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">interfaceC</span>();</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol><li>axios因token过期导致弹出多条信息提示，简单处理解决！：<a href="https://blog.csdn.net/m0_46156566/article/details/113976916">https://blog.csdn.net/m0_46156566/article/details/113976916</a></li><li>从 promise 到底要不要加 return 开始：<a href="https://juejin.cn/post/6879692911680684040">https://juejin.cn/post/6879692911680684040</a></li><li>JavaScript Promise 全介紹：<a href="https://www.casper.tw/development/2020/02/16/all-new-promise/">https://www.casper.tw/development/2020/02/16/all-new-promise/</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>what is nextTick</title>
+      <link href="/2023/11/04/what-is-nextTick/"/>
+      <url>/2023/11/04/what-is-nextTick/</url>
+      
+        <content type="html"><![CDATA[<h2 id="01-nextTick-解决了什么问题？"><a href="#01-nextTick-解决了什么问题？" class="headerlink" title="01 nextTick 解决了什么问题？"></a>01 nextTick 解决了什么问题？</h2><p>当你在 Vue 中更改响应式状态时，最终的 DOM 更新不是同步生效的，而是由 Vue 将它们缓存在一个队列中，知道下一个 tick 才一起执行。这样是为了确保每个组件无论发生多少状态改变，都仅执行一次更新。</p><p>nextTick 可以在状态改变之后立即使用，以<strong>等待 DOM 更新完成</strong>。</p><blockquote><p>在视图更新之后，基于新的视图进行操作。</p></blockquote><h2 id="02-如何解决的这个问题？"><a href="#02-如何解决的这个问题？" class="headerlink" title="02 如何解决的这个问题？"></a>02 如何解决的这个问题？</h2><p><code>nextTick</code> 会设置内部的钩子函数。在渲染完成之后，会自动调用这个钩子函数。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>如何将Vue组件转换为HTML</title>
+      <link href="/2023/11/04/vue-to-html/"/>
+      <url>/2023/11/04/vue-to-html/</url>
+      
+        <content type="html"><![CDATA[<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置参数</span></span><br><span class="line"><span class="title class_">Component</span>.<span class="property">param</span> = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment">// 创建容器</span></span><br><span class="line"><span class="keyword">const</span> dom = <span class="variable language_">document</span>.<span class="title function_">createDocumentFragment</span>()</span><br><span class="line"><span class="keyword">const</span> comp = <span class="title function_">createApp</span>(<span class="title class_">Component</span>).<span class="title function_">mount</span>(dom)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(comp.<span class="property">$el</span>)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;myId&quot;</span>).<span class="title function_">append</span>(comp.<span class="property">$el</span>)</span><br></pre></td></tr></table></figure><ul><li>Vue3 组件转为HTML DOM节点：<a href="https://blog.csdn.net/hbiao68/article/details/131563015">https://blog.csdn.net/hbiao68/article/details/131563015</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>如何操作在Vue中显示HTML</title>
       <link href="/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/"/>
       <url>/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/</url>
