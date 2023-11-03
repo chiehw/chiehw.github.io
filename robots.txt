@@ -1,0 +1,3 @@
+User-agent: *
+Sitemap: https://chieh.wang/sitemap.xml
+Sitemap: https://chieh.wang/sitemap.txt
