@@ -134,3 +134,12 @@ sitemap:
   rel: false
   tags: true
   categories: true
+
+robotstxt:
+  useragent: "*"
+  disallow:
+  allow:
+  sitemap: 
+    - /sitemap.xml
+    - /sitemap.txt
+    # - /baidu_sitemap.xml
