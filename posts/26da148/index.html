@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《算法 第4版》-排序 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZT31KVFKP0');
+    </script>
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《算法 第4版》-排序</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-04 01:30:09
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E7%AE%97%E6%B3%95/" title="算法">
+                    #算法
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8A%E7%AE%97%E6%B3%95-%E7%AC%AC4%E7%89%88%E3%80%8B/" title="《算法 第4版》">
+                    #《算法 第4版》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="第1章：基础"><a href="#第1章：基础" class="headerlink" title="第1章：基础"></a>第1章：基础</h1><h2 id="01-背包有什么用？"><a href="#01-背包有什么用？" class="headerlink" title="01 背包有什么用？"></a>01 背包有什么用？</h2><p>背包是一种不支持从中删除元素的集合元素——它的目的就是帮助收集元素并迭代所有收集到的元素。迭代顺序不确定且与用例无关。</p>
+<p>背包常见的应用：</p>
+<ul>
+<li>搜索：在搜索过程中，背包可以用于存储随机生成的样本数据。</li>
+<li>数值计算：背包可以用于存储随机生成的样本数据。</li>
+</ul>
+<p>许多编程语言没有针对背包这种数据结构提供专门的实现，因为背包是非常简单的数据结构，可以通过其他数据结构来轻松实现。</p>
+<h2 id="02-Dijkstra-的双栈表达式的优缺点"><a href="#02-Dijkstra-的双栈表达式的优缺点" class="headerlink" title="02 Dijkstra 的双栈表达式的优缺点"></a>02 Dijkstra 的双栈表达式的优缺点</h2><ul>
+<li>优点：展示了一种重要的计算模型——将一个字符串解释为一段程序并执行该程序得到结果、简单。</li>
+<li>缺点：无法区分加法和乘法的优先级，必须用括号来保证优先级。</li>
+</ul>
+<h2 id="03-C-的-Vector-会缩容吗？"><a href="#03-C-的-Vector-会缩容吗？" class="headerlink" title="03 C++ 的 Vector 会缩容吗？"></a>03 C++ 的 Vector 会缩容吗？</h2><ul>
+<li>C++11 之前，vector 不会自动缩容，除非显式调用 shrink_to_fit 方法。</li>
+<li>C++ 11 之后，vector 可以自动缩小容量。当 vector 的 size 变得比 capacity 的一半还要小时，就会自动缩容。</li>
+</ul>
+<h2 id="04-如何学习数据结构？"><a href="#04-如何学习数据结构？" class="headerlink" title="04 如何学习数据结构？"></a>04 如何学习数据结构？</h2><ul>
+<li><strong>定义 API</strong>：分析 API 的设计。</li>
+<li>根据特定的场景开发用例代码。</li>
+<li>描述一种数据结构（一组值的表示），并在数据结构中定义变量。</li>
+<li>描述算法（实现算法）。</li>
+<li>分析算法的性能特点。</li>
+</ul>
+<h2 id="05-为什么坚持使用窄接口？"><a href="#05-为什么坚持使用窄接口？" class="headerlink" title="05 为什么坚持使用窄接口？"></a>05 为什么坚持使用窄接口？</h2><p>为一个单独的 Collection 数据结构实现添加元素、删除最近插入的元素、删除最早插入的元素、删除随机元素等等其他我们可能的方法，这样我们就能在一个类中实现所有这些方法并可以用于各种实例。这样的作法叫做<strong>宽接口</strong>。</p>
+<p>使用窄接口的原因：</p>
+<ul>
+<li><strong>API 是设计高效算法和数据结构的起点</strong>。</li>
+<li>无法保证高效的实现这些所有方法。</li>
+<li><strong>限制用例的行为，使用例代码更加易懂</strong>。</li>
+</ul>
+<h2 id="06-常见的算法复杂度分类"><a href="#06-常见的算法复杂度分类" class="headerlink" title="06 常见的算法复杂度分类"></a>06 常见的算法复杂度分类</h2><p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/04/upgit_20230418_1681830325.png" alt="image-20230418230524970"></p>
+<h2 id="07-编程的首要任务是什么？"><a href="#07-编程的首要任务是什么？" class="headerlink" title="07 编程的首要任务是什么？"></a>07 编程的首要任务是什么？</h2><p><strong>写出清晰正确的代码</strong>。</p>
+<p>在编程领域中，最常见的错误或许就是过于关注程序的性能。你的首要任务应该是写出清晰正确的代码。为了提高运行速度而修改程序的事最好留给专家来做。C.A.R.Hoare（快速排序的发明人）曾将这种想法总结为：“不成熟的优化是所有罪恶之源”。</p>
+<p>当然也不能完全忽略程序的性能。当我们处理大规模问题是，通常除了寻找更好的泛之外，我们别无选择。</p>
+<h1 id="第2章：排序"><a href="#第2章：排序" class="headerlink" title="第2章：排序"></a>第2章：排序</h1><h2 id="01-为什么不要看网上的题解？"><a href="#01-为什么不要看网上的题解？" class="headerlink" title="01 为什么不要看网上的题解？"></a>01 为什么不要看网上的题解？</h2><p>网上的题解品质差异很大，不利于学习，总是看劣质的资料容易让自己养成坏毛病（写代码不考虑周全）。同样的题目，书上的代码简洁清晰，网上的代码复杂多样。这些代码做了很多无用功，看这些内容很浪费时间。</p>
+<p>在《剑指 Offer》的 109 页，给出了 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/">剑指 Offer 22. 链表中倒数第k个节点</a> 的答案，我们在网上看别人的题解可能也会看到这样的答案，但这样的答案会让人产生“我已经学会怎么做这题”的错觉。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">getKthFromEnd</span><span class="params">(ListNode* head, <span class="type">unsigned</span> <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode *pAHead = head;</span><br><span class="line">        ListNode *pBehind = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">unsigned</span> <span class="type">int</span> i=<span class="number">0</span>; i&lt;k<span class="number">-1</span>; i++)&#123;</span><br><span class="line">            pAHead = pAHead-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        pBehind = head;</span><br><span class="line">        <span class="keyword">while</span>(pAHead-&gt;next != <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            pAHead = pAHead-&gt;next;</span><br><span class="line">            pBehind = pBehind-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> pBehind;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>不少人在面试之前从网上看到这种题解，当面试官问这道题时，他们心中一阵窃喜，很快就能写出代码。可是几天之后他们等来的不是 Offer，却是拒信，于是百思不得其解。其实原因很简单，就是自己写的代码不够鲁棒。以上面的代码为例，虽然能通过 LeetCode，但面试官可以找出 3 种办法让这段代码崩溃：</p>
+<ul>
+<li>输入 head 为空指针。由于代码会试图访问空指针的内存，程序会崩溃。</li>
+<li>输入的以 head 为头节点的链表的结点总数小于 k。由于在 for 循环中会在链表上前进 k-1 步，依然会由于空指针导致程序崩溃。</li>
+<li>输入的参数 k 为 0。由于 k 是一个无符号整数，那么在 for 循环中 k-1 得到的将不是 -1，而是  0xFFFFFFFF。因此执行次数远远超过我们的预计，同样会导致程序崩溃。</li>
+</ul>
+<p>这么简单的代码却存在 3 个潜在崩溃的风险，我们可以想想当面试官看到这样的代码时会有怎样的心情，最终他给出的是拒信而不是 Offer 虽然是意料之外但也在情理之中。</p>
+<h2 id="02-希尔排序为什么需要用-1-4-13-这种递增序列？"><a href="#02-希尔排序为什么需要用-1-4-13-这种递增序列？" class="headerlink" title="02 希尔排序为什么需要用 1, 4, 13 这种递增序列？"></a>02 希尔排序为什么需要用 1, 4, 13 这种递增序列？</h2><p>希尔排序算法的性能不仅取决于 h，还取决于 h 之间的数学性质，比如它们的公因数等。</p>
+<h2 id="03-希尔排序的原理是什么？"><a href="#03-希尔排序的原理是什么？" class="headerlink" title="03 希尔排序的原理是什么？"></a>03 希尔排序的原理是什么？</h2><p>希尔排序的思想是使数组中任意间隔为 h 的元素都是有序的。</p>
+<p>它更高效的原因是它权衡了<strong>子数组的规模和有序性</strong>。排序之处，各子数组都很短，排序之后子数组都是部分有序。子数组部分有序的程度取决于递增序列的选择。</p>
+<h2 id="04-希尔排序应用场景？"><a href="#04-希尔排序应用场景？" class="headerlink" title="04 希尔排序应用场景？"></a>04 希尔排序应用场景？</h2><p><strong>有经验的程序员有时会选择希尔排序，因为对于中等大小的数组它的运行时间是可接受的。它的代码量很小，且不需要额外的内存空间。</strong></p>
+<p>如果你需要解决一个排序问题，而又没有系统排序函数可用（直接接触硬件或是运行在嵌入式中），可以先用希尔排序，在考虑是否替换为更复杂的排序算法。</p>
+<h2 id="05-归并排序的核心思想是什么？"><a href="#05-归并排序的核心思想是什么？" class="headerlink" title="05 归并排序的核心思想是什么？"></a>05 归并排序的核心思想是什么？</h2><p>将两个有序的数组合并成一个更大的有序数组——merge 函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">merge</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;nums, <span class="type">int</span> lo, <span class="type">int</span> mid, <span class="type">int</span> hi)</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> N = nums.<span class="built_in">size</span>();</span><br><span class="line">    <span class="type">int</span> i=lo, j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> k=lo; k&lt;=hi; k++)</span><br><span class="line">        tmp[k] = nums[k];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> k=lo; k&lt;=hi; k++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(i&gt;mid)               nums[k] = tmp[j++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(j&gt;hi)           nums[k] = tmp[i++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(tmp[j]&lt;tmp[i])  nums[k] = tmp[j++];</span><br><span class="line">        <span class="keyword">else</span>                    nums[k] = tmp[i++];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>自顶向下的归并排序：要将一个数组排序，可以先递归地将它分为两半分别排序，然后将结果归并起来。</li>
+<li>自底向上的归并排序：多次遍历整个数组，将子数组大小进行两两归并。</li>
+</ul>
+<h2 id="06-归并排序和快速排序的区别？"><a href="#06-归并排序和快速排序的区别？" class="headerlink" title="06 归并排序和快速排序的区别？"></a>06 归并排序和快速排序的区别？</h2><p>归并排序将数组分为两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序。</p>
+<p>快速排序非常类似归并排序-自顶向下的写法，不过快速排序是拆分，归并排序是合并。</p>
+<h2 id="07-优先队列的优势？"><a href="#07-优先队列的优势？" class="headerlink" title="07 优先队列的优势？"></a>07 优先队列的优势？</h2><p>许多应用程序都需要处理有序的元素，但不一定要求它们全部有序，或是不一定要一次就将他们排序。很多情况我们会收集一些元素，然后处理当前键值的最大元素，然后再收集更多的元素，再处理当前键值最大的元素。在这种情况下，一个合适的数据结构的应该支持两种操作：<strong>删除最大的元素和插入元素。</strong>这种数据结构叫做优先队列。</p>
+<blockquote>
+<p>优先队列可以使用很小的内存就得到前 k 大的数。</p>
+</blockquote>
+<h2 id="08-二叉堆是什么？"><a href="#08-二叉堆是什么？" class="headerlink" title="08 二叉堆是什么？"></a>08 二叉堆是什么？</h2><p>二叉堆是一组能够用堆有序的完全二叉树排序的元素，并在数组中按照层级存储（不适用数组的第一个位置）。简单起见，在下文中我们将二叉堆简称为堆。</p>
+<p><strong>在一个堆中，位置 k 的节点的父节点的位置为 k&#x2F;2，而它的子节点的位置分别为 2k 和 2k+1</strong>。</p>
+<p>这样在不使用指针的情况下，我们也可以通过计算数组的索引在树上下移动：从 a[k] 向上一层就令 k 等于 k&#x2F;2，向下一层则令 k 等于 2k 或 2k+1。</p>
+<h2 id="09-堆的有序化是什么？"><a href="#09-堆的有序化是什么？" class="headerlink" title="09 堆的有序化是什么？"></a>09 堆的有序化是什么？</h2><p>堆的操作（less 和 swap）会首先进行一些简单的改动，打破堆的状态，然后再遍历堆并按照要求将堆的状态恢复，我们称这个过程叫做堆的有序化。</p>
+<ul>
+<li>上浮（swim）：如果某个节点 A 比它的父节点大，那么 A 不应该做子节点，应该把父节点换下来，自己去做父节点，这就是堆 A 的下浮。</li>
+<li>下沉（sink）：如果某个节点 A 比它的子节点小，那么 A 就不配做父节点，应该下去，下面那个更大的节点上来做父节点，这就是对 A 的下沉。</li>
+</ul>
+<p>堆有序化的过程，总是将更大的值放到上方。</p>
+<h2 id="10-为什么在堆的表示中不使用-a-0-？"><a href="#10-为什么在堆的表示中不使用-a-0-？" class="headerlink" title="10 为什么在堆的表示中不使用 a[0]？"></a>10 为什么在堆的表示中不使用 a[0]？</h2><p>这么做可以稍微简化计算。实现从 0 开始的堆并不困难，a[0] 的子节点是 a[1] 和 a[2]，以此类推。但大多数程序员更喜欢我们的简单方法。另外，将 a[0] 的值作为哨兵（作为 a[1] 的父节点）</p>
+<h2 id="11-堆排序有哪些优缺点？"><a href="#11-堆排序有哪些优缺点？" class="headerlink" title="11 堆排序有哪些优缺点？"></a>11 堆排序有哪些优缺点？</h2><p>堆排序是我们所知的唯一能够同时最优利用空间和时间的方法——在最坏情况也能保证使用 ~2NlgN此比较和恒定的存储空间。当空间非常紧张时非常受欢迎。</p>
+<p>现代系统的许多应用很少使用它，因为它无法利用缓存。</p>
+<h2 id="12-堆排序的原理是什么？"><a href="#12-堆排序的原理是什么？" class="headerlink" title="12 堆排序的原理是什么？"></a>12 堆排序的原理是什么？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sortArray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> N = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=N/<span class="number">2</span>;k&gt;=<span class="number">1</span>; k--)&#123;</span><br><span class="line">            <span class="built_in">sink</span>(nums, k, N);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(N&gt;<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="built_in">swap</span>(nums, <span class="number">1</span>, N--);</span><br><span class="line">            <span class="built_in">sink</span>(nums, <span class="number">1</span>, N);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 从右至左用 sink函数构造子堆，数组的每个位置都已经是一个子堆的根节点，sink 对于这些子堆也适用。如果一个节点的两个子节点都已经是堆了，那么在该节点上调用 sink 可以将它们变成一个堆。这个过程会递归的建立起堆的秩序。</p>
+<p><strong>开始时我们只需要扫描数组中的一半元素，因为我们可以跳过大小 1 的子堆</strong>。最后我们在位置 1 上调用 sink 方法，扫描结束。在排序的第一阶段，堆的构造方法和我们想象的有所不同，因为我们的目标是<strong>构造一个堆有序的数组并使最大元素位于数组的开头而非构造函数。</strong></p>
+<p>然后 while 循环将最大的元素 a[1] 和 a[N] 的位置交换并修复堆，如此重复知道堆变空。</p>
+<h2 id="13-快速排序的切分-partition-函数是如何工作的？"><a href="#13-快速排序的切分-partition-函数是如何工作的？" class="headerlink" title="13 快速排序的切分 partition 函数是如何工作的？"></a>13 快速排序的切分 partition 函数是如何工作的？</h2><p>一般的策略是先随意选取 a[lo] 作为切分元素，即那个将会被排定的元素，然后我们从数组的左端开始向右扫描直到找到一个小于等于它的元素，再从数组的右端开始向左扫描直到找到一个大于等于它的元素。这两个元素显然是没有排定的，因此我们交换它们的位置。</p>
+<p>如此继续，我们就可以保证左指针 i 的左侧元素都不大于切分元素，右侧 j 的右侧元素都不小于切分元素。当两个指针相遇时，我们只需要将切分元素 a[0] 和左子数组最右侧的元素 a[j] 交换，然后返回 j 即可。</p>
+<p><strong>为什么返回 j，而不是返回 i？</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">    <span class="keyword">while</span>(nums[++i] &lt; v) <span class="keyword">if</span>(i==hi) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">while</span>(v &lt; nums[--j]) <span class="keyword">if</span>(j==lo) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;=j) <span class="keyword">break</span>;</span><br><span class="line">    <span class="built_in">swap</span>(nums[i], nums[j]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在内部有两个循环，分别可以保证 i 左侧的元素都不大于 v，j 右侧的元素都不小于 v。nums[lo] 需要以插入排序的方式插入到数组中，通常需要插入到 j 的位置（j 所在的元素小于 v，把 j 所在的元素前移。前面的元素刚好小于 v，后面的元素刚好大于 v）。</p>
+<p>如果替换 i，i 所在的位置大于 v，把 i 所在的元素前移，后面还需要想办法后移。</p>
+<h2 id="14-快速排序为什么需要使用-shuffle-函数？"><a href="#14-快速排序为什么需要使用-shuffle-函数？" class="headerlink" title="14 快速排序为什么需要使用 shuffle 函数？"></a>14 快速排序为什么需要使用 shuffle 函数？</h2><p>在快速排序中，基准元素的选取会影响算法的时间复杂度和稳定性。如果每次都选取第一个或最后一个作为基准元素，那么当数组已经有序或者近乎有序时，算法的效率就会变得非常低。为了避免这种情况，可以采用随机选取元素的方式来选取基准函数。</p>
+<p>shuffle 函数可以将数组随机打乱，从而使得基准元素再数组中的位置是随机的。这样处理有序或近乎有序的数组时，每次选取的基准元素都是随机的，从而保证了算法的时间复杂度和稳定性（避免出现最坏情况）。</p>
+<h2 id="15-堆排序中的-sink-函数是如何工作的？"><a href="#15-堆排序中的-sink-函数是如何工作的？" class="headerlink" title="15 堆排序中的 sink 函数是如何工作的？"></a>15 堆排序中的 sink 函数是如何工作的？</h2><p>这个过程和选择排序有些类似（按照降序而非升序取出所有元素），但所需要的比较要少得多。</p>
+<p>如果堆的有序状态因为某个节点变得比它的两个子节点或是其中之一更小了而被打破，那么我们可以通过将它和它的子节点中的较大者交换来修复堆。交换可能会在子结点处继续打破堆的有序状态，因此我们需要不断地用相同的方式来将其修复，将节点向下移动直到它的子节点都比它小或是到达了堆底。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">sink</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;nums, <span class="type">int</span> k, <span class="type">int</span> N)</span></span>&#123;	</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">2</span>*k &lt;= N)&#123;	<span class="comment">// 存在子节点</span></span><br><span class="line">        <span class="type">int</span> j=<span class="number">2</span>*k;</span><br><span class="line">        <span class="keyword">if</span>(j&lt;N &amp;&amp; nums[j+<span class="number">1</span>] &gt; nums[j])  j++;	<span class="comment">// 左子节点不是最后一个节点 &amp;&amp; 右子节点大于左子节点</span></span><br><span class="line">        <span class="keyword">if</span>(nums[k] &gt; nums[j])           <span class="keyword">break</span>;	<span class="comment">// 父节点大于子节点</span></span><br><span class="line">        <span class="built_in">swap</span>(nums[k], nums[j]);					<span class="comment">// 交换父子节点</span></span><br><span class="line">        k = j;									<span class="comment">// 更新 k，继续查看子节点是否需要 sink。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-04 01:30:09
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E7%AE%97%E6%B3%95/" title="算法">
+                        #算法
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8A%E7%AE%97%E6%B3%95-%E7%AC%AC4%E7%89%88%E3%80%8B/" title="《算法 第4版》">
+                        #《算法 第4版》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/posts/71bfa095/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC1%E7%AB%A0%EF%BC%9A%E5%9F%BA%E7%A1%80"><span class="toc-text">第1章：基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E8%83%8C%E5%8C%85%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-text">01 背包有什么用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-Dijkstra-%E7%9A%84%E5%8F%8C%E6%A0%88%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">02 Dijkstra 的双栈表达式的优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-C-%E7%9A%84-Vector-%E4%BC%9A%E7%BC%A9%E5%AE%B9%E5%90%97%EF%BC%9F"><span class="toc-text">03 C++ 的 Vector 会缩容吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-%E5%A6%82%E4%BD%95%E5%AD%A6%E4%B9%A0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9F"><span class="toc-text">04 如何学习数据结构？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9D%9A%E6%8C%81%E4%BD%BF%E7%94%A8%E7%AA%84%E6%8E%A5%E5%8F%A3%EF%BC%9F"><span class="toc-text">05 为什么坚持使用窄接口？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E7%B1%BB"><span class="toc-text">06 常见的算法复杂度分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-%E7%BC%96%E7%A8%8B%E7%9A%84%E9%A6%96%E8%A6%81%E4%BB%BB%E5%8A%A1%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">07 编程的首要任务是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC2%E7%AB%A0%EF%BC%9A%E6%8E%92%E5%BA%8F"><span class="toc-text">第2章：排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%A6%81%E7%9C%8B%E7%BD%91%E4%B8%8A%E7%9A%84%E9%A2%98%E8%A7%A3%EF%BC%9F"><span class="toc-text">01 为什么不要看网上的题解？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%94%A8-1-4-13-%E8%BF%99%E7%A7%8D%E9%80%92%E5%A2%9E%E5%BA%8F%E5%88%97%EF%BC%9F"><span class="toc-text">02 希尔排序为什么需要用 1, 4, 13 这种递增序列？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">03 希尔排序的原理是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="toc-text">04 希尔排序应用场景？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">05 归并排序的核心思想是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E5%92%8C%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">06 归并排序和快速排序的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E7%9A%84%E4%BC%98%E5%8A%BF%EF%BC%9F"><span class="toc-text">07 优先队列的优势？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#08-%E4%BA%8C%E5%8F%89%E5%A0%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">08 二叉堆是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#09-%E5%A0%86%E7%9A%84%E6%9C%89%E5%BA%8F%E5%8C%96%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">09 堆的有序化是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9C%A8%E5%A0%86%E7%9A%84%E8%A1%A8%E7%A4%BA%E4%B8%AD%E4%B8%8D%E4%BD%BF%E7%94%A8-a-0-%EF%BC%9F"><span class="toc-text">10 为什么在堆的表示中不使用 a[0]？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E5%A0%86%E6%8E%92%E5%BA%8F%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-text">11 堆排序有哪些优缺点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E5%A0%86%E6%8E%92%E5%BA%8F%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">12 堆排序的原理是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%9A%84%E5%88%87%E5%88%86-partition-%E5%87%BD%E6%95%B0%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="toc-text">13 快速排序的切分 partition 函数是如何工作的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8-shuffle-%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="toc-text">14 快速排序为什么需要使用 shuffle 函数？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-%E5%A0%86%E6%8E%92%E5%BA%8F%E4%B8%AD%E7%9A%84-sink-%E5%87%BD%E6%95%B0%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84%EF%BC%9F"><span class="toc-text">15 堆排序中的 sink 函数是如何工作的？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2023 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8A%E7%AE%97%E6%B3%95%20%E7%AC%AC4%E7%89%88%E3%80%8B-%E6%8E%92%E5%BA%8F + '&url=' + https%3A%2F%2Fchieh.wang%2Fposts%2F26da148%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/posts/26da148/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
