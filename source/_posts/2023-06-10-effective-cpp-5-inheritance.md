@@ -1,10 +1,11 @@
 ---
 title: 《Effective C++》-5 继承
-date: 2023-06-10 10:04:17
 categories: 程序人生
 tags:
-- C++
-- 《Effective C++》
+  - C++
+  - 《Effective C++》
+abbrlink: 1070c405
+date: 2023-06-10 10:04:17
 ---
 # 条款 32：确定你的 public 继承塑膜出 is-a 关系
 

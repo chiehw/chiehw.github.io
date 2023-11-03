@@ -1,10 +1,11 @@
 ---
 title: 《Effective C++》-4 实现功能
-date: 2023-06-10 10:03:41
 categories: 程序人生
 tags:
-- C++
-- 《Effective C++》
+  - C++
+  - 《Effective C++》
+abbrlink: 175f897
+date: 2023-06-10 10:03:41
 ---
 # 条款 26：尽可能延后变量定义式的出现时间
 

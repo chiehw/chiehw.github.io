@@ -1,10 +1,11 @@
 ---
 title: 《精通 LevelDB》-3 常见问题
-date: 2023-06-10 10:41:18
 categories: 程序人生
 tags:
-- 存储引擎
-- 《精通 LevelDB》
+  - 存储引擎
+  - 《精通 LevelDB》
+abbrlink: b319a4ba
+date: 2023-06-10 10:41:18
 ---
 
 # 第 1 章：LevelDB 背景

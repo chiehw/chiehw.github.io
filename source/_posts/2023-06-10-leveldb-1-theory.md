@@ -1,10 +1,11 @@
 ---
 title: 《精通 LevelDB》-1 基础理论
-date: 2023-06-10 10:06:55
 categories: 程序人生
 tags:
-- 存储引擎
-- 《精通 LevelDB》
+  - 存储引擎
+  - 《精通 LevelDB》
+abbrlink: d33fb9f2
+date: 2023-06-10 10:06:55
 ---
 
 # 前言

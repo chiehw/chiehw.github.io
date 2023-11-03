@@ -1,7 +1,8 @@
 ---
 title: 如何将Vue组件转换为HTML
-date: 2023-11-04 01:07:33
 categories: 程序人生
+abbrlink: c204f117
+date: 2023-11-04 01:07:33
 tags:
 ---
 

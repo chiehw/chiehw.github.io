@@ -1,10 +1,11 @@
 ---
 title: 《Effective C++》-1 面向对象
-date: 2023-06-10 10:01:25
 categories: 程序人生
 tags:
-- C++
-- 《Effective C++》
+  - C++
+  - 《Effective C++》
+abbrlink: 189ff5cf
+date: 2023-06-10 10:01:25
 ---
 
 # 前言

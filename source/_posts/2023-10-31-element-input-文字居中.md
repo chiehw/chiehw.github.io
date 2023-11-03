@@ -1,7 +1,8 @@
 ---
 title: ElementUI input 文字居中
-date: 2023-10-31 22:14:05
 categories: 程序人生
+abbrlink: f92d125d
+date: 2023-10-31 22:14:05
 tags:
 ---
 

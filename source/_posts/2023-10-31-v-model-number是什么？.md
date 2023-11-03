@@ -1,7 +1,8 @@
 ---
 title: v-model.number是什么？
-date: 2023-10-31 22:15:26
 categories: 程序人生
+abbrlink: 32b12cdb
+date: 2023-10-31 22:15:26
 tags:
 ---
 

@@ -1,10 +1,11 @@
 ---
 title: 《Effective C++》-3 封装与设计
-date: 2023-06-10 10:02:55
 categories: 程序人生
 tags:
-- C++
-- 《Effective C++》
+  - C++
+  - 《Effective C++》
+abbrlink: 58e7fb96
+date: 2023-06-10 10:02:55
 ---
 
 

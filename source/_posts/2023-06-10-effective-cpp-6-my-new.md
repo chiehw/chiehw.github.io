@@ -1,10 +1,11 @@
 ---
 title: 《Effective C++》-6 定制 new
-date: 2023-06-10 10:05:03
 categories: 程序人生
 tags:
-- C++
-- 《Effective C++》
+  - C++
+  - 《Effective C++》
+abbrlink: fa74a25f
+date: 2023-06-10 10:05:03
 ---
 
 # 条款 49：了解 new-handler 的行为

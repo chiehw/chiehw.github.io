@@ -1,7 +1,8 @@
 ---
 title: return resolve() 含义
-date: 2023-11-04 01:09:13
 categories: 程序人生
+abbrlink: 1a431fac
+date: 2023-11-04 01:09:13
 tags:
 ---
 

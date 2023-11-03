@@ -1,10 +1,11 @@
 ---
 title: 《Effective C++》-2 资源管理
-date: 2023-06-10 10:02:01
 categories: 程序人生
 tags:
-- C++
-- 《Effective C++》
+  - C++
+  - 《Effective C++》
+abbrlink: b1c7d8ef
+date: 2023-06-10 10:02:01
 ---
 
 # 条款13：以对象管理资源
