@@ -1,7 +1,8 @@
 ---
 title: ts文件如何使用useRoute和useRouter
-date: 2023-11-05 05:07:23
 categories: 程序人生
+abbrlink: ff11dacb
+date: 2023-11-05 05:07:23
 tags:
 ---
 
