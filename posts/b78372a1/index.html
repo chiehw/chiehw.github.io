@@ -8,10 +8,13 @@
   <meta name="author" content="Chieh Wang" />
   <meta name="description" content="" />
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      ElementUI表格如何实现只选择1条记录 
+      
+      
+      |
     
      王杰杰的博客
   </title>
@@ -122,149 +125,166 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="《精通 LevelDB》-1 基础理论">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/d33fb9f2/">
-            
-              
-                <span>《精通 LevelDB》-1 基础理论</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ElementUI表格如何实现只选择1条记录</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-05 05:08:35
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
-    
-      <div class="post-item" title="《Linux 多线程服务端编程》-1 智能指针">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/c5e38125/">
-            
-              
-                <span>《Linux 多线程服务端编程》-1 智能指针</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <p>ElementUI 的 table 内部有个 selection 变量用于存储已经选中的元素，toggleRowSelection 可以改变选中状态。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">toggleRowSelection</span> = (<span class="params"></span></span><br><span class="line"><span class="params">    row: T,</span></span><br><span class="line"><span class="params">    selected = <span class="literal">undefined</span>,</span></span><br><span class="line"><span class="params">    emitChange = <span class="literal">true</span></span></span><br><span class="line"><span class="params">  </span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> changed = <span class="title function_">toggleRowStatus</span>(selection.<span class="property">value</span>, row, selected)</span><br><span class="line">    <span class="keyword">if</span> (changed) &#123;</span><br><span class="line">      <span class="keyword">const</span> newSelection = (selection.<span class="property">value</span> || []).<span class="title function_">slice</span>()</span><br><span class="line">      <span class="comment">// 调用 API 修改选中值，不触发 select 事件</span></span><br><span class="line">      <span class="keyword">if</span> (emitChange) &#123;</span><br><span class="line">        instance.<span class="title function_">emit</span>(<span class="string">&#x27;select&#x27;</span>, newSelection, row)</span><br><span class="line">      &#125;</span><br><span class="line">      instance.<span class="title function_">emit</span>(<span class="string">&#x27;selection-change&#x27;</span>, newSelection)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以考虑先拿到 table 的 ref，绑定选中事件。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-table</span> <span class="attr">ref</span>=<span class="string">&quot;tableRef&quot;</span> @<span class="attr">select</span>=<span class="string">&quot;handleSelectionChange&quot;</span> &gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果超过1条就取消这条的选中，使用 toggleRowSelection 接口来更新</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleSelectionChange</span> = (<span class="params">selection, row</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (selection.<span class="property">length</span> &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="title class_">ElMessage</span>.<span class="title function_">warning</span>(<span class="string">&#x27;只能选择一条数据&#x27;</span>);</span><br><span class="line">        tableRef.<span class="property">value</span>.<span class="title function_">toggleRowSelection</span>(row); <span class="comment">// 取消选中</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
       </div>
-    
-      <div class="post-item" title="《Effective C++》-6 定制 new">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/fa74a25f/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>《Effective C++》-6 定制 new</span>
-              
+              <a href="/posts/ff11dacb/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-05 05:08:35
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/posts/b0bb1154/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="《Effective C++》-5 继承">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/1070c405/">
-            
-              
-                <span>《Effective C++》-5 继承</span>
-              
-            
-          </a>
-        </div>
-      </div>
+
     
-      <div class="post-item" title="《Effective C++》-4 实现功能">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/175f897/">
-            
-              
-                <span>《Effective C++》-4 实现功能</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-3 封装与设计">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/58e7fb96/">
-            
-              
-                <span>《Effective C++》-3 封装与设计</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-2 资源管理">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/b1c7d8ef/">
-            
-              
-                <span>《Effective C++》-2 资源管理</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-1 面向对象">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/189ff5cf/">
-            
-              
-                <span>《Effective C++》-1 面向对象</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序算法实现">
-        <div class="time-m-d">2023-04-28</div>
-        <div class="title">
-          <a href="/posts/71bfa095/">
-            
-              
-                <span>《算法 第4版》-排序算法实现</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序">
-        <div class="time-m-d">2023-04-28</div>
-        <div class="title">
-          <a href="/posts/26da148/">
-            
-              
-                <span>《算法 第4版》-排序</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/3/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">4 / 4</span>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -525,6 +545,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ElementUI%E8%A1%A8%E6%A0%BC%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AA%E9%80%89%E6%8B%A91%E6%9D%A1%E8%AE%B0%E5%BD%95 + '&url=' + https%3A%2F%2Fchieh.wang%2Fposts%2Fb78372a1%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/posts/b78372a1/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>

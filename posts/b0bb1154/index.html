@@ -8,10 +8,13 @@
   <meta name="author" content="Chieh Wang" />
   <meta name="description" content="" />
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      如何实现拖拽移动位置？ 
+      
+      
+      |
     
      王杰杰的博客
   </title>
@@ -122,149 +125,174 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="《精通 LevelDB》-1 基础理论">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/d33fb9f2/">
-            
-              
-                <span>《精通 LevelDB》-1 基础理论</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">如何实现拖拽移动位置？</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-05 05:09:15
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                    <b>#</b> 程序人生
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
-    
-      <div class="post-item" title="《Linux 多线程服务端编程》-1 智能指针">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/c5e38125/">
-            
-              
-                <span>《Linux 多线程服务端编程》-1 智能指针</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h2 id="01-如何实现拖拽移动位置？"><a href="#01-如何实现拖拽移动位置？" class="headerlink" title="01 如何实现拖拽移动位置？"></a>01 如何实现拖拽移动位置？</h2><p>简单看了下常见的拖拽库 <code>vue-draggable-plus</code> 和 <code>vue.draggable.next</code>，都是基于SortableJS实现，其本质是通过操作 DOM 实现的。</p>
+<h2 id="02-大致实现思路？"><a href="#02-大致实现思路？" class="headerlink" title="02 大致实现思路？"></a>02 大致实现思路？</h2><ol>
+<li>监听鼠标的按下的事件。</li>
+<li>监听鼠标的移动的事件。</li>
+<li>移动的时候生成对应的 UI。监听鼠标抬起事件（调用用户的自定义回调）。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>SortableJS 原理分析（源码）：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7097479808279379975#heading-10">https://juejin.cn/post/7097479808279379975#heading-10</a></li>
+</ol>
+
       </div>
-    
-      <div class="post-item" title="《Effective C++》-6 定制 new">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/fa74a25f/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>《Effective C++》-6 定制 new</span>
-              
+              <a href="/posts/b78372a1/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-05 05:09:15
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/" title="程序人生">
+                        <b>#</b> 程序人生
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="《Effective C++》-5 继承">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/1070c405/">
-            
-              
-                <span>《Effective C++》-5 继承</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8B%96%E6%8B%BD%E7%A7%BB%E5%8A%A8%E4%BD%8D%E7%BD%AE%EF%BC%9F"><span class="toc-text">01 如何实现拖拽移动位置？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A4%A7%E8%87%B4%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF%EF%BC%9F"><span class="toc-text">02 大致实现思路？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="《Effective C++》-4 实现功能">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/175f897/">
-            
-              
-                <span>《Effective C++》-4 实现功能</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-3 封装与设计">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/58e7fb96/">
-            
-              
-                <span>《Effective C++》-3 封装与设计</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-2 资源管理">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/b1c7d8ef/">
-            
-              
-                <span>《Effective C++》-2 资源管理</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《Effective C++》-1 面向对象">
-        <div class="time-m-d">2023-06-10</div>
-        <div class="title">
-          <a href="/posts/189ff5cf/">
-            
-              
-                <span>《Effective C++》-1 面向对象</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序算法实现">
-        <div class="time-m-d">2023-04-28</div>
-        <div class="title">
-          <a href="/posts/71bfa095/">
-            
-              
-                <span>《算法 第4版》-排序算法实现</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="《算法 第4版》-排序">
-        <div class="time-m-d">2023-04-28</div>
-        <div class="title">
-          <a href="/posts/26da148/">
-            
-              
-                <span>《算法 第4版》-排序</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/3/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">4 / 4</span>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -525,6 +553,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8B%96%E6%8B%BD%E7%A7%BB%E5%8A%A8%E4%BD%8D%E7%BD%AE%EF%BC%9F + '&url=' + https%3A%2F%2Fchieh.wang%2Fposts%2Fb0bb1154%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/posts/b0bb1154/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
