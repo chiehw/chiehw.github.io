@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-04T21:09:57.836Z</updated>
+  <updated>2023-11-05T05:20:59.038Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jemandem Löcher in den Bauch fragen</title>
+    <link href="https://chieh.wang/posts/c3b8a983/"/>
+    <id>https://chieh.wang/posts/c3b8a983/</id>
+    <published>2023-11-05T05:20:36.000Z</published>
+    <updated>2023-11-05T05:20:59.038Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;参考：&lt;a href=&quot;https://learngerman.dw.com/de/jemandem-l%C3%B6cher-in-den-bauch-fragen/l-19267503/lm&quot;&gt;Jemandem Löcher in den</summary>
+        
+      
+    
+    
+    
+    <category term="德国留学" scheme="https://chieh.wang/categories/%E5%BE%B7%E5%9B%BD%E7%95%99%E5%AD%A6/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>如何实现拖拽移动位置？</title>
@@ -461,29 +485,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;01-如何实现-input-中的文字居中？&quot;&gt;&lt;a href=&quot;#01-如何实现-input-中的文字居中？&quot; class=&quot;headerlink&quot; title=&quot;01 如何实现 input 中的文字居中？&quot;&gt;&lt;/a&gt;01 如何实现 input</summary>
-        
-      
-    
-    
-    
-    <category term="程序人生" scheme="https://chieh.wang/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JS有哪些常用操作数组的函数？</title>
-    <link href="https://chieh.wang/posts/23da229d/"/>
-    <id>https://chieh.wang/posts/23da229d/</id>
-    <published>2023-10-31T14:12:35.000Z</published>
-    <updated>2023-11-03T17:30:09.688Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;01-map-x2F-reduce&quot;&gt;&lt;a href=&quot;#01-map-x2F-reduce&quot; class=&quot;headerlink&quot; title=&quot;01 map&amp;#x2F;reduce&quot;&gt;&lt;/a&gt;01</summary>
         
       
     
