@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-07T04:58:16.993Z</updated>
+  <updated>2023-11-07T15:03:53.946Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>01 设计一个有 getMin 功能的栈</title>
+    <link href="https://chieh.wang/posts/2debf609/"/>
+    <id>https://chieh.wang/posts/2debf609/</id>
+    <published>2023-11-07T15:03:38.000Z</published>
+    <updated>2023-11-07T15:03:53.946Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;题目：&lt;a href=&quot;https://leetcode.cn/problems/min-stack/&quot;&gt;155. 最小栈&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    <category term="算法" scheme="https://chieh.wang/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>如何在Google搜到自己的网页</title>
@@ -476,29 +502,6 @@
       
     
     
-    
-    
-  </entry>
-  
-  <entry>
-    <title>v-model.number是什么？</title>
-    <link href="https://chieh.wang/posts/32b12cdb/"/>
-    <id>https://chieh.wang/posts/32b12cdb/</id>
-    <published>2023-10-31T14:15:26.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;01-v-model-number是什么？&quot;&gt;&lt;a href=&quot;#01-v-model-number是什么？&quot; class=&quot;headerlink&quot; title=&quot;01 v-model.number是什么？&quot;&gt;&lt;/a&gt;01</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
     
     
   </entry>
