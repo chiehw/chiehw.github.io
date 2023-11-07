@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>如何在Google搜到自己的网页</title>
+      <link href="/posts/c9ac9a4d/"/>
+      <url>/posts/c9ac9a4d/</url>
+      
+        <content type="html"><![CDATA[<ul><li>在 Google Console 验证所有者，可以利用 gtag 来验证。<ul><li>主机使用 @（主域名）</li><li>设置 TXT。</li></ul></li><li>生成站点地图，更利于检索。</li></ul><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol><li><a href="https://zenreal.github.io/posts/7993/#google%E7%84%A1%E6%B3%95%E8%AE%80%E5%8F%96sitemap-%E4%B8%80%E8%88%AC%E7%9A%84http%E9%8C%AF%E8%AA%A4-%E8%A7%A3%E6%B1%BA%E6%96%B9%E5%BC%8F">Hexo 搭建系列 - SEO優化篇</a></li><li>Hexo + Chic 如何上交网站地图sitemap.xml给Google？如果显示无法获取Couldn’t Fetch应该怎么办？：<a href="https://myoontyee.github.io/article/67414c31.html">https://myoontyee.github.io/article/67414c31.html</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 程序人生 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【DW】Jemandem Löcher in den Bauch fragen</title>
       <link href="/posts/c3b8a983/"/>
       <url>/posts/c3b8a983/</url>

@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-05T05:25:34.570Z</updated>
+  <updated>2023-11-07T04:54:47.380Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何在Google搜到自己的网页</title>
+    <link href="https://chieh.wang/posts/c9ac9a4d/"/>
+    <id>https://chieh.wang/posts/c9ac9a4d/</id>
+    <published>2023-11-07T04:53:54.000Z</published>
+    <updated>2023-11-07T04:54:47.380Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;在 Google Console 验证所有者，可以利用 gtag 来验证。&lt;ul&gt;
+&lt;li&gt;主机使用 @（主域名）&lt;/li&gt;
+&lt;li&gt;设置 TXT。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;生成站点地图，更利于检索。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="程序人生" scheme="https://chieh.wang/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>【DW】Jemandem Löcher in den Bauch fragen</title>
@@ -462,29 +493,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;01-v-model-number是什么？&quot;&gt;&lt;a href=&quot;#01-v-model-number是什么？&quot; class=&quot;headerlink&quot; title=&quot;01 v-model.number是什么？&quot;&gt;&lt;/a&gt;01</summary>
-        
-      
-    
-    
-    
-    <category term="程序人生" scheme="https://chieh.wang/categories/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>ElementUI input 文字居中</title>
-    <link href="https://chieh.wang/posts/f92d125d/"/>
-    <id>https://chieh.wang/posts/f92d125d/</id>
-    <published>2023-10-31T14:14:05.000Z</published>
-    <updated>2023-11-03T17:30:09.689Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;01-如何实现-input-中的文字居中？&quot;&gt;&lt;a href=&quot;#01-如何实现-input-中的文字居中？&quot; class=&quot;headerlink&quot; title=&quot;01 如何实现 input 中的文字居中？&quot;&gt;&lt;/a&gt;01 如何实现 input</summary>
         
       
     
