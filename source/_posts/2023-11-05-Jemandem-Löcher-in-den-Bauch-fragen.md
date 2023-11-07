@@ -1,6 +1,6 @@
 ---
 title: 【DW】Jemandem Löcher in den Bauch fragen
-categories: 德国留学
+categories: 德语
 abbrlink: c3b8a983
 date: 2023-11-05 13:20:36
 tags:
