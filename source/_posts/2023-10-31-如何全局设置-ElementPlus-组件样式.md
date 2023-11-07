@@ -1,6 +1,6 @@
 ---
 title: 如何全局设置 ElementPlus 组件样式
-categories: 程序人生
+categories: 编程杂货铺
 abbrlink: d4a0224
 date: 2023-10-31 22:21:10
 tags:

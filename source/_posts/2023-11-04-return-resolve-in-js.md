@@ -1,6 +1,6 @@
 ---
 title: return resolve() 含义
-categories: 程序人生
+categories: 编程杂货铺
 abbrlink: 1a431fac
 date: 2023-11-04 01:09:13
 tags:

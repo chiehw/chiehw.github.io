@@ -1,6 +1,6 @@
 ---
 title: 《Effective C++》-2 资源管理
-categories: 程序人生
+categories: 编程杂货铺
 tags:
   - C++
   - 《Effective C++》

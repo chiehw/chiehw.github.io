@@ -1,6 +1,6 @@
 ---
 title: 《精通 LevelDB》-2 源码初识
-categories: 程序人生
+categories: 编程杂货铺
 tags:
   - 存储引擎
   - 《精通 LevelDB》

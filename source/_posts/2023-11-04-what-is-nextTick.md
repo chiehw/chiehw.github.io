@@ -1,6 +1,6 @@
 ---
 title: 什么是nextTick？
-categories: 程序人生
+categories: 编程杂货铺
 abbrlink: e43eceeb
 date: 2023-11-04 01:08:24
 tags:

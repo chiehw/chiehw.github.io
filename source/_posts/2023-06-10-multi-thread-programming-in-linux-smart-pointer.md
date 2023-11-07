@@ -1,6 +1,6 @@
 ---
 title: 《Linux 多线程服务端编程》-1 智能指针
-categories: 程序人生
+categories: 编程杂货铺
 tags:
   - C++
   - 多线程

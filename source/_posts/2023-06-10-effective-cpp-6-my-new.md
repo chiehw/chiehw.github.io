@@ -1,6 +1,6 @@
 ---
 title: 《Effective C++》-6 定制 new
-categories: 程序人生
+categories: 编程杂货铺
 tags:
   - C++
   - 《Effective C++》

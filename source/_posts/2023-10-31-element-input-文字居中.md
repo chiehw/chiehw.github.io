@@ -1,6 +1,6 @@
 ---
 title: ElementUI input 文字居中
-categories: 程序人生
+categories: 编程杂货铺
 abbrlink: f92d125d
 date: 2023-10-31 22:14:05
 tags:

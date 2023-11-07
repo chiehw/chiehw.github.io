@@ -1,6 +1,6 @@
 ---
 title: 《Effective C++》-1 面向对象
-categories: 程序人生
+categories: 编程杂货铺
 tags:
   - C++
   - 《Effective C++》
