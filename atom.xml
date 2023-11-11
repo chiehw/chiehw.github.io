@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-09T04:54:11.929Z</updated>
+  <updated>2023-11-11T03:11:18.267Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>83.删除排序链表中的重复元素</title>
+    <link href="https://chieh.wang/posts/2c538a68/"/>
+    <id>https://chieh.wang/posts/2c538a68/</id>
+    <published>2023-11-11T03:10:57.000Z</published>
+    <updated>2023-11-11T03:11:18.267Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
+        
+      
+    
+    
+    
+    <category term="算法" scheme="https://chieh.wang/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>21.合并两个有序链表</title>
@@ -475,29 +498,6 @@
 &lt;li&gt;使用模版&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CSS如何控制文字换行？</title>
-    <link href="https://chieh.wang/posts/2faa826f/"/>
-    <id>https://chieh.wang/posts/2faa826f/</id>
-    <published>2023-10-31T14:17:37.000Z</published>
-    <updated>2023-11-07T04:58:16.992Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;01-如何实现强制换行和不换行？&quot;&gt;&lt;a href=&quot;#01-如何实现强制换行和不换行？&quot; class=&quot;headerlink&quot; title=&quot;01 如何实现强制换行和不换行？&quot;&gt;&lt;/a&gt;01</summary>
         
       
     
