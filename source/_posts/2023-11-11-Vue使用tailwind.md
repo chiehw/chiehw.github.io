@@ -1,7 +1,8 @@
 ---
 title: Vue使用tailwind
-date: 2023-11-11 18:07:47
 categories: 编程
+abbrlink: ef92871c
+date: 2023-11-11 18:07:47
 tags:
 ---
 
