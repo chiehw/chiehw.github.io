@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-11T03:11:18.267Z</updated>
+  <updated>2023-11-11T10:05:42.553Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>This 的指向</title>
+    <link href="https://chieh.wang/posts/2721cf3e/"/>
+    <id>https://chieh.wang/posts/2721cf3e/</id>
+    <published>2023-11-11T10:05:27.000Z</published>
+    <updated>2023-11-11T10:05:42.553Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;01-普通函数-this-指向哪里？&quot;&gt;&lt;a href=&quot;#01-普通函数-this-指向哪里？&quot; class=&quot;headerlink&quot; title=&quot;01 普通函数 this 指向哪里？&quot;&gt;&lt;/a&gt;01 普通函数 this</summary>
+        
+      
+    
+    
+    
+    <category term="编程" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>83.删除排序链表中的重复元素</title>
     <link href="https://chieh.wang/posts/2c538a68/"/>
     <id>https://chieh.wang/posts/2c538a68/</id>
     <published>2023-11-11T03:10:57.000Z</published>
-    <updated>2023-11-11T03:11:18.267Z</updated>
+    <updated>2023-11-11T03:11:22.738Z</updated>
     
     
       
@@ -472,32 +495,6 @@
     <summary type="html">&lt;ul&gt;
 &lt;li&gt;在组件中，有一个特殊的 &lt;code&gt;import.meta.env&lt;/code&gt; 对象可以获取 env 中的环境变量。&lt;ul&gt;
 &lt;li&gt;判断当前是开发还是生产：import.meta.env.MODE &amp;#x3D;&amp;#x3D;&amp;#x3D;</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Vue3如何写代码比较整齐？</title>
-    <link href="https://chieh.wang/posts/18cadfa5/"/>
-    <id>https://chieh.wang/posts/18cadfa5/</id>
-    <published>2023-10-31T14:18:40.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;使用模版&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span</summary>
         
       
     
