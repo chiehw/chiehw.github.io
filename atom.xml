@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-11T10:05:42.553Z</updated>
+  <updated>2023-11-11T10:06:56.279Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>JS处理PDF</title>
+    <link href="https://chieh.wang/posts/5adf8b26/"/>
+    <id>https://chieh.wang/posts/5adf8b26/</id>
+    <published>2023-11-11T10:06:42.000Z</published>
+    <updated>2023-11-11T10:06:56.279Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;生成pdf：&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://weibo.com/1727858283/LvkqOgTwK&quot;&gt;https://weibo.com/1727858283/LvkqOgTwK&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="编程" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>This 的指向</title>
     <link href="https://chieh.wang/posts/2721cf3e/"/>
     <id>https://chieh.wang/posts/2721cf3e/</id>
     <published>2023-11-11T10:05:27.000Z</published>
-    <updated>2023-11-11T10:05:42.553Z</updated>
+    <updated>2023-11-11T10:05:50.776Z</updated>
     
     
       
@@ -470,31 +496,6 @@
 &lt;li&gt;在 main.ts 中引入 &lt;code&gt;defaultElementPlus.ts&lt;/code&gt;。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&quot;highlight ts&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Vite 如何使用环境变量？</title>
-    <link href="https://chieh.wang/posts/730a2fb8/"/>
-    <id>https://chieh.wang/posts/730a2fb8/</id>
-    <published>2023-10-31T14:20:39.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;在组件中，有一个特殊的 &lt;code&gt;import.meta.env&lt;/code&gt; 对象可以获取 env 中的环境变量。&lt;ul&gt;
-&lt;li&gt;判断当前是开发还是生产：import.meta.env.MODE &amp;#x3D;&amp;#x3D;&amp;#x3D;</summary>
         
       
     

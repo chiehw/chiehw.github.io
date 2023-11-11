@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>JS处理PDF</title>
+      <link href="/posts/5adf8b26/"/>
+      <url>/posts/5adf8b26/</url>
+      
+        <content type="html"><![CDATA[<ol><li>生成pdf：<ol><li><a href="https://weibo.com/1727858283/LvkqOgTwK">https://weibo.com/1727858283/LvkqOgTwK</a></li><li><a href="https://codesandbox.io/s/dazzling-buck-plbvoc?file=/src/index.js&continueFlag=8b470aa89ed5822ce6cfaf0555619e89">https://codesandbox.io/s/dazzling-buck-plbvoc?file=/src/index.js&amp;continueFlag=8b470aa89ed5822ce6cfaf0555619e89</a></li></ol></li><li>js：<a href="https://github.com/sorrycc/awesome-javascript#files">https://github.com/sorrycc/awesome-javascript#files</a></li><li>js-lib：</li><li>pdf-lib：<a href="https://github.com/Hopding/pdf-lib/">https://github.com/Hopding/pdf-lib/</a></li><li>pdfkit</li><li>jspdf：</li><li>vue-pdf：<a href="https://github.com/FranckFreiburger/vue-pdf/issues">https://github.com/FranckFreiburger/vue-pdf/issues</a></li><li>pdfjs：<ol><li><a href="https://mozilla.github.io/pdf.js/web/viewer.html">https://mozilla.github.io/pdf.js/web/viewer.html</a></li><li>编辑：<a href="https://github.com/mozilla/pdf.js/projects/9">https://github.com/mozilla/pdf.js/projects/9</a></li></ol></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>This 的指向</title>
       <link href="/posts/2721cf3e/"/>
       <url>/posts/2721cf3e/</url>
