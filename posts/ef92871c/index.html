@@ -8,10 +8,13 @@
   <meta name="author" content="Chieh Wang" />
   <meta name="description" content="" />
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      Vue使用tailwind 
+      
+      
+      |
     
      王杰杰的博客
   </title>
@@ -122,151 +125,173 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="ts文件如何使用useRoute和useRouter">
-        <div class="time-m-d">2023-11-05</div>
-        <div class="title">
-          <a href="/posts/ff11dacb/">
-            
-              
-                <span>ts文件如何使用useRoute和useRouter</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Vue使用tailwind</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-11 18:08:07
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" title="编程">
+                    <b>#</b> 编程
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
-    
-      <div class="post-item" title="Vue表格使用v-if时页面抖动">
-        <div class="time-m-d">2023-11-05</div>
-        <div class="title">
-          <a href="/posts/17ea9250/">
-            
-              
-                <span>Vue表格使用v-if时页面抖动</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <ul>
+<li>安装 tailwind</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -D tailwindcss postcss autoprefixer</span><br><span class="line">npx tailwindcss init -p</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置tailwind.config.js</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">content</span>: [<span class="string">&quot;./index.html&quot;</span>, <span class="string">&quot;./src/**/*.&#123;vue,js,ts,jsx,tsx&#125;&quot;</span>],</span><br><span class="line">  <span class="attr">theme</span>: &#123;</span><br><span class="line">    <span class="attr">extend</span>: &#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">plugins</span>: [],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>新建一个index.css</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@tailwind</span> base;</span><br><span class="line"><span class="keyword">@tailwind</span> components;</span><br><span class="line"><span class="keyword">@tailwind</span> utilities;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在main.js引入</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">&quot;./App.vue&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;./style/index.css&quot;</span>; <span class="comment">//在此引入</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">createApp</span>(<span class="title class_">App</span>).<span class="title function_">mount</span>(<span class="string">&quot;#app&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>尝试使用 tailwind</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;text-center bg-gray-100 p-5&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;text-6xl text-red-700&quot;</span>&gt;</span>Hello!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;text-4xl text-green-500&quot;</span>&gt;</span>Vite + TailwindCSS<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
       </div>
-    
-      <div class="post-item" title="return resolve() 含义">
-        <div class="time-m-d">2023-11-04</div>
-        <div class="title">
-          <a href="/posts/1a431fac/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>return resolve() 含义</span>
-              
+              <a href="/posts/5adf8b26/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-11 18:08:07
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%BC%96%E7%A8%8B/" title="编程">
+                        <b>#</b> 编程
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="什么是nextTick？">
-        <div class="time-m-d">2023-11-04</div>
-        <div class="title">
-          <a href="/posts/e43eceeb/">
-            
-              
-                <span>什么是nextTick？</span>
-              
-            
-          </a>
-        </div>
-      </div>
+
     
-      <div class="post-item" title="如何将Vue组件转换为HTML">
-        <div class="time-m-d">2023-11-04</div>
-        <div class="title">
-          <a href="/posts/c204f117/">
-            
-              
-                <span>如何将Vue组件转换为HTML</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何操作在Vue中显示HTML">
-        <div class="time-m-d">2023-11-02</div>
-        <div class="title">
-          <a href="/posts/7b9b0e65/">
-            
-              
-                <span>如何操作在Vue中显示HTML</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="axios同时弹出多条登陆错误提醒">
-        <div class="time-m-d">2023-11-02</div>
-        <div class="title">
-          <a href="/posts/27527e4d/">
-            
-              
-                <span>axios同时弹出多条登陆错误提醒</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何自动引入axios">
-        <div class="time-m-d">2023-11-02</div>
-        <div class="title">
-          <a href="/posts/4c375ea4/">
-            
-              
-                <span>如何自动引入axios</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何为元素添加计数器？">
-        <div class="time-m-d">2023-10-31</div>
-        <div class="title">
-          <a href="/posts/bd5b3b7d/">
-            
-              
-                <span>如何为元素添加计数器？</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="如何更方便的写 Router？">
-        <div class="time-m-d">2023-10-31</div>
-        <div class="title">
-          <a href="/posts/9989c2a0/">
-            
-              
-                <span>如何更方便的写 Router？</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">2 / 5</span>
-    
-      <a href="/page/3/"><i class="iconfont icon-angleright"></i></a>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -527,6 +552,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Vue%E4%BD%BF%E7%94%A8tailwind + '&url=' + https%3A%2F%2Fchieh.wang%2Fposts%2Fef92871c%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/posts/ef92871c/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
