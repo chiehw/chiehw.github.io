@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-11T10:08:07.876Z</updated>
+  <updated>2023-11-12T10:30:51.223Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>logo! am Freitag, 03.11.2023</title>
+    <link href="https://chieh.wang/posts/57ff31d6/"/>
+    <id>https://chieh.wang/posts/57ff31d6/</id>
+    <published>2023-11-12T10:30:29.000Z</published>
+    <updated>2023-11-12T10:30:51.223Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;“logo!” am Freitag, schön, dass ihr dabei seid. Ich bin Linda und darum geht’s:&lt;ol&gt;
+&lt;li&gt;Freitag 周五&lt;/li&gt;
+&lt;li&gt;schön</summary>
+        
+      
+    
+    
+    
+    <category term="德语" scheme="https://chieh.wang/categories/%E5%BE%B7%E8%AF%AD/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Vue使用tailwind</title>
     <link href="https://chieh.wang/posts/ef92871c/"/>
     <id>https://chieh.wang/posts/ef92871c/</id>
     <published>2023-11-11T10:07:47.000Z</published>
-    <updated>2023-11-11T10:08:07.876Z</updated>
+    <updated>2023-11-11T10:08:25.738Z</updated>
     
     
       
@@ -470,32 +496,6 @@
 &lt;li&gt;在适当的位置初始化计数器&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>如何更方便的写 Router？</title>
-    <link href="https://chieh.wang/posts/9989c2a0/"/>
-    <id>https://chieh.wang/posts/9989c2a0/</id>
-    <published>2023-10-31T14:21:52.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;使用 &lt;code&gt;router-link&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
         
       
     
