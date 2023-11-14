@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-12T10:30:59.606Z</updated>
+  <updated>2023-11-14T15:11:53.944Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【Easy German】Introduce yourself in German</title>
+    <link href="https://chieh.wang/posts/9214c132/"/>
+    <id>https://chieh.wang/posts/9214c132/</id>
+    <published>2023-11-14T15:11:40.000Z</published>
+    <updated>2023-11-14T15:11:53.944Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;参考链接：【【高清德语学习】（英德双语字幕合集）(A1 - A2) German for absolute beginners【Easy German】-哔哩哔哩】 &lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="德语" scheme="https://chieh.wang/categories/%E5%BE%B7%E8%AF%AD/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>logo! am Freitag, 03.11.2023</title>
@@ -470,32 +494,6 @@
         
     <summary type="html">&lt;h2 id=&quot;01-如何自动引入axios&quot;&gt;&lt;a href=&quot;#01-如何自动引入axios&quot; class=&quot;headerlink&quot; title=&quot;01 如何自动引入axios&quot;&gt;&lt;/a&gt;01 如何自动引入axios&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;npm i -D</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>如何为元素添加计数器？</title>
-    <link href="https://chieh.wang/posts/bd5b3b7d/"/>
-    <id>https://chieh.wang/posts/bd5b3b7d/</id>
-    <published>2023-10-31T14:27:40.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;在适当的位置初始化计数器&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
         
       
     
