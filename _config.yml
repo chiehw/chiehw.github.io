@@ -91,6 +91,7 @@ pagination_dir: page
 # Include / Exclude file(s)
 ## include:/exclude: options only apply to the 'source/' folder
 include:
+  - .nojekyll
 exclude:
 ignore:
 
@@ -106,6 +107,7 @@ deploy:
   repo: https://github.com/chiehw/chiehw.github.io
   # example, https://github.com/hexojs/hexojs.github.io
   branch: gh-pages
+  ignore_hidden: false
 
 feed:
   type: atom
@@ -125,24 +127,15 @@ search:
   field: post
   content: true
 
-sitemap:
-  path: 
-    - sitemap.xml
-    - sitemap.txt
-  template: ./sitemap_template.xml
-  template_txt: ./sitemap_template.txt
-  rel: false
-  tags: true
-  categories: true
+baidusitemap:
+  path: baidusitemap.xml
 
 robotstxt:
   useragent: "*"
   disallow:
   allow:
   sitemap: 
-    - /sitemap.xml
-    - /sitemap.txt
-    # - /baidu_sitemap.xml
+    - /baidusitemap.xml
 
 abbrlink:
   alg: crc32  #support crc16(default) and crc32 ,crc16的最大帖子數是65535。
