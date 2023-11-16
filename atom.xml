@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-14T15:23:14.770Z</updated>
+  <updated>2023-11-16T15:09:40.466Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【Easy German】Basic Phrases - Introducing Yourself</title>
+    <link href="https://chieh.wang/posts/5afb847b/"/>
+    <id>https://chieh.wang/posts/5afb847b/</id>
+    <published>2023-11-16T15:09:12.000Z</published>
+    <updated>2023-11-16T15:09:40.466Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;Wie heißt du？&lt;/li&gt;
+&lt;li&gt;Ich heißt Kapenda.&lt;/li&gt;
+&lt;li&gt;Wie alt bist du？&lt;/li&gt;
+&lt;li&gt;Ich bin 15 Jahre alt.&lt;/li&gt;
+&lt;li&gt;Wie geht es</summary>
+        
+      
+    
+    
+    
+    <category term="德语" scheme="https://chieh.wang/categories/%E5%BE%B7%E8%AF%AD/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>【Easy German】Introduce yourself in German</title>
@@ -470,30 +498,6 @@
 &lt;li&gt;自定义 axios 的 http 响应拦截器&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>如何自动引入axios</title>
-    <link href="https://chieh.wang/posts/4c375ea4/"/>
-    <id>https://chieh.wang/posts/4c375ea4/</id>
-    <published>2023-11-01T16:20:29.000Z</published>
-    <updated>2023-11-07T04:58:16.957Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;01-如何自动引入axios&quot;&gt;&lt;a href=&quot;#01-如何自动引入axios&quot; class=&quot;headerlink&quot; title=&quot;01 如何自动引入axios&quot;&gt;&lt;/a&gt;01 如何自动引入axios&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;npm i -D</summary>
         
       
     
