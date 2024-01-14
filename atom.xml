@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>王杰杰的博客</title>
+  <title>王杰 | Web 开发者</title>
   <icon>https://chieh.wang/icon.png</icon>
   
   <link href="https://chieh.wang/atom.xml" rel="self"/>
