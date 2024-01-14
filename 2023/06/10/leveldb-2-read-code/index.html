@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《精通 LevelDB》-2 源码初识 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZT31KVFKP0');
+    </script>
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《精通 LevelDB》-2 源码初识</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-07 12:58:16
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                    <b>#</b> 编程杂货铺
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" title="存储引擎">
+                    #存储引擎
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8A%E7%B2%BE%E9%80%9A-LevelDB%E3%80%8B/" title="《精通 LevelDB》">
+                    #《精通 LevelDB》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <blockquote>
+<p>目前我的思路是，根据 LevelDB 的源码来尝试自己编写源码（实在不会就抄，抄完再理解）。这样的思路很容易迷路，无法识别源码中的重点，无法理清其设计思路的精髓，耗费时间长但是收益低。</p>
+<p>需要调整阅读源码的策略，所以没有读完所有源码。后续应该会尝试“<strong>根据理论设计 LevelDB 源码结构，阅读源码验证思想</strong>”</p>
+</blockquote>
+<h1 id="第1部分：Arena"><a href="#第1部分：Arena" class="headerlink" title="第1部分：Arena"></a>第1部分：Arena</h1><p>推荐先实现 AtomicPoint，因为 Arena 依赖于 AtomicPoint。Arena 整体难度不大，但能帮助我们了解一个内存池的大致工作流程、内存对齐的计算方法。</p>
+<p>实现完 Arena 之后可以实现 test_harness，用来测试 Arena 是否能正常运行。</p>
+<h2 id="01-为什么-alloc-bytes-remaining-不是使用大小？"><a href="#01-为什么-alloc-bytes-remaining-不是使用大小？" class="headerlink" title="01 为什么 alloc_bytes_remaining_ 不是使用大小？"></a>01 为什么 alloc_bytes_remaining_ 不是使用大小？</h2><p>Arena 是内存池，alloc_bytes_remaining 表示当前块的剩余的大小，会一直改变。memory_usage 代表内存池已使用的大小。</p>
+<h2 id="02-AtomicPointer-指针作用？"><a href="#02-AtomicPointer-指针作用？" class="headerlink" title="02 AtomicPointer 指针作用？"></a>02 AtomicPointer 指针作用？</h2><p>AtomicPointer 是一种可以实现原子读写操作的指针数据类型，该类型可以用于实现无锁的数据存储操作。</p>
+<p>Atomic 是原子，从物理学来看，所谓原子就是最小的物质，不可以再对其进行分割。而这里的原子操作的概念主要指进行某项操作时，执行过程不会被打断。在多线程中，如果可以将一个操作定义为原子操作，那么就无需为这个操作加锁，以实现对其操作变量的保护。</p>
+<h2 id="03-什么是内存屏障？"><a href="#03-什么是内存屏障？" class="headerlink" title="03 什么是内存屏障？"></a>03 什么是内存屏障？</h2><p>在多核处理器中，每个核心都有自己的缓存，因此在多核系统中，不同核心之间的缓存同步和内存同步都是非常重要的，内存屏障就是用来保证不同核心之间缓存同步和内存同步的。</p>
+<p>内存屏障可以用于实现一些高级同步操作，比如锁和原子操作。在多线程程序中，使用内存屏障可以保障线程之间的操作顺序和时序正确，从而避免出现数据竞争和其他并发问题。</p>
+<h2 id="04-如何实现内存屏障？"><a href="#04-如何实现内存屏障？" class="headerlink" title="04 如何实现内存屏障？"></a>04 如何实现内存屏障？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__asm__ __volatile__(<span class="string">&quot;&quot;</span> : : : <span class="string">&quot;memory&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>__asm__</code> 是 GCC 编译器提供的一个关键字，用于嵌入汇编代码到 C&#x2F;C++ 代码中。它的作用是告诉编译器将括号中的代码插入到编译后的程序中，并且在生成可执行程序的过程中不再对该部分进行优化。</p>
+<p><code>__volatile__</code> 关键字表示这个汇编语句是 volatile 操作，即不能被编译器优化掉。另外，使用了 memory 语句，表示<strong>这个汇编语句会修改内存</strong>，从而告诉编译器需要进行内存屏障操作。</p>
+<h2 id="05-explicit-作用？"><a href="#05-explicit-作用？" class="headerlink" title="05 explicit 作用？"></a>05 explicit 作用？</h2><p>explicit 关键字可以用于将构造函数声明为显式构造函数，这意味着该构造函数只能显示调用，而不能隐式地进行类型转换。具体来说，如果没有 explicit 关键字，那么构造函数可以被隐式调用。从而允许将 void * 类型的指针隐式转换为 AtomicPointer 类型的对象。</p>
+<h2 id="06-内存屏障的作用？"><a href="#06-内存屏障的作用？" class="headerlink" title="06 内存屏障的作用？"></a>06 内存屏障的作用？</h2><p>内存屏障通常存在两种操作：Store、Load。Store 方法可以保障写操作之前的所有内存读写不会重排到这条写操作之后去执行。Load 方法可以保障该方法之后的所有内存读写不会重排到 Load 之前执行。</p>
+<h2 id="07-为什么需要-Load-和-Store？"><a href="#07-为什么需要-Load-和-Store？" class="headerlink" title="07 为什么需要 Load 和 Store？"></a>07 为什么需要 Load 和 Store？</h2><p>在现代计算机中，CPU 为了提高程序的执行效率，通常会采用乱序执行和指令重排等技术，将多个指令在不影响程序结果的前提下进行重排和优化。</p>
+<p>指令重拍可能会导致内存访问顺序发生改变，如果在多线程中，存在多个线程对共享变量的访问，指令重排可能会导致多个线程之间的读写操作顺序发生变化，从而发生数据竞争和线程安全问题。</p>
+<h2 id="08-reinterpret-cast-lt-void-gt-作用？"><a href="#08-reinterpret-cast-lt-void-gt-作用？" class="headerlink" title="08 reinterpret_cast&lt;void *&gt; 作用？"></a>08 <code>reinterpret_cast&lt;void *&gt;</code> 作用？</h2><p>可以将指针或整数类型的值转换成一个不特定类型的指针，也就是 void 类型的指针。这个指针不指向特定的类型或对象，因此它可以用于指向任何类型的对象或数据。</p>
+<h2 id="09-如何计算-Arena-的内存使用量？"><a href="#09-如何计算-Arena-的内存使用量？" class="headerlink" title="09 如何计算 Arena 的内存使用量？"></a>09 如何计算 Arena 的内存使用量？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">char</span> *<span class="title">Arena::AllocateNewBlock</span><span class="params">(<span class="type">size_t</span> block_bytes)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> *result = <span class="keyword">new</span> <span class="type">char</span>[block_bytes];</span><br><span class="line">    blocks_.<span class="built_in">push_back</span>(result);</span><br><span class="line">    memory_usage_.<span class="built_in">NoBarrier_Store</span>(</span><br><span class="line">        <span class="built_in">reinterpret_cast</span>&lt;<span class="type">void</span> *&gt;(<span class="built_in">MemoryUsage</span>() + block_bytes + <span class="built_in">sizeof</span>(<span class="type">char</span> *)));</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>MemoryUsage() 会读取 memory_usage 的值，这个值是用来记录当前的使用量的，而内存的使用量由 AllocateNewBlock 函数更新。</p>
+<p>可以看出 Arena 的内存使用量包括申请的字节数、blocks_ 数组的大小，其中 <code>sizeof(char*)</code> 就是增加的 blocks_ 大小。</p>
+<h2 id="10-Arena-中各个成员变量的作用？"><a href="#10-Arena-中各个成员变量的作用？" class="headerlink" title="10 Arena 中各个成员变量的作用？"></a>10 Arena 中各个成员变量的作用？</h2><p>成员变量 blocks_ 是 char * 类型的 vector 动态数组，数组的每一个元素均保存一个 char 类型的指针地址。这些指针地址指向堆空间中预分配的一个大的内存块，称之为 Block。一般而言，Block 为固定大小的内存块，LevelDB 中默认的 Block 的大小为 4096 B，即 4 KB。当 Block 存满时，则需要重新申请新的 Block。</p>
+<p>成员变量 alloc_ptr 也是一个 char* 类型的指针，总是指向当前最新的 Block 的空闲内存空间的起始地址。成员变量 alloc_bytes_remaining 表示 Block 所剩余的空闲空间大小。</p>
+<h2 id="11-Arena-内存的分配过程？"><a href="#11-Arena-内存的分配过程？" class="headerlink" title="11 Arena 内存的分配过程？"></a>11 Arena 内存的分配过程？</h2><p>如果申请的内存在当前块可以分配，那就直接分配。如果不能直接分配，那么进入下一步（申请新的块）。</p>
+<p>新的块大小取决于申请的内存的大小 bytes，如果 bytes &gt; 1&#x2F;4 的 block，那么就直接申请，如果小于，那就申请一个 4096 的 Block。</p>
+<p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/05/upgit_20230507_1683438032.png" alt="ArenaMemoryAllocate.drawio"></p>
+<h2 id="12-如何判断某个数字是不是-2-的整数次幂？"><a href="#12-如何判断某个数字是不是-2-的整数次幂？" class="headerlink" title="12 如何判断某个数字是不是 2 的整数次幂？"></a>12 如何判断某个数字是不是 2 的整数次幂？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">assert</span>(align &amp; (align - <span class="number">1</span>) == <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果这个结果为 0，则说明 align 是 2 的幂次方。</p>
+<p>首先，假设 align 是一个 2 的幂次方，即 align &#x3D; 2^n，其中一个是非负数，。那么 align-1 的二进制表示中，最低的 n 位都是 1，其他位都是 0。align 的二进制表示中最低的 n 位都是 0，这意味着 align &amp; (align - 1) 按位与运算的结果是 0.</p>
+<h2 id="13-如何求内存的偏移量？"><a href="#13-如何求内存的偏移量？" class="headerlink" title="13 如何求内存的偏移量？"></a>13 如何求内存的偏移量？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">size_t</span> current_mod = <span class="built_in">reinterpret_cast</span>&lt;<span class="type">intptr_t</span>&gt;(alloc_ptr_) &amp; (align - <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>假设 align 等于 8，那么 7 的二进制表示位 111，则该运算采用位的操作将返回 alloc_ptr 的最后 3 位比特位，而这 3 个比特位表示即 alloc_ptr 对  align 取模后的结果。</p>
+<blockquote>
+<p>取模是一种特殊的与运算。</p>
+</blockquote>
+<h2 id="14-new-和-malloc-的关系？"><a href="#14-new-和-malloc-的关系？" class="headerlink" title="14 new 和 malloc 的关系？"></a>14 new 和 malloc 的关系？</h2><p>new 和 malloc 都是用于动态分配内存的函数，但是 new 适用于 C++，可以自动计算内存大小和调用对象的构造函数，而 malloc 适用于 C 语言，需要手动计算内存大小和进行类型转换，不会调用对对象的构造函数。</p>
+<h2 id="15-strstr-函数作用？"><a href="#15-strstr-函数作用？" class="headerlink" title="15 strstr 函数作用？"></a>15 strstr 函数作用？</h2><p>用于一个字符串查找另一个字符串第一次出现位置。</p>
+<h2 id="16-Arena-作用？"><a href="#16-Arena-作用？" class="headerlink" title="16 Arena 作用？"></a>16 Arena 作用？</h2><ul>
+<li>避免频繁内存分配和释放。LevelDB 中有很多内存分配，使用 Arena 可以通过单次大块内存分配减少分配和释放的开销。</li>
+<li>内存碎片减少。使用 Arena 可以保证连续的内存空间分配给不同 Key&#x2F;Value 避免内存碎片。这样有利于复合操作。</li>
+<li>简化内存回收。只需要回收整个 Arena 的内存空间，而不是逐个 Key&#x2F;Value 进行回收，这减少了回收的操作开销。</li>
+</ul>
+<h1 id="第2部分：测试"><a href="#第2部分：测试" class="headerlink" title="第2部分：测试"></a>第2部分：测试</h1><h2 id="01-为什么-TCONCAT-类需要-Run-和-RunIt-两个函数？"><a href="#01-为什么-TCONCAT-类需要-Run-和-RunIt-两个函数？" class="headerlink" title="01 为什么 TCONCAT 类需要 Run 和 RunIt 两个函数？"></a>01 为什么 TCONCAT 类需要 Run 和 RunIt 两个函数？</h2><p>RunIt 是 static 函数，也就是不需要实例化也可以调用该函数，而 Run 函数是公共的成员函数（并且需要用户自己实现）。RunIt 会被注册到 tests 中，然后由 RunIt 来调用 TONCAT 类中的 Run 函数。</p>
+<p>RunIt 会先实例化 TONCAT 类，再调用 Run 函数。</p>
+<h2 id="02-Makefile-中的-x3D-含义是什么？"><a href="#02-Makefile-中的-x3D-含义是什么？" class="headerlink" title="02 Makefile 中的 ?&#x3D; 含义是什么？"></a>02 Makefile 中的 ?&#x3D; 含义是什么？</h2><p>在 Makefile 中，?&#x3D; 表示<strong>只有在该变量没有被赋值时才会进行赋值</strong>。这种方式使得用户可以通过在命令行或者其他 Makefile 定义变量来修改编译器选项。</p>
+<h2 id="03-x3D-和-x3D-的区别？"><a href="#03-x3D-和-x3D-的区别？" class="headerlink" title="03 :&#x3D; 和 &#x3D; 的区别？"></a>03 :&#x3D; 和 &#x3D; 的区别？</h2><p>&#x3D; 是 Makefile 中最常用的赋值操作符，它表示将右侧的表达式的值赋给左侧的变量。</p>
+<p>&#x3D; 和 :&#x3D; 之间的主要区别在于变量定义的方式和展开时机。使用 &#x3D; 定义的变量是动态的，只有使用时才会被展开，而 :&#x3D; 定义的变量是静态的，只有在定义时才会被展开。</p>
+<h2 id="04-PHONY-是什么？"><a href="#04-PHONY-是什么？" class="headerlink" title="04 .PHONY 是什么？"></a>04 .PHONY 是什么？</h2><p>.PHONY 是一个特殊的目标，用于声明一组伪目标，这些伪目标不对应任何时机的文件只是用于执行特定的操作或命令。.PHONY 通常用于定义一组常用的操作，如 clean、install、test 等。</p>
+<h2 id="05-o-文件后缀是什么？"><a href="#05-o-文件后缀是什么？" class="headerlink" title="05 .o 文件后缀是什么？"></a>05 .o 文件后缀是什么？</h2><p>.o 文件是编译器在编译源代码时生成的中间文件，也称为目标文件。在 Unix 和类 Unix 系统中，.o 文件是重定向文件的一种形式，可以用于链接时将目标文件合并成可执行文件或动态库。</p>
+<p>在编译源代码时，通常会将每个源文件编译成一个 .o 文件，然后将所有的 .o 文件连接成一个可执行的文件或动态库。这种方式可以提高编译速度，因为只需要重新编译修改过的源文件，而不需要重新编译整个项目。</p>
+<h2 id="06-o-和-a-的区别？"><a href="#06-o-和-a-的区别？" class="headerlink" title="06 .o 和 .a 的区别？"></a>06 .o 和 .a 的区别？</h2><p>.o 文件是单个源文件的编译结果，包含编译后的目标代码和一些元数据，例如符号表和重定位表。.o 文件通常用于构建可执行文件或动态库时的中间文件。</p>
+<p>.a 文件时静态文件的一种格式，是多个 .o 文件打包后的要给归档文件。.a 文件中包含多个 .o 文件的机器代码和元数据，方便在链接时使用。</p>
+<h2 id="07-Arena-arena-和-Arena-arena-的区别"><a href="#07-Arena-arena-和-Arena-arena-的区别" class="headerlink" title="07 Arena arena 和 Arena arena()的区别"></a>07 Arena arena 和 Arena arena()的区别</h2><p>前者定义了一个名为 arena 的 Arena 对象，后者定义了一个名为 arena 的函数，该函数不接受任何参数并返回 Arena 对象。</p>
+<h1 id="第3部分：Log-write"><a href="#第3部分：Log-write" class="headerlink" title="第3部分：Log write"></a>第3部分：Log write</h1><h2 id="01-Slice-和-string-的区别？"><a href="#01-Slice-和-string-的区别？" class="headerlink" title="01 Slice 和 string 的区别？"></a>01 Slice 和 string 的区别？</h2><p>Slice 对数据字节的大小没有限制，其内部采用了一个 const char* 的常量指针存储数据。</p>
+<p>Slice 不能修改，如果作为函数的返回值，只需要返回长度和指针，而不需要复制长度较长的 key 和 value。此外，Slice 不以 <code>\0</code> 作为字符的终止符，可以存储 <code>\0</code> 的数据。</p>
+<h2 id="02-什么是-CRC-算法？"><a href="#02-什么是-CRC-算法？" class="headerlink" title="02 什么是 CRC 算法？"></a>02 什么是 CRC 算法？</h2><p>CRC 算法是一种错误检测码计数，它用于检测数据传输或存储过程中可能出现的错误。</p>
+<p>CRC 校验码的生成过程是通过在原始数据的末尾添加一些冗余数据，然后计算这些数据的检验码，最终将校验码附加在原始数据后面传输或者存储，接收方在接收数据后重新计算校验码，检查是否与接收到的校验码一致来判断数据是否发生了错误。</p>
+<h2 id="03-为什么-CRC-使用异或？"><a href="#03-为什么-CRC-使用异或？" class="headerlink" title="03 为什么 CRC 使用异或？"></a>03 为什么 CRC 使用异或？</h2><p>异或运算是可逆运算，即 a^b^b &#x3D; a，这意味着我们可以使用相同的计算方法来计算校验码和校验校验码。</p>
+<h2 id="04-CRC-为什么需要使用-table-数组？"><a href="#04-CRC-为什么需要使用-table-数组？" class="headerlink" title="04 CRC 为什么需要使用 table 数组？"></a>04 CRC 为什么需要使用 table 数组？</h2><p>CRC 校验码的计算涉及大量的位运算，如果每次计算都进行位运算会导致计算效率非常低下，为了提高计算效率，我们可以预先计算一些 CRC 校验码，并将这些数据的 CRC 校验码保存在一个预处理表格中。在后续 CRC 计算过程中，可以直接查表获取 CRC 校验码，避免重复计算，从而提高计算效率。</p>
+<h2 id="05-pval-3-gt-gt-2-lt-lt-2-的原理？"><a href="#05-pval-3-gt-gt-2-lt-lt-2-的原理？" class="headerlink" title="05 (((pval + 3) &gt;&gt; 2) &lt;&lt; 2) 的原理？"></a>05 (((pval + 3) &gt;&gt; 2) &lt;&lt; 2) 的原理？</h2><p>这段代码的作用是将一个指针值向上舍入到最近 4 字节对齐地址。</p>
+<p>具体来说，首先将指针值 pval 加上三，相当于将其向上舍入到最近的 4 的倍数。然后将结果向右移动两位，相当于除以 4，将指针转换为以 4 哥字节为单位的整数个数，。最后将结果左移两位，想到关于将其乘以 4，将以整数个数表示的指针转换为以字节为单位的指针地址。</p>
+<h2 id="06-为什么-LevelDB-的-CRC-难以理解？"><a href="#06-为什么-LevelDB-的-CRC-难以理解？" class="headerlink" title="06 为什么 LevelDB 的 CRC 难以理解？"></a>06 为什么 LevelDB 的 CRC 难以理解？</h2><p>在 LevelDB 中的 CRC32 实现中，没有使用生成式多项式，而是使用了一种表格加速算法，这种算法是通过预先计算一个查找表来加速计算过程。</p>
+<p>这种实现方式相对于生成式多项式的方式，在计算速度和内存占用都有一定的优势。</p>
+<h2 id="07-纯虚函数和虚函数的区别？"><a href="#07-纯虚函数和虚函数的区别？" class="headerlink" title="07 纯虚函数和虚函数的区别？"></a>07 纯虚函数和虚函数的区别？</h2><p>在 C++ 中，虚函数是一种可以被覆盖的函数，允许在子类中重新定义该函数。而纯虚函数是一种没有实现的虚函数，需要在子类中被重新定义才能使用。</p>
+<p>包含纯虚函数的类是不能直接实例化的，只能作为基类被继承使用。</p>
+<h2 id="08-File-操作中的-Flush-和-Sync-的区别？"><a href="#08-File-操作中的-Flush-和-Sync-的区别？" class="headerlink" title="08 File 操作中的 Flush 和 Sync 的区别？"></a>08 File 操作中的 Flush 和 Sync 的区别？</h2><p>下图展示了数据内容保存到磁盘的整个过程：</p>
+<p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/05/upgit_20230509_1683622248.png" alt="image-20230509165048800"></p>
+<p>程序缓冲区中的数据并不是直接保存到磁盘中，而是要先后经过 Clib 缓冲区、内核缓冲区，才最终到磁盘。fwrite 的本质是将需要的数据写入到 Clib 缓冲区；<strong>fflush 则是将 Clib 缓冲区的数据内容写入到内核缓冲区。fsync 或 fdatasync 主要是将内核缓冲区的数据内容写入到磁盘中</strong>。</p>
+<p>LevelDB 本身就是一个嵌入式的存储库，而存储库的首要要求就是要保证数据的可靠性，因而 WritableFile 类封装了 Flush 与 Sync 借口，而弥补单纯的 Append 写入操作的不足。</p>
+<h2 id="09-errno-是什么？"><a href="#09-errno-是什么？" class="headerlink" title="09 errno 是什么？"></a>09 errno 是什么？</h2><p>errno 是一个全局的错误变量，它被定义在 error.h 头文件中，在C和C++中，当发生系统调用、库函数或操作系统本身的错误时，这些函数通常会设置 errno 变量来指示错误类型。</p>
+<p>一旦 errno 变量被设置，它可以被许多函数检查以确定最近的错误类型。通常情况下，errno 变量的值为 0，这表示没有发生错误码，以指示错误的类型。</p>
+<h2 id="10-strchr-函数"><a href="#10-strchr-函数" class="headerlink" title="10 strchr 函数"></a>10 strchr 函数</h2><p>strchr 函数是 C 语言中的一个字符串处理函数，它用于在一个字符串中查找指定字符的第一个出现的位置，并返回该位置的指针。</p>
+<h2 id="11-static-用于普通函数有什么用？"><a href="#11-static-用于普通函数有什么用？" class="headerlink" title="11 static 用于普通函数有什么用？"></a>11 static 用于普通函数有什么用？</h2><p>无论在 C 还是 C++ 中，使用 static 关键字定义的函数都是静态函数。静态函数只能在当前源文件中访问，不能被其他源文件访问。这通常用于实现私有或内部函数，以避免它们被外部文件访问。</p>
+<h2 id="12-struct-和-class-的区别？"><a href="#12-struct-和-class-的区别？" class="headerlink" title="12 struct 和 class 的区别？"></a>12 struct 和 class 的区别？</h2><p>在 C++ 中，struct 和 class 的主要区别在于默认的访问控制。默认情况下，struct 的成员时公共的，而 class 的成员是私有的。除此之外，它们的语法和功能基本相同。</p>
+<p>struct 通常表示用于纯数据结构，即只包含数据而没有行为的类型，而 class 则用于表示具有具体行为和状态的类型。</p>
+<h2 id="13-friend-class-作用？"><a href="#13-friend-class-作用？" class="headerlink" title="13 friend class 作用？"></a>13 friend class 作用？</h2><p>friend class 是 C++ 中的一种访问控制方式，它可以让一个类的成员函数或其他类访问另一个类的私有成员。当一个类被声明为另一个类的友元类时，它就可以访问该类的私有成员，而不受访问控制规则的限制。</p>
+<h1 id="第-4-部分：多线程"><a href="#第-4-部分：多线程" class="headerlink" title="第 4 部分：多线程"></a>第 4 部分：多线程</h1><h2 id="01-abort-函数作用？"><a href="#01-abort-函数作用？" class="headerlink" title="01 abort 函数作用？"></a>01 abort 函数作用？</h2><p>abort 函数是 C++ 标准库中的一个函数，用于使程序异常终止。abort 函数会向操作系统发送一个 SIGABRT 信号，这个信号会导致程序立即停止执行，并在控制台输出错误信息。</p>
+<p>abort 函数不同于 C++ 的 throw 关键字，throw 关键字用于抛出异常并进行异常处理，而 abort 函数直接终止执行，不会进行异常处理。因此，在编写程序时，应该根据实际情况选择使用 throw 还是 abort 函数。</p>
+<h2 id="02-ConVar-和-Mutex-的区别和联系？"><a href="#02-ConVar-和-Mutex-的区别和联系？" class="headerlink" title="02 ConVar 和 Mutex 的区别和联系？"></a>02 ConVar 和 Mutex 的区别和联系？</h2><p>ConVer 和 Mutex 的区别在于它们的设计目的和应用场景。ConVer 用于线程间的同步和通信，而 Mutex 用于防止多个线程同时访问共享资源。</p>
+<p>ConVer 是条件变量的缩写，它是一种线程间通信的机制。它允许一个线程等待另一个线程的特定条件，而不需要浪费 CPU 时间进行轮训。在实现中，一个线程可以等待一个条件变量，直到另一个线程通知该条件变量被满足，然后该线程才会被唤醒并执行相应的操作。因此，ConVer 通常用于线程之间同步以及解决消费者和生产者问题。</p>
+<p>ConVar 可以由 Mutex 和 pthread_cond_v 实现。</p>
+<h2 id="03-ConVar-怎么使用？"><a href="#03-ConVar-怎么使用？" class="headerlink" title="03 ConVar 怎么使用？"></a>03 ConVar 怎么使用？</h2><p>ConVar 总共有 3 个接口：Wait、Signal、SignalAll。</p>
+<ul>
+<li>Wait 用于等待条件变量被满足。调用这个函数将会阻塞当前线程，直到另一个线程调用 Signal 或者 SignalAll 函数发送唤醒信号。</li>
+<li>Signal：发送唤醒信号，用于唤醒一个等待中的线程。如果有多个线程在等待条件变量，那么只会唤醒其中一个线程。</li>
+<li>SignalAll：广播唤醒信号函数，用于唤醒所有等待中的线程。这个函数将会唤醒所有在等待条件变量的线程。</li>
+</ul>
+<h1 id="第-5-部分：Env"><a href="#第-5-部分：Env" class="headerlink" title="第 5 部分：Env"></a>第 5 部分：Env</h1><blockquote>
+<p>操作环境抽象接口</p>
+</blockquote>
+<h2 id="01-Env-是如何对操作系统接口进行封装的？"><a href="#01-Env-是如何对操作系统接口进行封装的？" class="headerlink" title="01 Env 是如何对操作系统接口进行封装的？"></a>01 Env 是如何对操作系统接口进行封装的？</h2><p>Env 是一个具有纯虚函数的抽象类，一般只用于接口定义，不能进行实例化。Env 作为抽象类，有 3 个派生子类：PosixEnv、InMemoryEnv 和 EnvWrapper</p>
+<p><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/2023/05/upgit_20230511_1683783028.png" alt="image-20230511133028372"></p>
+<p>default_env 提供了一个 Env 类实例的全局访问点，而 initDefaultEnv 方法的作用是对 default_env 变量进行初始化操作。Default 函数通过 pthread_once  的一次性线程初始化，实现在整个生命周期中该方法只能调用一次，即 default_env 只会进行一次实例化操作，从而实现一种线程安全的单例模式。</p>
+<h2 id="02-pthread-once-作用？"><a href="#02-pthread-once-作用？" class="headerlink" title="02 pthread_once 作用？"></a>02 pthread_once 作用？</h2><p>pthread_once_t 是一个类型，用于存储一次性初始化的状态，它是一个非常简单的类型，只有一个整型变量 once_control，用于存储一次性初始化的状态。pthread_once_t 的定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> <span class="type">int</span> <span class="type">pthread_once_t</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>pthread_once 函数用于执行一次性初始化</strong>。它接受两个参数：一个指向 pthread_once_t 类型的指针，用于存储一次性初始化的状态，而是一个指针函数，用于执行一次初始化的代码。pthread_once 函数保证一次性初始化的代码只会执行一次，即使多个线程调用这个函数也是安全的。</p>
+<p><strong>pthread_once 函数保证在多线程环境下只执行一次回调函数</strong>。当多个线程同时进入 pthread_once 函数时，只有一个线程会执行回调函数，其他线程会等待该线程执行完毕后继续执行。</p>
+<h1 id="第-6-部分：Write"><a href="#第-6-部分：Write" class="headerlink" title="第 6 部分：Write"></a>第 6 部分：Write</h1><h2 id="01-DBImpl-Write-的基本流程是怎样的？"><a href="#01-DBImpl-Write-的基本流程是怎样的？" class="headerlink" title="01 DBImpl::Write 的基本流程是怎样的？"></a>01 DBImpl::Write 的基本流程是怎样的？</h2><ol>
+<li>将 WriteBatch 封装到 Writer 对象中，并插入到 writers_ 队列中等待执行。Writer 对象包含了 WriteBatch 的操作，同时也包含了任务的状态（是否完成、需要同步）。</li>
+<li>使用 DBImpl 的 mutex_ 来设置临界区域、初始化 Writer 对象的条件变量 cv。利用条件变量 cv 触发线程的 wait，等待队列前面的 Writer 执行完毕。</li>
+<li>调用 MakeRoomForWrite 函数来预先分配相应的内存空间。</li>
+<li>调用 BuildBatchGroup 合并写入操作。WriteBatch 对象被合并成一个更大的 WriteBatch 对象时，其中序列号会被更新。新的 WriteBatch 对象的序列号会设置为合并前最后一个 WriteBatch 对象序列号加一。假设 Writer 的序号是  2，然后合并了 1。</li>
+</ol>
+<h2 id="02-为什么-sync-的操作不能合并？"><a href="#02-为什么-sync-的操作不能合并？" class="headerlink" title="02 为什么 sync 的操作不能合并？"></a>02 为什么 sync 的操作不能合并？</h2><p>同步写入是一种需要等待磁盘刷写完成的写入操作，相较于异步写入会更加耗时。如果一个写入批次中即包含同步写入，又包含异步写入，那么在写入批次被提交到磁盘之前，需要等待所有同步写入都完成，这可能会导致整个写入批次的提交时间变长，从而影响磁盘的写入性能。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/06/10/leveldb-1-theory/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-07 12:58:16
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                        <b>#</b> 编程杂货铺
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" title="存储引擎">
+                        #存储引擎
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8A%E7%B2%BE%E9%80%9A-LevelDB%E3%80%8B/" title="《精通 LevelDB》">
+                        #《精通 LevelDB》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/06/10/leveldb-3-questions/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC1%E9%83%A8%E5%88%86%EF%BC%9AArena"><span class="toc-text">第1部分：Arena</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88-alloc-bytes-remaining-%E4%B8%8D%E6%98%AF%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%B0%8F%EF%BC%9F"><span class="toc-text">01 为什么 alloc_bytes_remaining_ 不是使用大小？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-AtomicPointer-%E6%8C%87%E9%92%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">02 AtomicPointer 指针作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C%EF%BC%9F"><span class="toc-text">03 什么是内存屏障？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C%EF%BC%9F"><span class="toc-text">04 如何实现内存屏障？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-explicit-%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">05 explicit 作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">06 内存屏障的作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Load-%E5%92%8C-Store%EF%BC%9F"><span class="toc-text">07 为什么需要 Load 和 Store？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#08-reinterpret-cast-lt-void-gt-%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">08 reinterpret_cast&lt;void *&gt; 作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#09-%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97-Arena-%E7%9A%84%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E9%87%8F%EF%BC%9F"><span class="toc-text">09 如何计算 Arena 的内存使用量？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Arena-%E4%B8%AD%E5%90%84%E4%B8%AA%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">10 Arena 中各个成员变量的作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-Arena-%E5%86%85%E5%AD%98%E7%9A%84%E5%88%86%E9%85%8D%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="toc-text">11 Arena 内存的分配过程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%9F%90%E4%B8%AA%E6%95%B0%E5%AD%97%E6%98%AF%E4%B8%8D%E6%98%AF-2-%E7%9A%84%E6%95%B4%E6%95%B0%E6%AC%A1%E5%B9%82%EF%BC%9F"><span class="toc-text">12 如何判断某个数字是不是 2 的整数次幂？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%A6%82%E4%BD%95%E6%B1%82%E5%86%85%E5%AD%98%E7%9A%84%E5%81%8F%E7%A7%BB%E9%87%8F%EF%BC%9F"><span class="toc-text">13 如何求内存的偏移量？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-new-%E5%92%8C-malloc-%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="toc-text">14 new 和 malloc 的关系？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-strstr-%E5%87%BD%E6%95%B0%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">15 strstr 函数作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-Arena-%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">16 Arena 作用？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC2%E9%83%A8%E5%88%86%EF%BC%9A%E6%B5%8B%E8%AF%95"><span class="toc-text">第2部分：测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88-TCONCAT-%E7%B1%BB%E9%9C%80%E8%A6%81-Run-%E5%92%8C-RunIt-%E4%B8%A4%E4%B8%AA%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="toc-text">01 为什么 TCONCAT 类需要 Run 和 RunIt 两个函数？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-Makefile-%E4%B8%AD%E7%9A%84-x3D-%E5%90%AB%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">02 Makefile 中的 ?&#x3D; 含义是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-x3D-%E5%92%8C-x3D-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">03 :&#x3D; 和 &#x3D; 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-PHONY-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">04 .PHONY 是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-o-%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">05 .o 文件后缀是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-o-%E5%92%8C-a-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">06 .o 和 .a 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-Arena-arena-%E5%92%8C-Arena-arena-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">07 Arena arena 和 Arena arena()的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC3%E9%83%A8%E5%88%86%EF%BC%9ALog-write"><span class="toc-text">第3部分：Log write</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-Slice-%E5%92%8C-string-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">01 Slice 和 string 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%BB%80%E4%B9%88%E6%98%AF-CRC-%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-text">02 什么是 CRC 算法？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E4%B8%BA%E4%BB%80%E4%B9%88-CRC-%E4%BD%BF%E7%94%A8%E5%BC%82%E6%88%96%EF%BC%9F"><span class="toc-text">03 为什么 CRC 使用异或？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-CRC-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8-table-%E6%95%B0%E7%BB%84%EF%BC%9F"><span class="toc-text">04 CRC 为什么需要使用 table 数组？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-pval-3-gt-gt-2-lt-lt-2-%E7%9A%84%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="toc-text">05 (((pval + 3) &gt;&gt; 2) &lt;&lt; 2) 的原理？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-%E4%B8%BA%E4%BB%80%E4%B9%88-LevelDB-%E7%9A%84-CRC-%E9%9A%BE%E4%BB%A5%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="toc-text">06 为什么 LevelDB 的 CRC 难以理解？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%92%8C%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">07 纯虚函数和虚函数的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#08-File-%E6%93%8D%E4%BD%9C%E4%B8%AD%E7%9A%84-Flush-%E5%92%8C-Sync-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">08 File 操作中的 Flush 和 Sync 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#09-errno-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">09 errno 是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-strchr-%E5%87%BD%E6%95%B0"><span class="toc-text">10 strchr 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-static-%E7%94%A8%E4%BA%8E%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-text">11 static 用于普通函数有什么用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-struct-%E5%92%8C-class-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">12 struct 和 class 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-friend-class-%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">13 friend class 作用？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-4-%E9%83%A8%E5%88%86%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-text">第 4 部分：多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-abort-%E5%87%BD%E6%95%B0%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">01 abort 函数作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-ConVar-%E5%92%8C-Mutex-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB%EF%BC%9F"><span class="toc-text">02 ConVar 和 Mutex 的区别和联系？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-ConVar-%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="toc-text">03 ConVar 怎么使用？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-5-%E9%83%A8%E5%88%86%EF%BC%9AEnv"><span class="toc-text">第 5 部分：Env</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-Env-%E6%98%AF%E5%A6%82%E4%BD%95%E5%AF%B9%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3%E8%BF%9B%E8%A1%8C%E5%B0%81%E8%A3%85%E7%9A%84%EF%BC%9F"><span class="toc-text">01 Env 是如何对操作系统接口进行封装的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-pthread-once-%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">02 pthread_once 作用？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC-6-%E9%83%A8%E5%88%86%EF%BC%9AWrite"><span class="toc-text">第 6 部分：Write</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-DBImpl-Write-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">01 DBImpl::Write 的基本流程是怎样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%B8%BA%E4%BB%80%E4%B9%88-sync-%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%8D%E8%83%BD%E5%90%88%E5%B9%B6%EF%BC%9F"><span class="toc-text">02 为什么 sync 的操作不能合并？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2024 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8A%E7%B2%BE%E9%80%9A%20LevelDB%E3%80%8B-2%20%E6%BA%90%E7%A0%81%E5%88%9D%E8%AF%86 + '&url=' + https%3A%2F%2Fchieh.wang%2F2023%2F06%2F10%2Fleveldb-2-read-code%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/2023/06/10/leveldb-2-read-code/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

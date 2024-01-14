@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《Effective C++》-1 面向对象 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZT31KVFKP0');
+    </script>
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《Effective C++》-1 面向对象</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-07 12:58:16
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                    <b>#</b> 编程杂货铺
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/C/" title="C++">
+                    #C++
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                    #《Effective C++》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h1 id="条款1：视-C-为一个语言联邦"><a href="#条款1：视-C-为一个语言联邦" class="headerlink" title="条款1：视 C++ 为一个语言联邦"></a>条款1：视 C++ 为一个语言联邦</h1><h2 id="01-如何理解-C-？"><a href="#01-如何理解-C-？" class="headerlink" title="01 如何理解 C++？"></a>01 如何理解 C++？</h2><p>最简单的方法就是将 C++ 视为一个相关语言的联邦，而非单一语言。C++ 一共有四个次语言：</p>
+<ol>
+<li>C：C++ 是以 C 为基础，许多时候 C++ 对问题的解法其实不过就是较高的 C 解法。</li>
+<li>Object-Oriented C++：C++ 的面向对象编程。</li>
+<li>Template C++：由于 templates 威力强大，它们带来崭新的编程范型，也就是所谓的 template metaprogramming（TMP，模板元编程）。</li>
+<li>STL：STL 是一个 template 程序库，但它是非常特殊的一个。</li>
+</ol>
+<h1 id="条款2：尽量以-const，enum，inline-替换-define"><a href="#条款2：尽量以-const，enum，inline-替换-define" class="headerlink" title="条款2：尽量以 const，enum，inline 替换#define"></a>条款2：尽量以 const，enum，inline 替换#define</h1><h2 id="01-为什么要避免使用预处理器？"><a href="#01-为什么要避免使用预处理器？" class="headerlink" title="01 为什么要避免使用预处理器？"></a>01 为什么要避免使用预处理器？</h2><p>减少预处理器的使用，更容易获取正确的编译错误信息。语句 <code>#define ASPECT_RATIO 1.653</code> 中的 <code>ASPECT_RATIO</code> 也许从未被编译器看到，因为在编译器处理源码之前已经被预处理器移走了。</p>
+<p>更好的解决办法是使用 const, enum, inline 替换 #define，他们能大大降低我们对 #define 的需求。</p>
+<ul>
+<li>对于单纯的常量，最好使用 const 对象或 enums 替换 #defines。</li>
+<li>对于形似函数的宏，最好改用 inline 函数替换 #defines。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">double</span> AspectRadio = <span class="number">1.653</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="02-如何定义常量指针-constant-pointers？"><a href="#02-如何定义常量指针-constant-pointers？" class="headerlink" title="02 如何定义常量指针 constant pointers？"></a>02 如何定义常量指针 constant pointers？</h2><p>假如要在头文件内定义一个常量的 char*-based 字符串，必须写两次 const；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting;<span class="comment">// const pointer, const data</span></span><br></pre></td></tr></table></figure>
+
+<p>如果关键字 const 出现在星号左边，表示被指物是常量；如果出现在星号右边，表示指针自身是常量；如果出现在星号左右两边，表示被指物和指针两者都是常量。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> greeting[] = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="type">char</span>* p = greeting; <span class="comment">// non-const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* p=greeting; <span class="comment">// non-const pointer, const data</span></span><br><span class="line"><span class="type">char</span>* <span class="type">const</span> p = greeting; <span class="comment">// const pointer, non-const data</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* <span class="type">const</span> p = greeting; <span class="comment">// const pointer, const data</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="03-如何初始化类中的-static-成员？"><a href="#03-如何初始化类中的-static-成员？" class="headerlink" title="03 如何初始化类中的 static 成员？"></a>03 如何初始化类中的 static 成员？</h2><p>在 C++ 中，类中的静态成员变量必须在类外进行定义和初始化，因为静态成员变量是属于整个类，而不是属于类的任何一个对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CostEstimate</span> &#123;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="type">static</span> <span class="type">const</span> <span class="type">double</span> FudgeFactor;	<span class="comment">// static class 常量声明</span></span><br><span class="line">    .	..	</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">const</span> <span class="type">double</span> ConstEstimate::FudgeFactor = <span class="number">1.35</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="条款03：尽可能使用-const"><a href="#条款03：尽可能使用-const" class="headerlink" title="条款03：尽可能使用 const"></a>条款03：尽可能使用 const</h1><h2 id="01-const-迭代器是什么意思？"><a href="#01-const-迭代器是什么意思？" class="headerlink" title="01 const 迭代器是什么意思？"></a>01 const 迭代器是什么意思？</h2><p>迭代器的作用就像指针。声明迭代器为 const 就像声明指针为 const 一样（即声明一个 T* const 指针），表明这个迭代器不得指向不同的东西，但是它所指的东西的值是可以改变的。</p>
+<p>如果你希望迭代器所指的东西不可改动（即希望 STL 模拟一个 const *T 指针），你需要的是 const_iterator。</p>
+<h2 id="02-令函数返回常量值有什么用？"><a href="#02-令函数返回常量值有什么用？" class="headerlink" title="02 令函数返回常量值有什么用？"></a>02 令函数返回常量值有什么用？</h2><p>可以降低因客户错误而造成的意外，而又不至于放弃安全性和高效性。如 <code>const Rational operator*()</code> ，这里的 const 就可以避免用户写出下面这种错误的语句：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (a*b = c)</span><br></pre></td></tr></table></figure>
+
+<p>避免人们把 &#x3D;&#x3D; 写成 &#x3D;。</p>
+<h2 id="03-const-成员函数有什么优点？"><a href="#03-const-成员函数有什么优点？" class="headerlink" title="03  const 成员函数有什么优点？"></a>03  const 成员函数有什么优点？</h2><ol>
+<li>使得 class 接口更利于理解。这是因为，得知哪个函数可以改动对象而哪个函数不行，很是重要。</li>
+<li>使操作 “const” 对象成为可能。mutable 只能用来修饰类的数据成员，这些数据成员可以在 const 成员函数中修改。</li>
+</ol>
+<h2 id="04-返回值为-char-amp-和-char-的区别？"><a href="#04-返回值为-char-amp-和-char-的区别？" class="headerlink" title="04 返回值为 char&amp; 和 char 的区别？"></a>04 返回值为 char&amp; 和 char 的区别？</h2><p>operator[] 通常返回 char&amp;。</p>
+<p>如果 operator[] 只是返回一个 char，下面这样的句子就无法通过编译：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tb[<span class="number">0</span>] = <span class="string">&#x27;x&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果函数的返回值是个内置类型，那么改动函数的返回值就不合法（不符合设计理念）。纵使合法，C++ 以 by value 返回对象意味着被改动的其实是 tb.text[0] 的副本，而不是 tb.text[0] 本身。</p>
+<h2 id="05-char-amp-opt-size-t-pos-const-的-const-作用？"><a href="#05-char-amp-opt-size-t-pos-const-的-const-作用？" class="headerlink" title="05 char&amp; opt[](size_t pos) const}的 const 作用？"></a>05 <code>char&amp; opt[](size_t pos) const&#125;</code>的 const 作用？</h2><p>const 关键字可以用于成员函数声明，表示该成员函数不会修改对象的状态。在这个特定的函数声明中，const 关键字表示该函数时一个<strong>常量成员函数</strong>。即它不会修改对象的状态，并且在常量对象上被调用（重载）。这种 const 函数可以修改 mutable 数据成员。</p>
+<h2 id="06-什么是转型？"><a href="#06-什么是转型？" class="headerlink" title="06 什么是转型？"></a>06 什么是转型？</h2><p>non-const 和 const 的代码重复时（返回值不同时），可以利用 casting 来减少代码重复。</p>
+<p>在 p24 也中，const operator[] 完全做掉了 non-const 版本该做的一切，唯一的不同就是其返回值是其类型多了一个 const 资格修饰。这种情况下如果将返回值的 const 转除是安全的，因为无论谁调用 non const operator[] 都一定首先有个 non-const 对象，否则就不能调用 non-const 函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span>&amp; <span class="keyword">operator</span>[](std::<span class="type">size_t</span> position)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">const_cast</span>&lt;<span class="type">char</span>&amp;&gt;(	<span class="comment">// const -&gt; non-const</span></span><br><span class="line">    	<span class="built_in">static_cast</span>&lt;<span class="type">const</span> TextBlock&amp;&gt;(*<span class="keyword">this</span>)[position]		<span class="comment">// non-const -&gt; const</span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="07-为什么不用令-const-函数调用-non-const-函数避免重复代码？"><a href="#07-为什么不用令-const-函数调用-non-const-函数避免重复代码？" class="headerlink" title="07 为什么不用令 const 函数调用 non-const 函数避免重复代码？"></a>07 为什么不用令 const 函数调用 non-const 函数避免重复代码？</h2><p>const 成员函数承诺不改变其对象的逻辑状态，non-const 却没有这样的承诺。如果在 const 函数内调用 non-const，会打破原来承诺的不改动对象。</p>
+<h1 id="条款04：确定对象被使用前已先被初始化"><a href="#条款04：确定对象被使用前已先被初始化" class="headerlink" title="条款04：确定对象被使用前已先被初始化"></a>条款04：确定对象被使用前已先被初始化</h1><h2 id="01-初始化和赋值的区别？"><a href="#01-初始化和赋值的区别？" class="headerlink" title="01 初始化和赋值的区别？"></a>01 初始化和赋值的区别？</h2><p>在构造函数中，通常会有初始化和赋值两种操作。初始化的时间更早，通常是在成员初值列完成。构造函数内部通常都是赋值操作。</p>
+<h2 id="02-C-成员初始化的次序是怎样的？"><a href="#02-C-成员初始化的次序是怎样的？" class="headerlink" title="02 C++成员初始化的次序是怎样的？"></a>02 C++成员初始化的次序是怎样的？</h2><p>C++ 有着十分固定的“成员初始化次序”，<strong>base classes 更早于其 derived classes 被初始化，而 class 的成员变量总是其声明次序被初始化</strong>。为了避免你的检阅者迷惑，并避免某次可能存在的晦涩错误，<strong>当你在成员初值列中条列成员是，最好总是以其声明次序为次序</strong>。</p>
+<h2 id="03-编译单元是什么？"><a href="#03-编译单元是什么？" class="headerlink" title="03 编译单元是什么？"></a>03 编译单元是什么？</h2><p>编译单元（translation unit）是指产出单一目标文件（single object file）的那些源码。基本上它是单一源码文件加上其所含入的头文件（#include files）。</p>
+<h2 id="04-local-static-对象是什么？"><a href="#04-local-static-对象是什么？" class="headerlink" title="04 local static 对象是什么？"></a>04 local static 对象是什么？</h2><p>static 对象，其寿命从被构造出来直到程序结束为止，因此 stack 和 heap-based 对象都被排除。这种对象包括 global 对象、定义于 namespace 作用域内的对象、在 class 内、在函数内、以及在 file 作用域内被声明为 static 的对象。</p>
+<p>函数内的 static 对象称为 local static 对象（因为它们对于函数而言是 local），其他 static 对象称为 non-local static 对象。程序结束时 static 对象会被销毁，也就是它们的析构函数会在 main 结束时被自动调用。</p>
+<h2 id="05-跨编译单元，如何保证初始化次序？"><a href="#05-跨编译单元，如何保证初始化次序？" class="headerlink" title="05 跨编译单元，如何保证初始化次序？"></a>05 跨编译单元，如何保证初始化次序？</h2><p>问题描述：不同编译单元内，某个编译单元内的 non-local static 对象的初始化动作使用了另一个编译单元内的某个 non-local static 对象，它所用到的这个对象可能尚未被初始化，因为 C++ 对定义于不同的编译单元内的 non-local static 对象 的初始化次序并无明确定义。</p>
+<p>解决：将每个 non-local static 对象搬到自己专属的函数内（该对象在此函数内被声明为 static）。这些函数返回一个 reference 指向它所包含的对象。然后用户调用这些函数，而不是直接指涉这些对象。</p>
+<p>换句话说，使用 local static 对象替换 non-local static 对象（<strong>Singleton 模式的常见实现手法，在 LevelDB 中的 Env 就运用了这一手法</strong>）。</p>
+<h1 id="条款05：了解-C-默认编写并调用哪些函数"><a href="#条款05：了解-C-默认编写并调用哪些函数" class="headerlink" title="条款05：了解 C++ 默认编写并调用哪些函数"></a>条款05：了解 C++ 默认编写并调用哪些函数</h1><h2 id="01-copy-assignment-函数如何工作？"><a href="#01-copy-assignment-函数如何工作？" class="headerlink" title="01  copy assignment 函数如何工作？"></a>01  copy assignment 函数如何工作？</h2><p>copy assignment 的工作原理是将右侧操作数的值赋给左侧操作数。这通常涉及到堆上分配内存、将数据从一个对象复制到另一个对象、释放旧内存。</p>
+<p>需要注意的是，再实现赋值运算符时，需要小心地处理自我赋值的情况，以避免出现不必要的内存分配和数据损坏。</p>
+<h2 id="02-copy-assignment-函数如何处理自我赋值？"><a href="#02-copy-assignment-函数如何处理自我赋值？" class="headerlink" title="02 copy assignment 函数如何处理自我赋值？"></a>02 copy assignment 函数如何处理自我赋值？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> String &amp;String::oprator=(<span class="type">const</span> String&amp; str)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> = &amp;str)</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">delete</span>[] m_data;</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="type">char</span>[<span class="built_in">strlen</span>(str.m_data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_data, str.m_data);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>拷贝赋值需要先清理对象原本的内容，该归还的内存要归还，该释放的设备句柄要释放。在赋值时需要注意自我赋值的检查，一来提高效率，二来避免自我赋值时出现内存错误。</p>
+<h2 id="03-拷贝构造和拷贝赋值的区别？"><a href="#03-拷贝构造和拷贝赋值的区别？" class="headerlink" title="03 拷贝构造和拷贝赋值的区别？"></a>03 拷贝构造和拷贝赋值的区别？</h2><p>拷贝构造是原本没有对象，在一块新的内存上以另一个对象为模板创建对象的过程。拷贝构造只需要复制就行了，不用操心别的。</p>
+<p>拷贝赋值是原本已经有过一个对象，在这个对象所占据的内存中，以另一个对象重新设置内容的过程。拷贝赋值需要先清理对象原本的内容，该归还的内存要归还，该释放的设备句柄要释放。</p>
+<p>拷贝构造和拷贝赋值的主要区别是：<strong>拷贝构造函数用于创建新对象，而拷贝赋值运算符用于修改已经存在的对象</strong>。</p>
+<h2 id="04-C-编译器会自动编写哪些函数？"><a href="#04-C-编译器会自动编写哪些函数？" class="headerlink" title="04 C++编译器会自动编写哪些函数？"></a>04 C++编译器会自动编写哪些函数？</h2><p>编译器可以暗自为 class 创建 default 构造函数、<strong>copy 构造函数、copy assignment 操作符</strong>，以及析构函数。</p>
+<p>不过，在生成 copy 和 copy assignment 时，只有生成的代码合法并且有适当机会证明它有意义，才会自动 derive 这些函数。如：</p>
+<ul>
+<li>如果你打算在一个“<strong>内含 reference 成员</strong>”的 class 内支持赋值操作，你必须自己定义 copy assignment 操作符，面对<strong>内含 const 成员</strong>的 class 也一样。</li>
+<li>如果某个 base classes 将 copy assignment 操作符设置为 private，编译器拒绝为其 derived classes 生成 copy assignment。</li>
+</ul>
+<h1 id="条款06：若不想使用编译器自动生成的函数，就该明确拒绝"><a href="#条款06：若不想使用编译器自动生成的函数，就该明确拒绝" class="headerlink" title="条款06：若不想使用编译器自动生成的函数，就该明确拒绝"></a>条款06：若不想使用编译器自动生成的函数，就该明确拒绝</h1><h2 id="01-如何阻止编译器自动生成函数？"><a href="#01-如何阻止编译器自动生成函数？" class="headerlink" title="01 如何阻止编译器自动生成函数？"></a>01 如何阻止编译器自动生成函数？</h2><p><strong>可以将相应的成员函数声明为 private 并且不予实现，还可以使用 Uncopyable 这样的 base class。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HomeForSale</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	...</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	...</span><br><span class="line">        <span class="built_in">HomeForSale</span>(<span class="type">const</span> HomeForSale&amp;);</span><br><span class="line">    	HomeForSale&amp; <span class="keyword">operator</span>=(<span class="type">const</span> HomeForSale&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参数名称也并不是必要的，只不过大家总是习惯写出来。有了上述 class 定义，当客户企图拷贝 HomeForSale，编译器会阻挠他。如果你不慎在 member 函数或 friend 函数之类这么做，连接器也会阻挠他。</p>
+<p>“将成员函数声明为 private 并且故意不实现”这一伎俩是被大家所接受的，在 C++ 的 iostream 库中 io_base、basic_ios 的 copy 构造函数和 copy assignment 都是被声明为 private。</p>
+<h1 id="条款7：为多态基类声明-virtual-析构函数"><a href="#条款7：为多态基类声明-virtual-析构函数" class="headerlink" title="条款7：为多态基类声明 virtual 析构函数"></a>条款7：为多态基类声明 virtual 析构函数</h1><h2 id="01-用-base-class-指针删除-derived-类有什么问题？如何解决？"><a href="#01-用-base-class-指针删除-derived-类有什么问题？如何解决？" class="headerlink" title="01 用 base class 指针删除 derived 类有什么问题？如何解决？"></a>01 用 base class 指针删除 derived 类有什么问题？如何解决？</h2><p>C++ 明确指出，当 derive class 对象经由一个 base class 指针被删除，而该 base class 带着一个 non-virtual 析构函数，当实际执行时通常发生的是<strong>对象的 derived 成分没被销毁</strong>。</p>
+<p><strong>给 base class 定义 virtual 析构函数</strong>。此后删除 derived class 就会如同你想要的那样。它会销毁整个对象，包括 derived class 部分。</p>
+<h2 id="02-virtual-函数的作用是什么？"><a href="#02-virtual-函数的作用是什么？" class="headerlink" title="02 virtual 函数的作用是什么？"></a>02 virtual 函数的作用是什么？</h2><p>virtual 函数的目的是<strong>允许 derive class 的实现得以客制化</strong>。例如 TimeKeeper 就可能拥有一个 virtual getCurrentTime，它在不同的 derived class 中有不同的实现。</p>
+<p>任何 class 只要带有 virtual 函数都几乎确定应该也有一个 virtual 析构函数。如果 class 不含有 virtual 函数，通常表示它并不意图被用作一个 base class。当 class 不企图被当作 base class，令其析构函数为 virtual 往往是一个馊主意。</p>
+<p>polymorphic（带多态性质的）base clases 应该声明一个 virtual 析构函数。如果 class 带有任何 virtual 函数，它就应该拥有一个 virtual 析构函数。</p>
+<h2 id="03-virtual-函数的实现方式？"><a href="#03-virtual-函数的实现方式？" class="headerlink" title="03 virtual 函数的实现方式？"></a>03 virtual 函数的实现方式？</h2><p>想要实现 virtual 函数，对象必须携带某些信息，主要用来在运行期决定哪个 virtual 函数应该被调用。这份信息通常是由 vptr（virtual table pointer）指针指出。</p>
+<p>vptr 指向一个函数指针构成的数组，称为 vtbl（virtual table），每一个带有 virtual 函数的 class 都有一个相应的 vtbl。当对象调用某一 virtual 函数，实际被调用的函数取决于该对象的 vptr 所指的那个 vtbl——编译器在其中寻找适当的函数指针。</p>
+<h2 id="04-virtual-函数的缺点？"><a href="#04-virtual-函数的缺点？" class="headerlink" title="04 virtual 函数的缺点？"></a>04 virtual 函数的缺点？</h2><p>virtual 函数会增加对象的体积，可能导致 C++ 对象无法和 C 语言有相同的结构，也就是说不能把它传递至其他语言编写呃呃的函数，除非你补偿 vptr。</p>
+<p>许多人的心得是：只有当 class 内含至少一个 virtual 函数，才为它声明 virtual 析构函数。Classes 的设计目的如果不是作为 base classes 使用，或不是为了具备多态性，就不该声明 virtual 析构函数。</p>
+<h2 id="05-base-classes-和多态的联系？"><a href="#05-base-classes-和多态的联系？" class="headerlink" title="05 base classes 和多态的联系？"></a>05 base classes 和多态的联系？</h2><p>并非所有的 base classes 的设计目的都是为了多态，例如标准 string 和 STL 容器都不被设计作为 base classes 使用，更别提多态了。某些 class 的设计目的是作为 base classes 使用，而不是为了多态用途（如 Uncopyable）。</p>
+<p>Classes 的设计目的如果不是作为 base classes 使用，或不是为了具备多态性，就不该声明 virtual 析构函数。</p>
+<h1 id="条款8：别让异常逃离析构函数"><a href="#条款8：别让异常逃离析构函数" class="headerlink" title="条款8：别让异常逃离析构函数"></a>条款8：别让异常逃离析构函数</h1><h2 id="01-为什么不希望析构函数抛出异常？"><a href="#01-为什么不希望析构函数抛出异常？" class="headerlink" title="01 为什么不希望析构函数抛出异常？"></a>01 为什么不希望析构函数抛出异常？</h2><p><strong>析构函数的调用是不可控的</strong>。如果析构函数抛出异常，那么程序的行为是未定义的，可能会导致内存泄露或其他严重的错误。这是因为在抛出异常的情况下，程序会跳过析构函数中尚未执行的部分，导致资源无法正确释放。</p>
+<p>C++ 的最佳实践是，在析构函数中不要抛出异常。如果需要在析构函数中进行异常处理，可以使用 try-catch 来捕获异常，并在捕获异常后进行必要的清理工作。如果析构函数出现了异常，最好将该异常记录下来，并在析构函数之外处理，以确保程序的正常退出和资源的正确释放。</p>
+<h2 id="02-abort-函数的作用？"><a href="#02-abort-函数的作用？" class="headerlink" title="02 abort 函数的作用？"></a>02 abort 函数的作用？</h2><p>abort 函数用于以非正常的方式中止程序的执行。调用 abort 函数将导致程序退出，并生成一个核心转储，该转储包括了程序崩溃时的内存状态，以便于进行调试和诊断。</p>
+<h2 id="03-如何避免析构函数抛出异常？"><a href="#03-如何避免析构函数抛出异常？" class="headerlink" title="03 如何避免析构函数抛出异常？"></a>03 如何避免析构函数抛出异常？</h2><p><strong>一是将异常吞掉</strong>。一般而言，将异常吞掉是个坏主意，因为它压制了某些动作失败的重要信息，然而有时候吞掉异常也比负担“草率结束程序”或“不明确行为”带来的风险好。也就是说可以调用 abort 来将“不明确行为”吞掉。</p>
+<p><strong>二是重新设计接口</strong>。如果某个操作可能在失败时抛出异常，而又存在某种需要必须处理该异常，那么这个异常必须来自析构函数以外的某个函数，也就是提供一个普通函数执行可能导致异常的操作。</p>
+<h1 id="条款9：绝不在构造和析构过程中调用-virtual-函数"><a href="#条款9：绝不在构造和析构过程中调用-virtual-函数" class="headerlink" title="条款9：绝不在构造和析构过程中调用 virtual 函数"></a>条款9：绝不在构造和析构过程中调用 virtual 函数</h1><h2 id="01-在构造函数调用-virtual-函数会怎样？"><a href="#01-在构造函数调用-virtual-函数会怎样？" class="headerlink" title="01 在构造函数调用 virtual 函数会怎样？"></a>01 在构造函数调用 virtual 函数会怎样？</h2><p>由于 base class 构造函数的执行更早于 derived class 构造函数， 当 base class 构造函数执行时 derived class 的成员函数尚未初始化。如果在此期间调用 virtual 函数下降至 derived classes 阶层，derived class 的函数几乎必然取用 local 成员变量，而那些成员变量尚未初始化。这将会造成不明确行为。</p>
+<h2 id="02-derived-class-如何让-base-class-中构造函数调用的函数改变？"><a href="#02-derived-class-如何让-base-class-中构造函数调用的函数改变？" class="headerlink" title="02 derived class 如何让 base class 中构造函数调用的函数改变？"></a>02 derived class 如何让 base class 中构造函数调用的函数改变？</h2><p>场景：假设你有个 class 继承体系，用来塑模股市交易如买进、卖出的订单等等。这样的交易一定要经过审计，所以每当创建一个交易对象，在审计日记（audit log）中也需要创建一笔适当的记录。</p>
+<p>一种做法是将 base class 构造函数调用的函数（log 函数）改为 non-virtual，然后要求 derived clas 构造函数传递必要信息给 base class 函数。不同的 derived class 都会调用 base class 的 log，但是调用结果不同。</p>
+<h1 id="条款10：令-operator-x3D-返回一个-reference-to-this"><a href="#条款10：令-operator-x3D-返回一个-reference-to-this" class="headerlink" title="条款10：令 operator&#x3D; 返回一个 reference to *this"></a>条款10：令 operator&#x3D; 返回一个 reference to *this</h1><h2 id="01-operator-x3D-的作用是什么？"><a href="#01-operator-x3D-的作用是什么？" class="headerlink" title="01 operator&#x3D; 的作用是什么？"></a>01 operator&#x3D; 的作用是什么？</h2><p>赋值拷贝，拷贝赋值是将一个对象复制到另一个对象的空间中，比拷贝构造难度更高。而且赋值拷贝还有返回值（<code>(a = b) 的返回值</code>），可以利用这个返回值实现连锁赋值（a&#x3D;b&#x3D;c）。</p>
+<p>如果要实现连锁赋值，赋值操作符必须返回一个 reference 指向操作符的左侧的实参，也就是使用 <code>return *this</code> 语句。</p>
+<h2 id="02-为什么是-return-this，而不是-return-this？"><a href="#02-为什么是-return-this，而不是-return-this？" class="headerlink" title="02 为什么是 return *this，而不是 return this？"></a>02 为什么是 return *this，而不是 return this？</h2><p>**this 是一个指向当前对象的指针，而 *this 表示当前对象本身的引用**。</p>
+<p>需要注意的是，当使用引用返回对象本身时，需要避免对象引用指向被释放的内存或已经失效的对象。在实现对象的引用时，需要谨慎处理对象的生命周期，确保返回的引用不会出现悬空引用。</p>
+<h1 id="条款11：在-operator-x3D-中处理“自我赋值”"><a href="#条款11：在-operator-x3D-中处理“自我赋值”" class="headerlink" title="条款11：在 operator&#x3D; 中处理“自我赋值”"></a>条款11：在 operator&#x3D; 中处理“自我赋值”</h1><h2 id="01-拷贝赋值的自我赋值可能会存在哪些问题？"><a href="#01-拷贝赋值的自我赋值可能会存在哪些问题？" class="headerlink" title="01 拷贝赋值的自我赋值可能会存在哪些问题？"></a>01 拷贝赋值的自我赋值可能会存在哪些问题？</h2><p>拷贝构造通常是先删除原有的指针，然后利用传入的指针来构造一个新的对象，再将新的对象赋值给原有的指针。可是，传入的指针和原有的指针可能指向同一对象，那就会导致对象被意外的释放。</p>
+<h2 id="02-如何确保拷贝赋值不但异常安全而且自我赋值安全？"><a href="#02-如何确保拷贝赋值不但异常安全而且自我赋值安全？" class="headerlink" title="02 如何确保拷贝赋值不但异常安全而且自我赋值安全？"></a>02 如何确保拷贝赋值不但异常安全而且自我赋值安全？</h2><p>首先记住原有的指针，然后令原有的指针指向新对象的地址，再将原来的指针指向的内容删除。这样做的话，如果创建新对象时抛出异常，原来的指针依然保持原状。</p>
+<p>即时没有做证同测试（identity test），这段代码还是能够处理自我赋值。</p>
+<h2 id="03-copy-and-swap-是什么？"><a href="#03-copy-and-swap-是什么？" class="headerlink" title="03 copy and swap 是什么？"></a>03 copy and swap 是什么？</h2><p>为你打算修改的对象做出一份副本，然后在那副本身上做一切必要的修改。若有修改动作抛出异常，原对象仍未改变状态。待所有改变都成功后，再将修改过的那个副本和原对象在一个不抛出异常的操作中置换（swap）。</p>
+<p>这是一种常见并且较好的 operator&#x3D; 撰写的办法（也是一种处理异常的好办法，如果修改失败就保持不变），首先以 by value 的方式传值，然后再将新创建的对象使用 swap 替换到当前对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Widget&amp; Widget::<span class="keyword">operator</span>=(Widget rhs)&#123;	<span class="comment">// pass by value</span></span><br><span class="line">    <span class="built_in">swap</span>(rhs);	<span class="comment">// 将 *this 的数据和 rhs 的数据互换。</span></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="条款12：复制对象时勿忘其每一个成分"><a href="#条款12：复制对象时勿忘其每一个成分" class="headerlink" title="条款12：复制对象时勿忘其每一个成分"></a>条款12：复制对象时勿忘其每一个成分</h1><h2 id="01-为-derived-class-撰写-copy-函数有哪些注意事项？"><a href="#01-为-derived-class-撰写-copy-函数有哪些注意事项？" class="headerlink" title="01 为 derived class 撰写 copy 函数有哪些注意事项？"></a>01 为 derived class 撰写 copy 函数有哪些注意事项？</h2><p>这里的 copy 函数包括 copy assignment、copy 构造函数。</p>
+<p>任何时候只要你承担起“为 derived class 撰写 copy 函数”的重责大任时，必须很小心地复制其 base 成分，那些成分往往是 private，你无法直接访问他们，你应该让 derived class 的 copying 函数调用相应的 base class 函数。</p>
+<h2 id="02-如何简化拷贝赋值和拷贝构造？"><a href="#02-如何简化拷贝赋值和拷贝构造？" class="headerlink" title="02 如何简化拷贝赋值和拷贝构造？"></a>02 如何简化拷贝赋值和拷贝构造？</h2><p>copying 函数往往有近似相等的实现本体，有些人可能希望让某个函数调用另一个函数避免代码重复。但不能使用 copying 函数调用另一个 copying 函数——令拷贝构造调用拷贝赋值。</p>
+<p>消除重复代码的正确做法是<strong>，建立一个新的成员函数给两者调用。这样的函数往往是 private 而且常被命名为 init</strong>。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/04/28/algorithm-4th-1-sort-impl/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-07 12:58:16
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                        <b>#</b> 编程杂货铺
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/C/" title="C++">
+                        #C++
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                        #《Effective C++》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/06/10/effective-cpp-2-resources/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE1%EF%BC%9A%E8%A7%86-C-%E4%B8%BA%E4%B8%80%E4%B8%AA%E8%AF%AD%E8%A8%80%E8%81%94%E9%82%A6"><span class="toc-text">条款1：视 C++ 为一个语言联邦</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3-C-%EF%BC%9F"><span class="toc-text">01 如何理解 C++？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE2%EF%BC%9A%E5%B0%BD%E9%87%8F%E4%BB%A5-const%EF%BC%8Cenum%EF%BC%8Cinline-%E6%9B%BF%E6%8D%A2-define"><span class="toc-text">条款2：尽量以 const，enum，inline 替换#define</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8%EF%BC%9F"><span class="toc-text">01 为什么要避免使用预处理器？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88-constant-pointers%EF%BC%9F"><span class="toc-text">02 如何定义常量指针 constant pointers？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E5%A6%82%E4%BD%95%E5%88%9D%E5%A7%8B%E5%8C%96%E7%B1%BB%E4%B8%AD%E7%9A%84-static-%E6%88%90%E5%91%98%EF%BC%9F"><span class="toc-text">03 如何初始化类中的 static 成员？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE03%EF%BC%9A%E5%B0%BD%E5%8F%AF%E8%83%BD%E4%BD%BF%E7%94%A8-const"><span class="toc-text">条款03：尽可能使用 const</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-const-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D%EF%BC%9F"><span class="toc-text">01 const 迭代器是什么意思？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%BB%A4%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%B8%B8%E9%87%8F%E5%80%BC%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-text">02 令函数返回常量值有什么用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-const-%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F"><span class="toc-text">03  const 成员函数有什么优点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA-char-amp-%E5%92%8C-char-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">04 返回值为 char&amp; 和 char 的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-char-amp-opt-size-t-pos-const-%E7%9A%84-const-%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">05 char&amp; opt[](size_t pos) const}的 const 作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BD%AC%E5%9E%8B%EF%BC%9F"><span class="toc-text">06 什么是转型？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#07-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E7%94%A8%E4%BB%A4-const-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8-non-const-%E5%87%BD%E6%95%B0%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%8D%E4%BB%A3%E7%A0%81%EF%BC%9F"><span class="toc-text">07 为什么不用令 const 函数调用 non-const 函数避免重复代码？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE04%EF%BC%9A%E7%A1%AE%E5%AE%9A%E5%AF%B9%E8%B1%A1%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E5%B7%B2%E5%85%88%E8%A2%AB%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">条款04：确定对象被使用前已先被初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E8%B5%8B%E5%80%BC%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">01 初始化和赋值的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-C-%E6%88%90%E5%91%98%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E6%AC%A1%E5%BA%8F%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84%EF%BC%9F"><span class="toc-text">02 C++成员初始化的次序是怎样的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E7%BC%96%E8%AF%91%E5%8D%95%E5%85%83%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">03 编译单元是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-local-static-%E5%AF%B9%E8%B1%A1%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">04 local static 对象是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E8%B7%A8%E7%BC%96%E8%AF%91%E5%8D%95%E5%85%83%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%88%9D%E5%A7%8B%E5%8C%96%E6%AC%A1%E5%BA%8F%EF%BC%9F"><span class="toc-text">05 跨编译单元，如何保证初始化次序？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE05%EF%BC%9A%E4%BA%86%E8%A7%A3-C-%E9%BB%98%E8%AE%A4%E7%BC%96%E5%86%99%E5%B9%B6%E8%B0%83%E7%94%A8%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0"><span class="toc-text">条款05：了解 C++ 默认编写并调用哪些函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-copy-assignment-%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="toc-text">01  copy assignment 函数如何工作？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-copy-assignment-%E5%87%BD%E6%95%B0%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%EF%BC%9F"><span class="toc-text">02 copy assignment 函数如何处理自我赋值？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%92%8C%E6%8B%B7%E8%B4%9D%E8%B5%8B%E5%80%BC%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">03 拷贝构造和拷贝赋值的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-C-%E7%BC%96%E8%AF%91%E5%99%A8%E4%BC%9A%E8%87%AA%E5%8A%A8%E7%BC%96%E5%86%99%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="toc-text">04 C++编译器会自动编写哪些函数？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE06%EF%BC%9A%E8%8B%A5%E4%B8%8D%E6%83%B3%E4%BD%BF%E7%94%A8%E7%BC%96%E8%AF%91%E5%99%A8%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E7%9A%84%E5%87%BD%E6%95%B0%EF%BC%8C%E5%B0%B1%E8%AF%A5%E6%98%8E%E7%A1%AE%E6%8B%92%E7%BB%9D"><span class="toc-text">条款06：若不想使用编译器自动生成的函数，就该明确拒绝</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E4%BD%95%E9%98%BB%E6%AD%A2%E7%BC%96%E8%AF%91%E5%99%A8%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="toc-text">01 如何阻止编译器自动生成函数？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE7%EF%BC%9A%E4%B8%BA%E5%A4%9A%E6%80%81%E5%9F%BA%E7%B1%BB%E5%A3%B0%E6%98%8E-virtual-%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-text">条款7：为多态基类声明 virtual 析构函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E7%94%A8-base-class-%E6%8C%87%E9%92%88%E5%88%A0%E9%99%A4-derived-%E7%B1%BB%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="toc-text">01 用 base class 指针删除 derived 类有什么问题？如何解决？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-virtual-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">02 virtual 函数的作用是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-virtual-%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-text">03 virtual 函数的实现方式？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-virtual-%E5%87%BD%E6%95%B0%E7%9A%84%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-text">04 virtual 函数的缺点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-base-classes-%E5%92%8C%E5%A4%9A%E6%80%81%E7%9A%84%E8%81%94%E7%B3%BB%EF%BC%9F"><span class="toc-text">05 base classes 和多态的联系？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE8%EF%BC%9A%E5%88%AB%E8%AE%A9%E5%BC%82%E5%B8%B8%E9%80%83%E7%A6%BB%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-text">条款8：别让异常逃离析构函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%B8%8C%E6%9C%9B%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%EF%BC%9F"><span class="toc-text">01 为什么不希望析构函数抛出异常？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-abort-%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">02 abort 函数的作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%EF%BC%9F"><span class="toc-text">03 如何避免析构函数抛出异常？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE9%EF%BC%9A%E7%BB%9D%E4%B8%8D%E5%9C%A8%E6%9E%84%E9%80%A0%E5%92%8C%E6%9E%90%E6%9E%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E8%B0%83%E7%94%A8-virtual-%E5%87%BD%E6%95%B0"><span class="toc-text">条款9：绝不在构造和析构过程中调用 virtual 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%9C%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8-virtual-%E5%87%BD%E6%95%B0%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="toc-text">01 在构造函数调用 virtual 函数会怎样？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-derived-class-%E5%A6%82%E4%BD%95%E8%AE%A9-base-class-%E4%B8%AD%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E5%87%BD%E6%95%B0%E6%94%B9%E5%8F%98%EF%BC%9F"><span class="toc-text">02 derived class 如何让 base class 中构造函数调用的函数改变？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE10%EF%BC%9A%E4%BB%A4-operator-x3D-%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA-reference-to-this"><span class="toc-text">条款10：令 operator&#x3D; 返回一个 reference to *this</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-operator-x3D-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">01 operator&#x3D; 的作用是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-return-this%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF-return-this%EF%BC%9F"><span class="toc-text">02 为什么是 return *this，而不是 return this？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE11%EF%BC%9A%E5%9C%A8-operator-x3D-%E4%B8%AD%E5%A4%84%E7%90%86%E2%80%9C%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%E2%80%9D"><span class="toc-text">条款11：在 operator&#x3D; 中处理“自我赋值”</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E6%8B%B7%E8%B4%9D%E8%B5%8B%E5%80%BC%E7%9A%84%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">01 拷贝赋值的自我赋值可能会存在哪些问题？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A6%82%E4%BD%95%E7%A1%AE%E4%BF%9D%E6%8B%B7%E8%B4%9D%E8%B5%8B%E5%80%BC%E4%B8%8D%E4%BD%86%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8%E8%80%8C%E4%B8%94%E8%87%AA%E6%88%91%E8%B5%8B%E5%80%BC%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="toc-text">02 如何确保拷贝赋值不但异常安全而且自我赋值安全？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-copy-and-swap-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">03 copy and swap 是什么？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE12%EF%BC%9A%E5%A4%8D%E5%88%B6%E5%AF%B9%E8%B1%A1%E6%97%B6%E5%8B%BF%E5%BF%98%E5%85%B6%E6%AF%8F%E4%B8%80%E4%B8%AA%E6%88%90%E5%88%86"><span class="toc-text">条款12：复制对象时勿忘其每一个成分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA-derived-class-%E6%92%B0%E5%86%99-copy-%E5%87%BD%E6%95%B0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%9F"><span class="toc-text">01 为 derived class 撰写 copy 函数有哪些注意事项？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A6%82%E4%BD%95%E7%AE%80%E5%8C%96%E6%8B%B7%E8%B4%9D%E8%B5%8B%E5%80%BC%E5%92%8C%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%EF%BC%9F"><span class="toc-text">02 如何简化拷贝赋值和拷贝构造？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2024 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8AEffective%20C%2B%2B%E3%80%8B-1%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1 + '&url=' + https%3A%2F%2Fchieh.wang%2F2023%2F06%2F10%2Feffective-cpp-1-object%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/2023/06/10/effective-cpp-1-object/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

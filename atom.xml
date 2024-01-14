@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2023-11-16T15:09:40.466Z</updated>
+  <updated>2024-01-14T17:03:02.224Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>2023 年终总结 | 一位普通打工人的思考</title>
+    <link href="https://chieh.wang/2024/01/15/2023-year-end-summary/"/>
+    <id>https://chieh.wang/2024/01/15/2023-year-end-summary/</id>
+    <published>2024-01-14T16:42:06.000Z</published>
+    <updated>2024-01-14T17:03:02.224Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;时光似箭，日月如梭。我从毕业（2022 年 7 月）到现在已经一年半，我的生活刚刚开始。为什么呢？从大学开始，我好像一只在海中迷路的船，随风飘着。但最近我找到了自己的灯塔，稍许准备之后，向着目标开始起航。&lt;/p&gt;
+&lt;h2 id=&quot;时间胶囊&quot;&gt;&lt;a href=&quot;#时间胶囊&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>【Easy German】Basic Phrases - Introducing Yourself</title>
-    <link href="https://chieh.wang/posts/5afb847b/"/>
-    <id>https://chieh.wang/posts/5afb847b/</id>
+    <link href="https://chieh.wang/2023/11/16/%E3%80%90Easy-German%E3%80%91Basic-Phrases-Introducing-Yourself/"/>
+    <id>https://chieh.wang/2023/11/16/%E3%80%90Easy-German%E3%80%91Basic-Phrases-Introducing-Yourself/</id>
     <published>2023-11-16T15:09:12.000Z</published>
-    <updated>2023-11-16T15:09:40.466Z</updated>
+    <updated>2023-11-16T15:09:57.202Z</updated>
     
     
       
@@ -46,8 +68,8 @@
   
   <entry>
     <title>【Easy German】Introduce yourself in German</title>
-    <link href="https://chieh.wang/posts/9214c132/"/>
-    <id>https://chieh.wang/posts/9214c132/</id>
+    <link href="https://chieh.wang/2023/11/14/%E3%80%90Easy-German%E3%80%91Introduce-yourself-in-German/"/>
+    <id>https://chieh.wang/2023/11/14/%E3%80%90Easy-German%E3%80%91Introduce-yourself-in-German/</id>
     <published>2023-11-14T15:11:40.000Z</published>
     <updated>2023-11-14T15:23:14.770Z</updated>
     
@@ -70,8 +92,8 @@
   
   <entry>
     <title>logo! am Freitag, 03.11.2023</title>
-    <link href="https://chieh.wang/posts/57ff31d6/"/>
-    <id>https://chieh.wang/posts/57ff31d6/</id>
+    <link href="https://chieh.wang/2023/11/12/logo-am-Freitag-03-11-2023/"/>
+    <id>https://chieh.wang/2023/11/12/logo-am-Freitag-03-11-2023/</id>
     <published>2023-11-12T10:30:29.000Z</published>
     <updated>2023-11-12T10:30:59.606Z</updated>
     
@@ -96,8 +118,8 @@
   
   <entry>
     <title>Vue使用tailwind</title>
-    <link href="https://chieh.wang/posts/ef92871c/"/>
-    <id>https://chieh.wang/posts/ef92871c/</id>
+    <link href="https://chieh.wang/2023/11/11/Vue%E4%BD%BF%E7%94%A8tailwind/"/>
+    <id>https://chieh.wang/2023/11/11/Vue%E4%BD%BF%E7%94%A8tailwind/</id>
     <published>2023-11-11T10:07:47.000Z</published>
     <updated>2023-11-11T10:08:25.738Z</updated>
     
@@ -122,8 +144,8 @@
   
   <entry>
     <title>JS处理PDF</title>
-    <link href="https://chieh.wang/posts/5adf8b26/"/>
-    <id>https://chieh.wang/posts/5adf8b26/</id>
+    <link href="https://chieh.wang/2023/11/11/JS%E5%A4%84%E7%90%86PDF/"/>
+    <id>https://chieh.wang/2023/11/11/JS%E5%A4%84%E7%90%86PDF/</id>
     <published>2023-11-11T10:06:42.000Z</published>
     <updated>2023-11-11T10:07:02.235Z</updated>
     
@@ -148,8 +170,8 @@
   
   <entry>
     <title>This 的指向</title>
-    <link href="https://chieh.wang/posts/2721cf3e/"/>
-    <id>https://chieh.wang/posts/2721cf3e/</id>
+    <link href="https://chieh.wang/2023/11/11/This-%E7%9A%84%E6%8C%87%E5%90%91/"/>
+    <id>https://chieh.wang/2023/11/11/This-%E7%9A%84%E6%8C%87%E5%90%91/</id>
     <published>2023-11-11T10:05:27.000Z</published>
     <updated>2023-11-11T10:05:50.776Z</updated>
     
@@ -171,8 +193,8 @@
   
   <entry>
     <title>83.删除排序链表中的重复元素</title>
-    <link href="https://chieh.wang/posts/2c538a68/"/>
-    <id>https://chieh.wang/posts/2c538a68/</id>
+    <link href="https://chieh.wang/2023/11/11/83-%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/"/>
+    <id>https://chieh.wang/2023/11/11/83-%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0/</id>
     <published>2023-11-11T03:10:57.000Z</published>
     <updated>2023-11-11T03:11:22.738Z</updated>
     
@@ -194,8 +216,8 @@
   
   <entry>
     <title>21.合并两个有序链表</title>
-    <link href="https://chieh.wang/posts/afbd1d19/"/>
-    <id>https://chieh.wang/posts/afbd1d19/</id>
+    <link href="https://chieh.wang/2023/11/09/21-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/"/>
+    <id>https://chieh.wang/2023/11/09/21-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</id>
     <published>2023-11-09T04:53:12.000Z</published>
     <updated>2023-11-09T04:54:11.929Z</updated>
     
@@ -217,8 +239,8 @@
   
   <entry>
     <title>【LeetCode】155. 最小栈</title>
-    <link href="https://chieh.wang/posts/2debf609/"/>
-    <id>https://chieh.wang/posts/2debf609/</id>
+    <link href="https://chieh.wang/2023/11/07/01-%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%9C%89-getMin-%E5%8A%9F%E8%83%BD%E7%9A%84%E6%A0%88/"/>
+    <id>https://chieh.wang/2023/11/07/01-%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%9C%89-getMin-%E5%8A%9F%E8%83%BD%E7%9A%84%E6%A0%88/</id>
     <published>2023-11-07T15:03:38.000Z</published>
     <updated>2023-11-07T15:29:53.788Z</updated>
     
@@ -243,8 +265,8 @@
   
   <entry>
     <title>如何在Google搜到自己的网页</title>
-    <link href="https://chieh.wang/posts/c9ac9a4d/"/>
-    <id>https://chieh.wang/posts/c9ac9a4d/</id>
+    <link href="https://chieh.wang/2023/11/07/%E5%A6%82%E4%BD%95%E5%9C%A8Google%E6%90%9C%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BD%91%E9%A1%B5/"/>
+    <id>https://chieh.wang/2023/11/07/%E5%A6%82%E4%BD%95%E5%9C%A8Google%E6%90%9C%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BD%91%E9%A1%B5/</id>
     <published>2023-11-07T04:53:54.000Z</published>
     <updated>2023-11-07T04:58:16.993Z</updated>
     
@@ -274,8 +296,8 @@
   
   <entry>
     <title>【DW】Jemandem Löcher in den Bauch fragen</title>
-    <link href="https://chieh.wang/posts/c3b8a983/"/>
-    <id>https://chieh.wang/posts/c3b8a983/</id>
+    <link href="https://chieh.wang/2023/11/05/Jemandem-Lo%CC%88cher-in-den-Bauch-fragen/"/>
+    <id>https://chieh.wang/2023/11/05/Jemandem-Lo%CC%88cher-in-den-Bauch-fragen/</id>
     <published>2023-11-05T05:20:36.000Z</published>
     <updated>2023-11-07T05:03:25.453Z</updated>
     
@@ -298,8 +320,8 @@
   
   <entry>
     <title>如何实现拖拽移动位置？</title>
-    <link href="https://chieh.wang/posts/b0bb1154/"/>
-    <id>https://chieh.wang/posts/b0bb1154/</id>
+    <link href="https://chieh.wang/2023/11/05/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8B%96%E6%8B%BD%E7%A7%BB%E5%8A%A8%E4%BD%8D%E7%BD%AE%EF%BC%9F/"/>
+    <id>https://chieh.wang/2023/11/05/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8B%96%E6%8B%BD%E7%A7%BB%E5%8A%A8%E4%BD%8D%E7%BD%AE%EF%BC%9F/</id>
     <published>2023-11-04T21:09:01.000Z</published>
     <updated>2023-11-07T04:58:16.993Z</updated>
     
@@ -321,8 +343,8 @@
   
   <entry>
     <title>ElementUI表格如何实现只选择1条记录</title>
-    <link href="https://chieh.wang/posts/b78372a1/"/>
-    <id>https://chieh.wang/posts/b78372a1/</id>
+    <link href="https://chieh.wang/2023/11/05/ElementUI%E8%A1%A8%E6%A0%BC%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AA%E9%80%89%E6%8B%A91%E6%9D%A1%E8%AE%B0%E5%BD%95/"/>
+    <id>https://chieh.wang/2023/11/05/ElementUI%E8%A1%A8%E6%A0%BC%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AA%E9%80%89%E6%8B%A91%E6%9D%A1%E8%AE%B0%E5%BD%95/</id>
     <published>2023-11-04T21:08:07.000Z</published>
     <updated>2023-11-07T04:58:16.993Z</updated>
     
@@ -345,8 +367,8 @@
   
   <entry>
     <title>ts文件如何使用useRoute和useRouter</title>
-    <link href="https://chieh.wang/posts/ff11dacb/"/>
-    <id>https://chieh.wang/posts/ff11dacb/</id>
+    <link href="https://chieh.wang/2023/11/05/ts%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8useRoute%E5%92%8CuseRouter/"/>
+    <id>https://chieh.wang/2023/11/05/ts%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8useRoute%E5%92%8CuseRouter/</id>
     <published>2023-11-04T21:07:23.000Z</published>
     <updated>2023-11-07T04:58:16.958Z</updated>
     
@@ -368,8 +390,8 @@
   
   <entry>
     <title>Vue表格使用v-if时页面抖动</title>
-    <link href="https://chieh.wang/posts/17ea9250/"/>
-    <id>https://chieh.wang/posts/17ea9250/</id>
+    <link href="https://chieh.wang/2023/11/05/Vue%E8%A1%A8%E6%A0%BC%E4%BD%BF%E7%94%A8v-if%E6%97%B6%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8/"/>
+    <id>https://chieh.wang/2023/11/05/Vue%E8%A1%A8%E6%A0%BC%E4%BD%BF%E7%94%A8v-if%E6%97%B6%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8/</id>
     <published>2023-11-04T21:06:01.000Z</published>
     <updated>2023-11-07T04:58:16.993Z</updated>
     
@@ -391,8 +413,8 @@
   
   <entry>
     <title>return resolve() 含义</title>
-    <link href="https://chieh.wang/posts/1a431fac/"/>
-    <id>https://chieh.wang/posts/1a431fac/</id>
+    <link href="https://chieh.wang/2023/11/04/return-resolve-in-js/"/>
+    <id>https://chieh.wang/2023/11/04/return-resolve-in-js/</id>
     <published>2023-11-03T17:09:13.000Z</published>
     <updated>2023-11-07T04:58:16.992Z</updated>
     
@@ -414,8 +436,8 @@
   
   <entry>
     <title>什么是nextTick？</title>
-    <link href="https://chieh.wang/posts/e43eceeb/"/>
-    <id>https://chieh.wang/posts/e43eceeb/</id>
+    <link href="https://chieh.wang/2023/11/04/what-is-nextTick/"/>
+    <id>https://chieh.wang/2023/11/04/what-is-nextTick/</id>
     <published>2023-11-03T17:08:24.000Z</published>
     <updated>2023-11-07T04:58:16.993Z</updated>
     
@@ -437,8 +459,8 @@
   
   <entry>
     <title>如何将Vue组件转换为HTML</title>
-    <link href="https://chieh.wang/posts/c204f117/"/>
-    <id>https://chieh.wang/posts/c204f117/</id>
+    <link href="https://chieh.wang/2023/11/04/vue-to-html/"/>
+    <id>https://chieh.wang/2023/11/04/vue-to-html/</id>
     <published>2023-11-03T17:07:33.000Z</published>
     <updated>2023-11-07T04:58:16.957Z</updated>
     
@@ -460,8 +482,8 @@
   
   <entry>
     <title>如何操作在Vue中显示HTML</title>
-    <link href="https://chieh.wang/posts/7b9b0e65/"/>
-    <id>https://chieh.wang/posts/7b9b0e65/</id>
+    <link href="https://chieh.wang/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/"/>
+    <id>https://chieh.wang/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/</id>
     <published>2023-11-01T16:22:53.000Z</published>
     <updated>2023-11-07T04:58:16.993Z</updated>
     
@@ -472,32 +494,6 @@
         
     <summary type="html">&lt;h2 id=&quot;01-如何显示HTML？&quot;&gt;&lt;a href=&quot;#01-如何显示HTML？&quot; class=&quot;headerlink&quot; title=&quot;01 如何显示HTML？&quot;&gt;&lt;/a&gt;01 如何显示HTML？&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;使用 iframe</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>axios同时弹出多条登陆错误提醒</title>
-    <link href="https://chieh.wang/posts/27527e4d/"/>
-    <id>https://chieh.wang/posts/27527e4d/</id>
-    <published>2023-11-01T16:21:27.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;自定义 axios 的 http 响应拦截器&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
         
       
     

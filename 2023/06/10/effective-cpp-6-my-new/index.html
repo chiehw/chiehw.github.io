@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《Effective C++》-6 定制 new 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZT31KVFKP0');
+    </script>
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《Effective C++》-6 定制 new</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-07 12:58:16
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                    <b>#</b> 编程杂货铺
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/C/" title="C++">
+                    #C++
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                    #《Effective C++》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="条款-49：了解-new-handler-的行为"><a href="#条款-49：了解-new-handler-的行为" class="headerlink" title="条款 49：了解 new-handler 的行为"></a>条款 49：了解 new-handler 的行为</h1><h2 id="01-new-handler-是什么？"><a href="#01-new-handler-是什么？" class="headerlink" title="01 new-handler 是什么？"></a>01 new-handler 是什么？</h2><p>当 operate new 抛出异常以反映一个未获满足的内存需求之前，它会先调用一个客户指定的错误处理函数，一个所谓的  new-handler。为了指定这个用以处理内存不足的函数，客户必须调用 set_new_handler，那是声明于 <code>&lt;new&gt;</code> 的一个标准程序库函数。</p>
+<h2 id="02-如何为-class-定制-new-handler？"><a href="#02-如何为-class-定制-new-handler？" class="headerlink" title="02 如何为 class 定制 new-handler？"></a>02 如何为 class 定制 new-handler？</h2><p>令每一个 class 提供自己的 set_new_handler 和 operator new。</p>
+<p>其中 set_new_handler 使客户得以指定 class 专属的 new-handler（就像标准中的 set_new_handler 允许客户指定 global new-hanler），至于 operator new 则确保分配 class 对象内存的过程中以 class 专属的 new-handler 替换 global new-handler。</p>
+<h1 id="条款-50：了解-new-和-delete-合理的替换时机"><a href="#条款-50：了解-new-和-delete-合理的替换时机" class="headerlink" title="条款 50：了解 new 和 delete 合理的替换时机"></a>条款 50：了解 new 和 delete 合理的替换时机</h1><h2 id="01-为什么要替换编译器提供的-new-和-delete？"><a href="#01-为什么要替换编译器提供的-new-和-delete？" class="headerlink" title="01 为什么要替换编译器提供的 new 和 delete？"></a>01 为什么要替换编译器提供的 new 和 delete？</h2><ul>
+<li><strong>用来检测运用上的错误</strong>。如果 new 所得的内存，delete 掉却不幸失败，会导致内存泄露。如果 new 所得内存身上多次 delete 则会导致不确定行为。</li>
+<li><strong>强化效能</strong>。编译器所带的 new 和 delete 主要用于一般目的。通常而言，定制版的 new 和 delete 性能胜过缺省版本，更快，需要的内存更少，最高可省 50%。对某些应用程序而言，将旧有的 new 和 delete 替换为定制版本，是获得重大性能提升的办法之一。</li>
+<li><strong>为了收集使用上的统计数据</strong>。</li>
+</ul>
+<h1 id="条款-51：编写-new-和-delete-时需固守常规"><a href="#条款-51：编写-new-和-delete-时需固守常规" class="headerlink" title="条款 51：编写 new 和 delete 时需固守常规"></a>条款 51：编写 new 和 delete 时需固守常规</h1><h2 id="01-编写-new-和-delete-有哪些注意事项？"><a href="#01-编写-new-和-delete-有哪些注意事项？" class="headerlink" title="01 编写 new 和 delete 有哪些注意事项？"></a>01 编写 new 和 delete 有哪些注意事项？</h2><p>operator new 应该内含一个无穷循环，并在其中尝试分配内存，如果它无法满足内存需求，就该调用 new-handler。它也应该有能力处理 0 byte 申请。Class 专属版本则应该处理“比正确大小更大的错误申请”。</p>
+<p>operator delete 应该在收到 null 指针时不做任何事，class 专属版本应该处理比正确大小更大的错误申请。</p>
+<h1 id="条款-52：写了-placement-new-也要写-placement-delete"><a href="#条款-52：写了-placement-new-也要写-placement-delete" class="headerlink" title="条款 52：写了 placement new 也要写 placement delete"></a>条款 52：写了 placement new 也要写 placement delete</h1><h2 id="01-什么是-placement-new？"><a href="#01-什么是-placement-new？" class="headerlink" title="01 什么是 placement new？"></a>01 什么是 placement new？</h2><p>如果 operator new 接受的参数除了一定会有的那个 size_t 之外还有其他，这边是个所谓的 placement new。众多 placement new 版本中特别有用的一个是“接受一个指针指向对象所被构造之处”。这个版本的 new 已被纳入 C++ 标准程序库，你只要<code> #include&lt;new&gt;</code> 就可以取用它。这个 new 的用途之一是负责在 vector 的未使用空间上创建对象。</p>
+<p>placement new 意味着任意额外参数的 new。</p>
+<h2 id="02-只写-placement-new-会怎样？"><a href="#02-只写-placement-new-会怎样？" class="headerlink" title="02 只写 placement new 会怎样？"></a>02 只写 placement new 会怎样？</h2><p>如果一个带额外参数的 operator new 没有带相同额外参数的对应版 operator delete，那么当 new 的内存分配动作需要取消并恢复旧观时就没有任何 operator delete 被调用。因此，为了消弭稍早代码中的内存泄露，有必要声明一个 placement delete。</p>
+<p>如果没有这样做，你的程序可能会发生隐微而时断时续的内存泄露。</p>
+<h1 id="条款-53：不要轻忽编译器的警告"><a href="#条款-53：不要轻忽编译器的警告" class="headerlink" title="条款 53：不要轻忽编译器的警告"></a>条款 53：不要轻忽编译器的警告</h1><h2 id="01-如何看待编译器的警告？"><a href="#01-如何看待编译器的警告？" class="headerlink" title="01 如何看待编译器的警告？"></a>01 如何看待编译器的警告？</h2><ul>
+<li>严肃对待编译器发出的警告信息，努力在你的编译器的最高警告级别争取无任何警告的荣誉。</li>
+<li>不要过度依赖编译器的报警能力，因为不同的编译器对待事情的太不并不相同。一旦移植到别的编译器上，你原本依赖的警告信息可能会消失。</li>
+</ul>
+<h1 id="条款-54：让自己熟悉包括-TR1-在内的标准程序库"><a href="#条款-54：让自己熟悉包括-TR1-在内的标准程序库" class="headerlink" title="条款 54：让自己熟悉包括 TR1 在内的标准程序库"></a>条款 54：让自己熟悉包括 TR1 在内的标准程序库</h1><h2 id="01-TR1-为什么那么重要？"><a href="#01-TR1-为什么那么重要？" class="headerlink" title="01 TR1 为什么那么重要？"></a>01 TR1 为什么那么重要？</h2><p>TR1 代表 “Technical Report 1”，那是 C++ 程序库工作小组对该份文档的称呼。标准委员会保留了 TR1 正式铭记于 C++0x 之前的修改权。</p>
+<p>就所有意图和目标而言，TR1 宣示了一个新版 C++ 的来临，我们可能称之为 Standard C++ 1.1.不熟悉 TR1 技能而却奢望成为一位高效的 C++ 程序员是不可能的，因为 TR1 提供的技能几乎对每一种程序库和每一种应用程序都带来利益。</p>
+<h2 id="02-TR1-和-Boost-的关系？"><a href="#02-TR1-和-Boost-的关系？" class="headerlink" title="02 TR1 和 Boost 的关系？"></a>02 TR1 和 Boost 的关系？</h2><p>TR1 自身只是一份规范。为了获得 TR1 提供的好处，你需要一份实物。一个好的实物来源是 “Boost”。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/06/10/effective-cpp-5-inheritance/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-07 12:58:16
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                        <b>#</b> 编程杂货铺
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/C/" title="C++">
+                        #C++
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                        #《Effective C++》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/06/10/multi-thread-programming-in-linux-smart-pointer/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-49%EF%BC%9A%E4%BA%86%E8%A7%A3-new-handler-%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="toc-text">条款 49：了解 new-handler 的行为</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-new-handler-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">01 new-handler 是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A6%82%E4%BD%95%E4%B8%BA-class-%E5%AE%9A%E5%88%B6-new-handler%EF%BC%9F"><span class="toc-text">02 如何为 class 定制 new-handler？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-50%EF%BC%9A%E4%BA%86%E8%A7%A3-new-%E5%92%8C-delete-%E5%90%88%E7%90%86%E7%9A%84%E6%9B%BF%E6%8D%A2%E6%97%B6%E6%9C%BA"><span class="toc-text">条款 50：了解 new 和 delete 合理的替换时机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9B%BF%E6%8D%A2%E7%BC%96%E8%AF%91%E5%99%A8%E6%8F%90%E4%BE%9B%E7%9A%84-new-%E5%92%8C-delete%EF%BC%9F"><span class="toc-text">01 为什么要替换编译器提供的 new 和 delete？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-51%EF%BC%9A%E7%BC%96%E5%86%99-new-%E5%92%8C-delete-%E6%97%B6%E9%9C%80%E5%9B%BA%E5%AE%88%E5%B8%B8%E8%A7%84"><span class="toc-text">条款 51：编写 new 和 delete 时需固守常规</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E7%BC%96%E5%86%99-new-%E5%92%8C-delete-%E6%9C%89%E5%93%AA%E4%BA%9B%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%9F"><span class="toc-text">01 编写 new 和 delete 有哪些注意事项？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-52%EF%BC%9A%E5%86%99%E4%BA%86-placement-new-%E4%B9%9F%E8%A6%81%E5%86%99-placement-delete"><span class="toc-text">条款 52：写了 placement new 也要写 placement delete</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%BB%80%E4%B9%88%E6%98%AF-placement-new%EF%BC%9F"><span class="toc-text">01 什么是 placement new？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%8F%AA%E5%86%99-placement-new-%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="toc-text">02 只写 placement new 会怎样？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-53%EF%BC%9A%E4%B8%8D%E8%A6%81%E8%BD%BB%E5%BF%BD%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E8%AD%A6%E5%91%8A"><span class="toc-text">条款 53：不要轻忽编译器的警告</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BE%85%E7%BC%96%E8%AF%91%E5%99%A8%E7%9A%84%E8%AD%A6%E5%91%8A%EF%BC%9F"><span class="toc-text">01 如何看待编译器的警告？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-54%EF%BC%9A%E8%AE%A9%E8%87%AA%E5%B7%B1%E7%86%9F%E6%82%89%E5%8C%85%E6%8B%AC-TR1-%E5%9C%A8%E5%86%85%E7%9A%84%E6%A0%87%E5%87%86%E7%A8%8B%E5%BA%8F%E5%BA%93"><span class="toc-text">条款 54：让自己熟悉包括 TR1 在内的标准程序库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-TR1-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%82%A3%E4%B9%88%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="toc-text">01 TR1 为什么那么重要？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-TR1-%E5%92%8C-Boost-%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="toc-text">02 TR1 和 Boost 的关系？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2024 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8AEffective%20C%2B%2B%E3%80%8B-6%20%E5%AE%9A%E5%88%B6%20new + '&url=' + https%3A%2F%2Fchieh.wang%2F2023%2F06%2F10%2Feffective-cpp-6-my-new%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/2023/06/10/effective-cpp-6-my-new/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

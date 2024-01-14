@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      《Effective C++》-3 封装与设计 
+      
+      
+      |
+    
+     王杰杰的博客
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZT31KVFKP0');
+    </script>
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰杰的博客" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">《Effective C++》-3 封装与设计</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2023-11-07 12:58:16
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                    <b>#</b> 编程杂货铺
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/C/" title="C++">
+                    #C++
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                    #《Effective C++》
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="条款18：让接口容易被正确使用，不易被误用"><a href="#条款18：让接口容易被正确使用，不易被误用" class="headerlink" title="条款18：让接口容易被正确使用，不易被误用"></a>条款18：让接口容易被正确使用，不易被误用</h1><h2 id="01-如何实现该条款的内容？"><a href="#01-如何实现该条款的内容？" class="headerlink" title="01 如何实现该条款的内容？"></a>01 如何实现该条款的内容？</h2><p>下面是一些常见的错误：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Data <span class="title">d</span><span class="params">(<span class="number">30</span>, <span class="number">3</span>, <span class="number">1995</span>)</span></span>;</span><br><span class="line"><span class="function">Data <span class="title">d</span><span class="params">(<span class="number">2</span>, <span class="number">30</span>, <span class="number">1995</span>)</span></span>;	<span class="comment">// 1. 可能会以错误的参数传参。可以考虑导入新类型解决，还可以顺便检查参数。</span></span><br><span class="line"><span class="function">Data <span class="title">d</span><span class="params">(Month(<span class="number">3</span>), Day(<span class="number">30</span>), Year(<span class="number">1995</span>))</span> </span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function"><span class="title">if</span> <span class="params">(a*b = c)</span> ... <span class="comment">// 2. 不恰当的行为。该例可以通过 const 修饰 operator * 的返回值来阻止用户的行为。</span></span></span><br></pre></td></tr></table></figure>
+
+<p>许多时候，<strong>最佳接口的设计原则是先发制人</strong>。常见的方法包括建立新类型、限制类型上的操作、束缚对象的值、以及消除客户的资源管理责任。</p>
+<h1 id="条款19：设计-class-犹如设计-type"><a href="#条款19：设计-class-犹如设计-type" class="headerlink" title="条款19：设计 class 犹如设计 type"></a>条款19：设计 class 犹如设计 type</h1><blockquote>
+<p>这一条款可以直接应用于 class 的设计，所以几乎摘抄全文</p>
+</blockquote>
+<p>你应该带着和 “语言设计者当初设计语言内置类型时”一样的谨慎来研讨 class 的设计。如何设计高效的 class 呢？首先你必须了解你面对的问题，几乎每一个 class 都要求你面对以下提问，而你的回答往往导致你的设计规范：</p>
+<ol>
+<li><strong>新 type 的对象应该如何被创建和销毁</strong>？这会影响到你的 class 的构造函数和析构函数以及内存分配函数和释放函数的设计，当然前提是如果你打算撰写他们。</li>
+<li><strong>对象的初始化和对象的赋值应该有什么样的差别</strong>？这个答案决定你的构造函数和赋值操作符的行为，以及其间的差异。很重要的是别混淆了“初始化”和赋值，因为他们应用于不同的函数调用。（见条款 4）</li>
+<li><strong>新 type 的对象如果被 pass by value，意味着什么</strong>？记住 copy 构造函数用来定义一个 type 的 pass-by-value 该如何实现。</li>
+<li><strong>什么是新 type 的“合法值”</strong>？对 class 的成员变量而言，通常只有某些数值集是有效的。那些数值集决定了你的 class 必须维护的约束条件，也就决定了你的成员函数必须进行的错误检查工作。它也影响函数抛出的异常、以及函数异常明细列。</li>
+<li><strong>你的新 type 需要配合某个继承体系吗</strong>？如果你继承某些既有的 class，你就受到那些 class 的设计的束缚，特别是受到他们 virtual 或 non-virtual 的影响。如果你允许其他 classes 继承你的 class，那会影响你所声明的函数——尤其是析构函数——是否为 virtual。（见条款 34、 条款 36、条款 7）</li>
+<li><strong>你的新 type 需要什么样的转换</strong>？你的 type 生存与其他一海票 types 之间，因而彼此该有转换行为吗？如果你希望类型 T1 之物被隐式转换为 T2 之物，就必须在 class T1 内写一个类型转换函数或在 class T2 内写一个 non-explicit-one-argument 的构造函数，如果你只允许 explicit 构造函数存在，就得写出一个专门负责执行转换的函数。（见条款 15）</li>
+<li><strong>什么样的类型操作符和函数对比新 type 而言是合理的</strong>？这个问题的答案取决于你将为你的 class 声明哪些函数。其中某些该是 member 函数，某些则否（见条款 23、25、46）。</li>
+<li><strong>什么样的标准函数应该驳回</strong>？那些正是你必须声明 private 者（见条款 6）。</li>
+<li><strong>该谁取用新的 type 的成员</strong>？这个提问可以帮你决定哪个成员为 public，哪个为 protected，哪个为 private。这也帮助你决定哪一个 classes 和 functions 应该是 friends，以及将他们嵌入另一个之内是否合理。</li>
+<li><strong>什么是新 type 的“未声明接口”</strong>？它对效率、异常安全性以及资源运用提供何种保证？你在这些方面的保证将为你的 class 实现代码加上相应的约束条件。（见条款 29）</li>
+<li><strong>你的新 type 有多么一般化</strong>？或许你其实并非定义一个新 type，而是定义一整个 types 家族。果真如此你就不该定义一个新的 class，而是应该定义一个新的 class template。</li>
+<li><strong>你真的需要一个新的 type 吗</strong>？如果只是定义新的 derived class 以便于既有的 class 添加机能，那么说不定单纯定义一个或多个 non-member 函数或 templates，能够达到目标。</li>
+</ol>
+<p>Class 的设计就是 type 的设计，在定义一个新的 class 之前，请确定你已经考虑了本条款覆盖的所有讨论的主题。</p>
+<h1 id="条款-20：宁以-pass-by-reference-to-const-替换-pass-by-value"><a href="#条款-20：宁以-pass-by-reference-to-const-替换-pass-by-value" class="headerlink" title="条款 20：宁以 pass-by-reference-to-const 替换 pass-by-value"></a>条款 20：宁以 pass-by-reference-to-const 替换 pass-by-value</h1><h2 id="01-为什么用-pass-by-reference-to-const？"><a href="#01-为什么用-pass-by-reference-to-const？" class="headerlink" title="01 为什么用 pass by reference to const？"></a>01 为什么用 pass by reference to const？</h2><p>reference 保证了性能。使用引用传递时，没有任何的构造函数和析构函数被调用，只是对原对象的引用，也减小了内存的使用。如果以 by value 的方式传递，并且该对象内部还有其他对象，或是对象继承于其他对象，会极大的增加传递时的消耗。</p>
+<p>const 保证安全性。这样就能让调用者知道他们受到保护，函数内绝不会对传入的对象作出任何改变。</p>
+<h2 id="02-什么时候可以-pass-by-value？"><a href="#02-什么时候可以-pass-by-value？" class="headerlink" title="02 什么时候可以 pass by value？"></a>02 什么时候可以 pass by value？</h2><p>一般而言，可以 pass by value 的唯一对象就是内置类型和 STL 迭代器和函数对象。至于其他任何东西都请遵守本条款的忠告，尽量以 pass by reference 的方式替换 pass by value。</p>
+<h1 id="条款-21：必须返回对象时，别妄想返回其-reference"><a href="#条款-21：必须返回对象时，别妄想返回其-reference" class="headerlink" title="条款 21：必须返回对象时，别妄想返回其 reference"></a>条款 21：必须返回对象时，别妄想返回其 reference</h1><h2 id="01-赋值的成本有多少？"><a href="#01-赋值的成本有多少？" class="headerlink" title="01 赋值的成本有多少？"></a>01 赋值的成本有多少？</h2><p>在对象之间搬移数值最直接的办法就是通过赋值。对于许多 types 而言，赋值的成本相当于调用了一个析构函数（用以销毁旧值）加上一个构造函数。</p>
+<h2 id="02-什么时候必须使用-return-by-value？"><a href="#02-什么时候必须使用-return-by-value？" class="headerlink" title="02 什么时候必须使用 return by value？"></a>02 什么时候必须使用 return by value？</h2><p>绝不要返回 pointer 或 reference 指向一个 local stack （通常会产生空指针），或是 reference 指向一个 heap-allocated 对象（因为很有可能会造成资源泄露）。</p>
+<h1 id="条款-22：成员变量声明为-private"><a href="#条款-22：成员变量声明为-private" class="headerlink" title="条款 22：成员变量声明为 private"></a>条款 22：成员变量声明为 private</h1><h2 id="01-为什么要将成员变量设置为-private？"><a href="#01-为什么要将成员变量设置为-private？" class="headerlink" title="01 为什么要将成员变量设置为 private？"></a>01 为什么要将成员变量设置为 private？</h2><p>如果成员变量不是 public，客户唯一能够访问对象的办法就是通过成员函数。如果 public 借口内的每样东西都是函数，客户就不需要打算访问 class 成员时迷惑地试着记住是否该使用小括号。</p>
+<p>使用函数而非 public 还可以让你对成员变量的访问的处理更加的精确，你可以实现不准访问、只读访问以及读写访问。如何你使用函数访问成员变量的话，日后还可以更改某个计算替换掉这个成员变量，而 class 客户端不需要做任何修改。</p>
+<p><strong>如果成员变量不是 private，就有无限量的函数可以访问它们，它们也就毫无封装性。</strong></p>
+<h1 id="条款-23：宁以-non-member、non-friend-替换-member-函数"><a href="#条款-23：宁以-non-member、non-friend-替换-member-函数" class="headerlink" title="条款 23：宁以 non-member、non-friend 替换 member 函数"></a>条款 23：宁以 non-member、non-friend 替换 member 函数</h1><h2 id="01-为什么-non-member-更好？"><a href="#01-为什么-non-member-更好？" class="headerlink" title="01 为什么 non-member 更好？"></a>01 为什么 non-member 更好？</h2><p>为了更好的封装性。</p>
+<p><strong>non-member、non-friend 函不会增加“能够访问 class 内 private 成文”的函数数量</strong>，也就是说可以获得更好的封装性，我们在修改 class 时能够更少的减少代码的修改。</p>
+<p>对于那些习惯于“所有函数都必须定义于class内”的语言（Java）的程序员而言，我们可以令该函数成为类的 static member函数。在 C++ 中，比较自然的做法是让其成为一个 non-member 函数并且位于 class 所在的同一个 namespace 中。</p>
+<h2 id="02-封装为什么那么强大？"><a href="#02-封装为什么那么强大？" class="headerlink" title="02 封装为什么那么强大？"></a>02 封装为什么那么强大？</h2><p>如果某些东西被封装，它就不再可见。愈多东西被封装，愈少人可以看见它。而愈少人看到它，我们就可以有愈大的弹性去改变它，因为我们的改变仅仅可以直接影响看到的改变的那些人事物。因此，愈多东西被封装，我们改变那些东西的能力就愈大。</p>
+<p><strong>它使我们能够改变事物而只影响有限的客户</strong>。</p>
+<h1 id="条款-24-若所有参数皆需要类型转换，请为此采用-non-member"><a href="#条款-24-若所有参数皆需要类型转换，请为此采用-non-member" class="headerlink" title="条款 24 若所有参数皆需要类型转换，请为此采用 non-member"></a>条款 24 若所有参数皆需要类型转换，请为此采用 non-member</h1><h2 id="01-如何实现支持交换律的-class？"><a href="#01-如何实现支持交换律的-class？" class="headerlink" title="01 如何实现支持交换律的 class？"></a>01 如何实现支持交换律的 class？</h2><p>让 operator * 成为一个non-member函数，并且允许编译器在每个实参身上执行隐式类型转换，也就是在构造函数刻意不使用 explicit。</p>
+<h1 id="条款-25：考虑写出一个不抛出异常的-swap-函数"><a href="#条款-25：考虑写出一个不抛出异常的-swap-函数" class="headerlink" title="条款 25：考虑写出一个不抛出异常的 swap 函数"></a>条款 25：考虑写出一个不抛出异常的 swap 函数</h1><h2 id="01-为什么要-using-swap？"><a href="#01-为什么要-using-swap？" class="headerlink" title="01 为什么要 using swap？"></a>01 为什么要 using swap？</h2><p>一旦编译器看到对 swap 的调用，它们便查找适当的 swap 并调用之。C++ 的名称查找法则（name lookup rules）确保将找到 global 作用域或 T 所在的命名空间内的任何 T 专属的 swap。如果 T 是 Widget 并位于命名空间 WidgetStuff 内，编译器会使用“实参取决之查找规则”找出 WidgetStuff 内的 swap。如果没有 T 专属的 swap 存在，编译器就使用 std 内的 swap，这就是 using swap 声明式让 std::swap 在函数内暴露的原因。</p>
+<h2 id="02-如何让-swap-在更多语境下被调用？"><a href="#02-如何让-swap-在更多语境下被调用？" class="headerlink" title="02 如何让 swap 在更多语境下被调用？"></a>02 如何让 swap 在更多语境下被调用？</h2><p>你需要同时在该 class 所在的命名空间写一个 non-member 版本以及一个 std::swap 特化版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> std &#123;</span><br><span class="line">    <span class="keyword">template</span>&lt;&gt;</span><br><span class="line">    <span class="type">void</span> <span class="built_in">swap</span>&lt;Widget&gt;(Widget &amp;a, Widget &amp;b)&#123;</span><br><span class="line">		a.<span class="built_in">swap</span>(b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="03-如何实现一个高效的-swap？"><a href="#03-如何实现一个高效的-swap？" class="headerlink" title="03 如何实现一个高效的 swap？"></a>03 如何实现一个高效的 swap？</h2><ol>
+<li>提供一个 public swap 成员函数，让它高效地置换你的类型的两个对象的值。</li>
+<li>在你的 class 或 template 所在的命名空间内提供一个 non-member swap，并令他调用上述的 swap 成员函数。</li>
+<li>如果你在编写一个 class（而非 class template），为你的 class 特化 std::swap，并令它调用上述 swap 成员函数。（因为有些人会使用 <code>std::swap</code> 来调用 swap）</li>
+</ol>
+<p>最后如果你调用 swap，请确定包含一个 using 声明式，以便让 std::swap 在你的函数内曝光可见，然后不加任何 namespace 修饰符，赤裸裸地调用 swap。</p>
+<h2 id="04-为什么-swap-不能抛出错误？"><a href="#04-为什么-swap-不能抛出错误？" class="headerlink" title="04 为什么 swap 不能抛出错误？"></a>04 为什么 swap 不能抛出错误？</h2><p>成员版的 swap 绝不抛出异常。<strong>这一约束只施行于成员版</strong>！！不可施行于非成员版。</p>
+<p>因为 swap 缺省版本是以 copy 构造函数和 copy assignment 操作符为基础，而一般情况下两者都允许抛出异常。因此当你写下一个自定义版本的 swap，往往提供的不只是高效置换，而且不抛出异常。一般而言，这两个 swap 特性是连在一起的，因为高效率的 swap 几乎总是对内置类型的操作，而内置类型的操作绝不会抛出</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/06/10/effective-cpp-2-resources/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2023-11-07 12:58:16
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/" title="编程杂货铺">
+                        <b>#</b> 编程杂货铺
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/C/" title="C++">
+                        #C++
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E3%80%8AEffective-C-%E3%80%8B/" title="《Effective C++》">
+                        #《Effective C++》
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/06/10/effective-cpp-4-impl/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE18%EF%BC%9A%E8%AE%A9%E6%8E%A5%E5%8F%A3%E5%AE%B9%E6%98%93%E8%A2%AB%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%B8%8D%E6%98%93%E8%A2%AB%E8%AF%AF%E7%94%A8"><span class="toc-text">条款18：让接口容易被正确使用，不易被误用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%AF%A5%E6%9D%A1%E6%AC%BE%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%9F"><span class="toc-text">01 如何实现该条款的内容？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE19%EF%BC%9A%E8%AE%BE%E8%AE%A1-class-%E7%8A%B9%E5%A6%82%E8%AE%BE%E8%AE%A1-type"><span class="toc-text">条款19：设计 class 犹如设计 type</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-20%EF%BC%9A%E5%AE%81%E4%BB%A5-pass-by-reference-to-const-%E6%9B%BF%E6%8D%A2-pass-by-value"><span class="toc-text">条款 20：宁以 pass-by-reference-to-const 替换 pass-by-value</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8-pass-by-reference-to-const%EF%BC%9F"><span class="toc-text">01 为什么用 pass by reference to const？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%8F%AF%E4%BB%A5-pass-by-value%EF%BC%9F"><span class="toc-text">02 什么时候可以 pass by value？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-21%EF%BC%9A%E5%BF%85%E9%A1%BB%E8%BF%94%E5%9B%9E%E5%AF%B9%E8%B1%A1%E6%97%B6%EF%BC%8C%E5%88%AB%E5%A6%84%E6%83%B3%E8%BF%94%E5%9B%9E%E5%85%B6-reference"><span class="toc-text">条款 21：必须返回对象时，别妄想返回其 reference</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E8%B5%8B%E5%80%BC%E7%9A%84%E6%88%90%E6%9C%AC%E6%9C%89%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="toc-text">01 赋值的成本有多少？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%BF%85%E9%A1%BB%E4%BD%BF%E7%94%A8-return-by-value%EF%BC%9F"><span class="toc-text">02 什么时候必须使用 return by value？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-22%EF%BC%9A%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E4%B8%BA-private"><span class="toc-text">条款 22：成员变量声明为 private</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%B0%86%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE%E4%B8%BA-private%EF%BC%9F"><span class="toc-text">01 为什么要将成员变量设置为 private？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-23%EF%BC%9A%E5%AE%81%E4%BB%A5-non-member%E3%80%81non-friend-%E6%9B%BF%E6%8D%A2-member-%E5%87%BD%E6%95%B0"><span class="toc-text">条款 23：宁以 non-member、non-friend 替换 member 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88-non-member-%E6%9B%B4%E5%A5%BD%EF%BC%9F"><span class="toc-text">01 为什么 non-member 更好？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%B0%81%E8%A3%85%E4%B8%BA%E4%BB%80%E4%B9%88%E9%82%A3%E4%B9%88%E5%BC%BA%E5%A4%A7%EF%BC%9F"><span class="toc-text">02 封装为什么那么强大？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-24-%E8%8B%A5%E6%89%80%E6%9C%89%E5%8F%82%E6%95%B0%E7%9A%86%E9%9C%80%E8%A6%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%EF%BC%8C%E8%AF%B7%E4%B8%BA%E6%AD%A4%E9%87%87%E7%94%A8-non-member"><span class="toc-text">条款 24 若所有参数皆需要类型转换，请为此采用 non-member</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%94%AF%E6%8C%81%E4%BA%A4%E6%8D%A2%E5%BE%8B%E7%9A%84-class%EF%BC%9F"><span class="toc-text">01 如何实现支持交换律的 class？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%A1%E6%AC%BE-25%EF%BC%9A%E8%80%83%E8%99%91%E5%86%99%E5%87%BA%E4%B8%80%E4%B8%AA%E4%B8%8D%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%E7%9A%84-swap-%E5%87%BD%E6%95%B0"><span class="toc-text">条款 25：考虑写出一个不抛出异常的 swap 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81-using-swap%EF%BC%9F"><span class="toc-text">01 为什么要 using swap？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#02-%E5%A6%82%E4%BD%95%E8%AE%A9-swap-%E5%9C%A8%E6%9B%B4%E5%A4%9A%E8%AF%AD%E5%A2%83%E4%B8%8B%E8%A2%AB%E8%B0%83%E7%94%A8%EF%BC%9F"><span class="toc-text">02 如何让 swap 在更多语境下被调用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E9%AB%98%E6%95%88%E7%9A%84-swap%EF%BC%9F"><span class="toc-text">03 如何实现一个高效的 swap？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#04-%E4%B8%BA%E4%BB%80%E4%B9%88-swap-%E4%B8%8D%E8%83%BD%E6%8A%9B%E5%87%BA%E9%94%99%E8%AF%AF%EF%BC%9F"><span class="toc-text">04 为什么 swap 不能抛出错误？</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2024 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E3%80%8AEffective%20C%2B%2B%E3%80%8B-3%20%E5%B0%81%E8%A3%85%E4%B8%8E%E8%AE%BE%E8%AE%A1 + '&url=' + https%3A%2F%2Fchieh.wang%2F2023%2F06%2F10%2Feffective-cpp-3-design%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/2023/06/10/effective-cpp-3-design/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
