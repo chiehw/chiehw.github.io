@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2024-01-14T17:03:02.224Z</updated>
+  <updated>2024-01-21T15:38:31.529Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>css basic cascade</title>
+    <link href="https://chieh.wang/2024/01/21/css-basic-cascade/"/>
+    <id>https://chieh.wang/2024/01/21/css-basic-cascade/</id>
+    <published>2024-01-21T15:36:11.000Z</published>
+    <updated>2024-01-21T15:38:31.529Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在解决传统编程问题时，你能通过报错或关键字来搜索，但在解决 CSS</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>2023 年终总结 | 一位普通打工人的思考</title>
     <link href="https://chieh.wang/2024/01/15/2023-year-end-summary/"/>
     <id>https://chieh.wang/2024/01/15/2023-year-end-summary/</id>
     <published>2024-01-14T16:42:06.000Z</published>
-    <updated>2024-01-14T17:03:02.224Z</updated>
+    <updated>2024-01-21T13:23:24.046Z</updated>
     
     
       
@@ -34,6 +55,8 @@
       
     
     
+    
+    <category term="年终总结" scheme="https://chieh.wang/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
     
     
   </entry>
@@ -470,30 +493,6 @@
         
         
     <summary type="html">&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="编程杂货铺" scheme="https://chieh.wang/categories/%E7%BC%96%E7%A8%8B%E6%9D%82%E8%B4%A7%E9%93%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>如何操作在Vue中显示HTML</title>
-    <link href="https://chieh.wang/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/"/>
-    <id>https://chieh.wang/2023/11/02/%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%9C%A8Vue%E4%B8%AD%E6%98%BE%E7%A4%BAHTML/</id>
-    <published>2023-11-01T16:22:53.000Z</published>
-    <updated>2023-11-07T04:58:16.993Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;01-如何显示HTML？&quot;&gt;&lt;a href=&quot;#01-如何显示HTML？&quot; class=&quot;headerlink&quot; title=&quot;01 如何显示HTML？&quot;&gt;&lt;/a&gt;01 如何显示HTML？&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;使用 iframe</summary>
         
       
     
