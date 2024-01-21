@@ -2,7 +2,7 @@
 title: 2023 年终总结 | 一位普通打工人的思考
 abbrlink: 150a7780
 date: 2024-01-15 00:42:06
-categories:
+categories: 年终总结
 tags:
 ---
 
