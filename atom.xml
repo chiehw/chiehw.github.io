@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2024-01-21T15:38:31.529Z</updated>
+  <updated>2024-01-21T15:40:21.124Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>css basic cascade</title>
+    <title>CSS 基础回顾：层叠的基本概念</title>
     <link href="https://chieh.wang/2024/01/21/css-basic-cascade/"/>
     <id>https://chieh.wang/2024/01/21/css-basic-cascade/</id>
     <published>2024-01-21T15:36:11.000Z</published>
-    <updated>2024-01-21T15:38:31.529Z</updated>
+    <updated>2024-01-21T15:40:21.124Z</updated>
     
     
       
