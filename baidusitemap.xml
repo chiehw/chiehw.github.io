@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://chieh.wang/2024/02/07/css-the-best-way-to-fix-cascading-prioprities/</loc>
+    <lastmod>2024-02-07</lastmod>
+  </url>
+  <url>
     <loc>https://chieh.wang/2024/01/21/css-basic-cascade/</loc>
-    <lastmod>2024-01-21</lastmod>
+    <lastmod>2024-02-07</lastmod>
   </url>
   <url>
     <loc>https://chieh.wang/2024/01/15/2023-year-end-summary/</loc>

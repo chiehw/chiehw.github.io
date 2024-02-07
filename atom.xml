@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2024-01-21T15:44:24.982Z</updated>
+  <updated>2024-02-07T01:57:25.728Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>CSS：轻松解决层叠优先级</title>
+    <link href="https://chieh.wang/2024/02/07/css-the-best-way-to-fix-cascading-prioprities/"/>
+    <id>https://chieh.wang/2024/02/07/css-the-best-way-to-fix-cascading-prioprities/</id>
+    <published>2024-02-07T01:23:14.000Z</published>
+    <updated>2024-02-07T01:57:25.728Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;写 CSS 的人都一定遇到过，为什么我的这个样式没有生效？打开开发者工具一看，自己的 CSS 选择器确实选中了这个样式，但是自己的样式被其他的选择器覆盖了。最佳的解决办法就是调整优先级，让我们来看看怎么做。&lt;/p&gt;
+&lt;h2 id=&quot;案例&quot;&gt;&lt;a href=&quot;#案例&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="前端" scheme="https://chieh.wang/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="CSS" scheme="https://chieh.wang/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CSS 基础回顾：层叠的基本概念</title>
     <link href="https://chieh.wang/2024/01/21/css-basic-cascade/"/>
     <id>https://chieh.wang/2024/01/21/css-basic-cascade/</id>
     <published>2024-01-21T15:36:11.000Z</published>
-    <updated>2024-01-21T15:44:24.982Z</updated>
+    <updated>2024-02-07T01:24:10.254Z</updated>
     
     
       
@@ -34,6 +60,10 @@
     
     
     
+    <category term="前端" scheme="https://chieh.wang/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="CSS" scheme="https://chieh.wang/tags/CSS/"/>
     
   </entry>
   
