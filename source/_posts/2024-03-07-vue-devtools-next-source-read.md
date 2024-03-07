@@ -1,5 +1,5 @@
 ---
-title: vue-devtools-next-source-read
+title: vue-devtools-next 背后的原理
 abbrlink: b5e25d84
 date: 2024-03-07 23:40:33
 categories:
