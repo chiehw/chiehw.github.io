@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2024-02-07T01:57:25.728Z</updated>
+  <updated>2024-03-24T01:06:13.442Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue-devtools-next 背后的原理</title>
+    <link href="https://chieh.wang/2024/03/07/vue-devtools-next-source-read/"/>
+    <id>https://chieh.wang/2024/03/07/vue-devtools-next-source-read/</id>
+    <published>2024-03-07T15:40:33.000Z</published>
+    <updated>2024-03-24T01:06:13.442Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;工程目录&quot;&gt;&lt;a href=&quot;#工程目录&quot; class=&quot;headerlink&quot; title=&quot;工程目录&quot;&gt;&lt;/a&gt;工程目录&lt;/h1&gt;&lt;p&gt;在往下阅读之前我们需要先了解几个基本概念，&lt;code&gt;client&lt;/code&gt; 指 devtools 中的 UI</summary>
+        
+      
+    
+    
+    
+    <category term="前端" scheme="https://chieh.wang/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="vue" scheme="https://chieh.wang/tags/vue/"/>
+    
+  </entry>
   
   <entry>
     <title>CSS：轻松解决层叠优先级</title>
