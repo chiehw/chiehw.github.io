@@ -6,7 +6,7 @@
   <link href="https://chieh.wang/atom.xml" rel="self"/>
   
   <link href="https://chieh.wang/"/>
-  <updated>2024-03-07T15:42:05.103Z</updated>
+  <updated>2024-04-06T04:22:50.111Z</updated>
   <id>https://chieh.wang/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>纳瓦尔：如何做出更好的决定？</title>
+    <link href="https://chieh.wang/2024/04/06/%E3%80%90%E7%BA%B3%E7%93%A6%E5%B0%94%E3%80%91%E5%A6%82%E4%BD%95%E5%81%9A%E5%87%BA%E6%9B%B4%E5%A5%BD%E7%9A%84%E5%86%B3%E5%AE%9A/"/>
+    <id>https://chieh.wang/2024/04/06/%E3%80%90%E7%BA%B3%E7%93%A6%E5%B0%94%E3%80%91%E5%A6%82%E4%BD%95%E5%81%9A%E5%87%BA%E6%9B%B4%E5%A5%BD%E7%9A%84%E5%86%B3%E5%AE%9A/</id>
+    <published>2024-04-06T04:20:40.000Z</published>
+    <updated>2024-04-06T04:22:50.111Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;清醒的头脑可以做出更好的判断，从而带来更好的结果&lt;/strong&gt;。一个快乐且平静的人，会做出更好的决定并取得更好的结果。如果你想做出更好的决定，你必须学会驯服你的思想，就像是驯服你的身体一样。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;欲望&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="哲学与思考" scheme="https://chieh.wang/categories/%E5%93%B2%E5%AD%A6%E4%B8%8E%E6%80%9D%E8%80%83/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>vue-devtools-next 背后的原理</title>
