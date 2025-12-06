@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <meta name="author" content="Chieh Wang" />
+  <meta name="description" content="" />
+  
+  
+  <title>
+    
+      vue-devtools-next 背后的原理 
+      
+      
+      |
+    
+     王杰 | Web 开发者
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT31KVFKP0"></script>
+    <script defer src="https://analytics.us.umami.is/script.js" data-website-id="231e4617-99de-4632-b90d-55299558b584"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZT31KVFKP0');
+    </script>
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="王杰 | Web 开发者" type="application/atom+xml">
+</head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Chieh Wang</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">vue-devtools-next 背后的原理</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-12-06 20:32:47
+        </span>
+        
+              <span class="post-categories">
+                <i class="iconfont icon-bookmark" title="Categories"></i>
+                
+                <span class="span--category">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" title="前端">
+                    <b>#</b> 前端
+                  </a>
+                </span>
+                
+              </span>
+          
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/vue/" title="vue">
+                    #vue
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h1><p>在往下阅读之前我们需要先了解几个基本概念，<code>client</code> 指 devtools 中的 UI 界面，<code>user-app</code> 指被调试的 Vue 项目，<code>vite-server</code> 指 vite 服务。目前 devtools-next 还处于项目初期，项目中有一些文件夹作用不是很大，我根据自己阅读源码后将一些关键文件夹列出来。在下面的列表中，靠上方的子项目通常依赖于靠下方的子项目：</p>
+<ul>
+<li>vite：vite 的插件作为 devtool-next 的入口。</li>
+<li>client：devtools 的主要界面，负责和 <code>user-app</code> 和 <code>vite-server</code> 通信。<code>vite-server</code> 负责提供文件相关的 rpc 服务，<code>user-app</code> 提供调试相关的服务（查看和修改组件变量）。 </li>
+<li>overlay：为 <code>client</code> 提供容器，负责唤醒 client 以及提供调整 UI 大小的功能。</li>
+<li>core：为 <code>client</code>、<code>user-app</code>、<code>vite-server</code> 提供 RPC 支持、实现事件回调机制。</li>
+<li>devtool-kit：核心功能实现。</li>
+</ul>
+<p>此外，还有一些子项目专门提供公共函数签名以及常量：</p>
+<ul>
+<li>shared：共用的工具类、常量。</li>
+<li>scheme：UI 相关的公共函数、常量。</li>
+<li>devtools-api：为插件提供 API 声明，主要实现在 devtools-kit 中。</li>
+</ul>
+<p>最后 playground 内置了一些简单的功能，可以用来更方便的测试 devtools-next，因为该子项目在 package.json 中直接使用了当前 workspace 的 devtools-next。</p>
+<h1 id="数据流向图"><a href="#数据流向图" class="headerlink" title="数据流向图"></a>数据流向图</h1><img src="https://blog-1256032382.cos.ap-nanjing.myqcloud.com/picgo/image-20240225235009167.png" alt="image-20240225235009167" width="500px"/>
+
+<p>在深入了解之前，先了解模块之间的相互关系会更清晰。User-App 和 Devtools Client 会通过 postMessage 或者 BroadcastChannel 来交换数据。Devtools Client 会通过 websocket 和 Vite Server 交换数据，相互进行 rpc 调用。</p>
+<p>当 Devtools Client 以 iframe 嵌入到 User-App 中时，使用 postMessage 通信，postMessage 是 window 对象上的一个方法，可以安全的实现跨源通信。当 Devtools Client 以分离窗口的方式呈现时，使用 BroadcastChannel 通信，BroadcastChannel 可以让同源的不同窗口进行通信。</p>
+<blockquote>
+<p>PS：User-App 也会和 Vite Server 交换数据，但是不属于 Devtools Next 的研究范畴，所以没有在上图中画出来。</p>
+</blockquote>
+<h1 id="User-App"><a href="#User-App" class="headerlink" title="User-App"></a>User-App</h1><h2 id="载入-Devtools-Frame"><a href="#载入-Devtools-Frame" class="headerlink" title="载入 Devtools Frame"></a>载入 Devtools Frame</h2><p>Devtools Next 的配置非常简单，只需要在 vite 插件中引入即可，无需修改项目代码来引入 Client 的源码，那它是怎么做到的呢？在 <code>packages/vite/src/vite.ts</code> 中，可以看到如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> plugins = &#123;</span><br><span class="line">    <span class="title function_">transformIndexHtml</span>(<span class="params">html</span>) &#123;</span><br><span class="line">    	...</span><br><span class="line">        <span class="attr">attrs</span>: &#123;</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;module&#x27;</span>,</span><br><span class="line">          <span class="attr">src</span>: <span class="string">`<span class="subst">$&#123;config.base || <span class="string">&#x27;/&#x27;</span>&#125;</span>@id/virtual:vue-devtools-path:overlay.js`</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">	&#125;,</span><br><span class="line">    <span class="title function_">transform</span>(<span class="params">code, id</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">        code = <span class="string">`<span class="subst">$&#123;code&#125;</span>\nimport &#x27;virtual:vue-devtools-path:overlay.js&#x27;`</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>也就是说，它通过 vite 的钩子在 html 中添加标签，或在代码中加载 overlay.js 文件来引入 Overlay、Client，随之完成一系列的初始化操作。</p>
+<h2 id="获取根组件"><a href="#获取根组件" class="headerlink" title="获取根组件"></a>获取根组件</h2><p>在 overlay.js 文件中通过 <code>devtools.init()</code> 来初始化全局的变量，如 <code>__VUE_DEVTOOLS_GLOBAL_HOOK__</code>，这个变量是获取 <code>Vue</code> 实例的关键点。在后文我们简称 <code>GLOBAL_HOOK</code>。</p>
+<p>这里的 init 函数使用简单的发布-订阅机制的对象来初始化 <code>GLOBAL_HOOK</code>，这个对象实现了 on、off、once、emit 等方法，并且在这个对象上使用 on 函数设置了相关的事件回调，Vue 实例可以使用这个对象的 emit 方法来通知 devtools-next，下面是一些相关的 HOOK 名称：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> enum <span class="title class_">DevToolsHooks</span> &#123;</span><br><span class="line">  <span class="comment">// internal</span></span><br><span class="line">  <span class="variable constant_">APP_INIT</span> = <span class="string">&#x27;app:init&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">APP_UNMOUNT</span> = <span class="string">&#x27;app:unmount&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">COMPONENT_UPDATED</span> = <span class="string">&#x27;component:updated&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">COMPONENT_ADDED</span> = <span class="string">&#x27;component:added&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">COMPONENT_REMOVED</span> = <span class="string">&#x27;component:removed&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">COMPONENT_EMIT</span> = <span class="string">&#x27;component:emit&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">PERFORMANCE_START</span> = <span class="string">&#x27;perf:start&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">PERFORMANCE_END</span> = <span class="string">&#x27;perf:end&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">ADD_ROUTE</span> = <span class="string">&#x27;router:add-route&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">REMOVE_ROUTE</span> = <span class="string">&#x27;router:remove-route&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">RENDER_TRACKED</span> = <span class="string">&#x27;render:tracked&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">RENDER_TRIGGERED</span> = <span class="string">&#x27;render:triggered&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">APP_CONNECTED</span> = <span class="string">&#x27;app:connected&#x27;</span>,</span><br><span class="line">  <span class="variable constant_">SETUP_DEVTOOLS_PLUGIN</span> = <span class="string">&#x27;devtools-plugin:setup&#x27;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Vue 会自动检测是否存在这个 <code>GLOBAL_HOOK</code>，如果存在就会在上面的 HOOK 中调用其 emit 方法来通知 devtool，且Vue 会将根组件赋值给这个全局变量。我们可以在 vue&#x2F;core 项目中找到相关的代码：<a target="_blank" rel="noopener" href="https://github.com/vuejs/core/blob/f66a75ea75c8aece065b61e2126b4c5b2338aa6e/packages/runtime-core/src/renderer.ts#L340">检测 GLOBAL_HOOK</a>、<a target="_blank" rel="noopener" href="https://github.com/vuejs/core/blob/f66a75ea75c8aece065b61e2126b4c5b2338aa6e/packages/runtime-core/src/devtools.ts#L89">emit 事件</a>。</p>
+<p>利用上面的基本原理，我们可以在生产环境下也打开 devtools。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">openVue3</span>(<span class="params">app_id = <span class="string">&#x27;#app&#x27;</span></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> devtools = <span class="variable language_">window</span>.<span class="property">__VUE_DEVTOOLS_GLOBAL_HOOK__</span></span><br><span class="line">    <span class="keyword">const</span> app = $(app_id).<span class="property">__vue_app__</span></span><br><span class="line">    <span class="keyword">const</span> type = &#123;</span><br><span class="line">      <span class="title class_">Comment</span>: <span class="title class_">Symbol</span>(<span class="string">&quot;Comment&quot;</span>),</span><br><span class="line">      <span class="title class_">Fragment</span>: <span class="title class_">Symbol</span>(<span class="string">&quot;Fragment&quot;</span>),</span><br><span class="line">      <span class="title class_">Static</span>: <span class="title class_">Symbol</span>(<span class="string">&quot;Static&quot;</span>),</span><br><span class="line">      <span class="title class_">Text</span>: <span class="title class_">Symbol</span>(<span class="string">&quot;Text&quot;</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    devtools.<span class="title function_">emit</span>(<span class="string">&#x27;app:init&#x27;</span>, app, app.<span class="property">version</span>, type)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">openVue2</span>(<span class="params">app_id = <span class="string">&#x27;#app&#x27;</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> devtools = <span class="variable language_">window</span>.<span class="property">__VUE_DEVTOOLS_GLOBAL_HOOK__</span></span><br><span class="line">    <span class="keyword">let</span> <span class="title class_">Vue</span> = $(app_id).<span class="property">__vue__</span>.<span class="property">constructor</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="title class_">Vue</span>.<span class="property">super</span>) &#123; </span><br><span class="line">        <span class="title class_">Vue</span> = <span class="title class_">Vue</span>.<span class="property">super</span> </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">devtools</span> = <span class="literal">true</span></span><br><span class="line">    devtools.<span class="title function_">emit</span>(<span class="string">&#x27;init&#x27;</span>, <span class="title class_">Vue</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考链接：</p>
+<ul>
+<li>强制打开线上 Vue 3 项目 Devtools 工具的一种方法：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7052955565944733709">https://juejin.cn/post/7052955565944733709</a></li>
+<li>开启vue项目生产环境的 Vue Devtools：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7081911875054600199">https://juejin.cn/post/7081911875054600199</a></li>
+<li>enable-vue-devtools：<a target="_blank" rel="noopener" href="https://github.com/EHfive/userscripts/blob/master/userscripts/enbale-vue-devtools/src/main.js">https://github.com/EHfive/userscripts/blob/master/userscripts/enbale-vue-devtools/src/main.js</a></li>
+</ul>
+<h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><h2 id="如何将页面嵌入到已有项目中的？"><a href="#如何将页面嵌入到已有项目中的？" class="headerlink" title="如何将页面嵌入到已有项目中的？"></a>如何将页面嵌入到已有项目中的？</h2><p>这个功能的核心代码在 overlay 项目中，其中 createDevToolsContainer 函数会在 body 中添加一个 id 为 <code>__vue-devtools-container__</code> 的 div 标签。然后将 overlay 这个 app 挂载到 <code>__vue-devtools-container__</code>。</p>
+<h2 id="如何将-overlay-和-client-两个项目的-UI-结合？"><a href="#如何将-overlay-和-client-两个项目的-UI-结合？" class="headerlink" title="如何将 overlay 和 client 两个项目的 UI 结合？"></a>如何将 overlay 和 client 两个项目的 UI 结合？</h2><p>在 overlay 中有一个函数叫做 useIframe 会创建一个 id 为 <code>vue-devtools-iframe</code> 的 iframe。这个函数的参数是 clientUrl，会最终指向这个 client 编译后的地址，client 项目只需要编译后以静态文件挂载即可。</p>
+<h2 id="事件回调"><a href="#事件回调" class="headerlink" title="事件回调"></a>事件回调</h2><p>在 devtool-kit 实现了 devtool 的事件循环，其核心运用了 <code>hookable</code>。为什么要使用这个库进行事件回调？让函数能更灵活的，而不是硬编码。</p>
+<h2 id="如何实现-rpc？"><a href="#如何实现-rpc？" class="headerlink" title="如何实现 rpc？"></a>如何实现 rpc？</h2><p>vite-dev-rpc 提供了 createRPCServer 方法，可以传入参数来注册 rpc 函数。例如 <code>setupAssetsRPC</code> 会返回 getStaticAssets 函数，然后将这个函数注册到 server 端。再使用其提供的 createRPCClient 方法，创建 rpcClient，就可以调用远程的方法。更深层的原理需要继续阅读 vite-dev-rpc 的源码。</p>
+<h2 id="如何实现布局放大和缩小？"><a href="#如何实现布局放大和缩小？" class="headerlink" title="如何实现布局放大和缩小？"></a>如何实现布局放大和缩小？</h2><p>布局的核心源码在 overlay 中的 FrameBox 文件中，当在侧边栏点击鼠标左键时，标志位 isResizing 置为 true。使用事件监听器监听 <code>mousemove</code> 事件，根据窗口的位置来重置 localStore 中的高宽。</p>
+<p>接下来可以看 <code>postion.ts</code> 文件中的代码，usePosition 可以传入 HTMLElement，然后将节点的高宽和 localStore 中高宽进行响应式的绑定。</p>
+<h2 id="如何查看-vue-组件中的变量？"><a href="#如何查看-vue-组件中的变量？" class="headerlink" title="如何查看 vue 组件中的变量？"></a>如何查看 vue 组件中的变量？</h2><p>在 client 的 pages 文件夹下，components 负责这部分代码的调用和展示，查看调用链，最终可以追踪到 <code>getInspectorState</code> 函数的参数 inspectorId 为 components。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">getComponentState</span>(<span class="params">id: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  bridgeRpc.<span class="title function_">getInspectorState</span>(&#123; <span class="attr">inspectorId</span>: <span class="string">&#x27;components&#x27;</span>, <span class="attr">nodeId</span>: id &#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">&#123; data &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    activeComponentState.<span class="property">value</span> = <span class="title function_">normalizeComponentState</span>(data)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个 INSPECTOR_ID 可以找到 registerComponentsDevTools 函数，这个函数注册了相关的处理方法，核心的处理方法为 <code>getComponentTree</code>。这个函数的参数为 <code>VueAppInstance</code>，可以传入 Vue 实例，然后遍历这棵实例树。</p>
+<h2 id="如何实现编辑数据？"><a href="#如何实现编辑数据？" class="headerlink" title="如何实现编辑数据？"></a>如何实现编辑数据？</h2><p>同样也是在 devtool-kit 文件夹下，editInspectorState 函数负责修改 Vue 组件中的数据。最终会调用 editComponentState 函数。最终由 StateEditor 来实现状态的修改。</p>
+<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p><strong>需要 Vite 支持 websocket</strong>。从 vite 2.9 提供了 <a target="_blank" rel="noopener" href="https://vitejs.dev/guide/api-plugin#client-server-communication">Client-server Communication</a>，提供了客户端和服务端交互的工具。在 vite 的插件中，可以获取 websocket server，可以发送消息给所有的客户端。这样我们就可以轻松的获得 websocket 链接。在 client 中使用 <code>import.meta.hot</code> 获取 websocket 的 client。在 vite.config.ts 中， <code>configureServer(server)</code> 函数的 server.ws 就是 websocket 的 server。</p>
+<p><strong>基于 websocket 的 rpc 框架 birpc</strong>。这是一个轻量的 rpc 框架，<a target="_blank" rel="noopener" href="https://github.com/antfu/vite-dev-rpc">vite-dev-rpc</a> 将其和 <code>vite-hot-client</code> 做了封装，只需要使用 rpc client 即可调用服务端的函数。传递的消息格式如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;m&quot;</span>: <span class="string">&quot;add&quot;</span>, <span class="comment">// 方法名</span></span><br><span class="line">  <span class="string">&quot;a&quot;</span>: [	<span class="comment">// 参数</span></span><br><span class="line">    <span class="number">97</span>,</span><br><span class="line">    <span class="number">41</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;i&quot;</span>: <span class="string">&quot;99Rbl9Im3PpZzBTlpbwSx&quot;</span>,</span><br><span class="line">  <span class="string">&quot;t&quot;</span>: <span class="string">&quot;q&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bridge-类"><a href="#Bridge-类" class="headerlink" title="Bridge 类"></a>Bridge 类</h2><p>这个类利用了适配器模式来封装 mitt 库，用于管理 JavaScript 中的事件。client 的事件都由 BridgeRpc 来转发，在 <code>registerBridgeRpc</code> 函数中注册处理函数。</p>
+<h2 id="跨文档消息-XDM-Cross-Document-Messaging"><a href="#跨文档消息-XDM-Cross-Document-Messaging" class="headerlink" title="跨文档消息 XDM(Cross-Document-Messaging)"></a>跨文档消息 XDM(Cross-Document-Messaging)</h2><p>在 devtools-next 中，使用 iframe 将 devtool client 的页面嵌入到用户的 HTML 中，用户的 app 和 devtool 的 app 需要通信的话，就需要用到 XDM 这项技术。在 overlay 中使用 postMessage 来通知 devtools app 初始化 devtool。</p>
+<p>overlay 会被提前注入到用户程序中，等待 devtools app 加载完成后，再通过 postMessage 来通知 devtools app 启动。</p>
+<p>在分离窗口的时候，使用 BroadcastChannel 来进行通信。在子页面中，使用 postMessage 通信。</p>
+<h2 id="查看和编辑组件信息"><a href="#查看和编辑组件信息" class="headerlink" title="查看和编辑组件信息"></a>查看和编辑组件信息</h2><p>在 devtoolsBridge 类中，有两种 rpc。第一种是 viteRpc 用于和 vite 交互，获取服务端的文件等信息。第二种 rpc 用于和 client 交互，用于获取组件信息。</p>
+<h2 id="如何查看组件树"><a href="#如何查看组件树" class="headerlink" title="如何查看组件树"></a>如何查看组件树</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">api.<span class="property">on</span>.<span class="title function_">getInspectorTree</span>(<span class="keyword">async</span> (payload) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (payload.<span class="property">app</span> === app &amp;&amp; payload.<span class="property">inspectorId</span> === <span class="variable constant_">INSPECTOR_ID</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> instance = <span class="title function_">getComponentInstance</span>(devtoolsContext.<span class="property">appRecord</span>!, payload.<span class="property">instanceId</span>)</span><br><span class="line">    <span class="keyword">if</span> (instance) &#123;</span><br><span class="line">      <span class="keyword">const</span> walker = <span class="keyword">new</span> <span class="title class_">ComponentWalker</span>(&#123;</span><br><span class="line">        <span class="attr">filterText</span>: payload.<span class="property">filter</span>,</span><br><span class="line">        <span class="comment">// @<span class="doctag">TODO:</span> should make this configurable?</span></span><br><span class="line">        <span class="attr">maxDepth</span>: <span class="number">100</span>,</span><br><span class="line">        <span class="attr">recursively</span>: <span class="literal">false</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">      payload.<span class="property">rootNodes</span> = <span class="keyword">await</span> walker.<span class="title function_">getComponentTree</span>(instance)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>核心源码在 user-app.ts 和 components.ts。在 <code>vueAppInit</code> 函数中，保存 Vue 的实例。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/02/07/css-the-best-way-to-fix-cascading-prioprities/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-12-06 20:32:47
+            </span>
+            
+                  <span class="post-categories">
+                    <i class="iconfont icon-bookmark" title="Categories"></i>
+                    
+                    <span class="span--category">
+                      <a href="/categories/%E5%89%8D%E7%AB%AF/" title="前端">
+                        <b>#</b> 前端
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/vue/" title="vue">
+                        #vue
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/04/06/how-to-make-great-decision/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95"><span class="toc-text">工程目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%90%91%E5%9B%BE"><span class="toc-text">数据流向图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#User-App"><span class="toc-text">User-App</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%BD%E5%85%A5-Devtools-Frame"><span class="toc-text">载入 Devtools Frame</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%A0%B9%E7%BB%84%E4%BB%B6"><span class="toc-text">获取根组件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98"><span class="toc-text">其他问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E9%A1%B5%E9%9D%A2%E5%B5%8C%E5%85%A5%E5%88%B0%E5%B7%B2%E6%9C%89%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%EF%BC%9F"><span class="toc-text">如何将页面嵌入到已有项目中的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86-overlay-%E5%92%8C-client-%E4%B8%A4%E4%B8%AA%E9%A1%B9%E7%9B%AE%E7%9A%84-UI-%E7%BB%93%E5%90%88%EF%BC%9F"><span class="toc-text">如何将 overlay 和 client 两个项目的 UI 结合？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%9B%9E%E8%B0%83"><span class="toc-text">事件回调</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0-rpc%EF%BC%9F"><span class="toc-text">如何实现 rpc？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%B8%83%E5%B1%80%E6%94%BE%E5%A4%A7%E5%92%8C%E7%BC%A9%E5%B0%8F%EF%BC%9F"><span class="toc-text">如何实现布局放大和缩小？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B-vue-%E7%BB%84%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%EF%BC%9F"><span class="toc-text">如何查看 vue 组件中的变量？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BC%96%E8%BE%91%E6%95%B0%E6%8D%AE%EF%BC%9F"><span class="toc-text">如何实现编辑数据？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC"><span class="toc-text">RPC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bridge-%E7%B1%BB"><span class="toc-text">Bridge 类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E6%96%87%E6%A1%A3%E6%B6%88%E6%81%AF-XDM-Cross-Document-Messaging"><span class="toc-text">跨文档消息 XDM(Cross-Document-Messaging)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%92%8C%E7%BC%96%E8%BE%91%E7%BB%84%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">查看和编辑组件信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E7%BB%84%E4%BB%B6%E6%A0%91"><span class="toc-text">如何查看组件树</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+  
+    <script async type="text/javascript" src="/plugins/valine.min.js" onload="loadValineSuc(this)"></script>
+  
+
+  <div id="vcomments"></div>
+
+  <script>
+    function loadValineSuc() {
+      new Valine({
+        el: '#vcomments',
+        appId: 'ikvSzWGgS2Gj6eMcU18rNJ0T-gzGzoHsz',
+        appKey: '8JFk6edtiIlTX0CcOOnneFWO',
+        placeholder: 'Welcome!',
+        avatar: 'retro',
+        lang: 'en'
+      })
+    }
+  </script>
+
+    <style>
+      .comments-container .v .vempty {
+        display: none!important;
+      }
+    </style>
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          <a title="github" target="_blank" rel="noopener" href="https://github.com/chiehw">
+            <i class="iconfont icon-github"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a title="rss" href="/atom.xml">
+            <i class="iconfont icon-rss"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Chieh Wang</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + vue-devtools-next%20%E8%83%8C%E5%90%8E%E7%9A%84%E5%8E%9F%E7%90%86 + '&url=' + https%3A%2F%2Fchieh.wang%2F2024%2F03%2F07%2Fvue-devtools-next-source-read%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=https://chieh.wang/2024/03/07/vue-devtools-next-source-read/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

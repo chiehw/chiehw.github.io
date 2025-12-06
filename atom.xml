@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>王杰 | Web 开发者</title>
+  <icon>https://chieh.wang/icon.png</icon>
+  
+  <link href="https://chieh.wang/atom.xml" rel="self"/>
+  
+  <link href="https://chieh.wang/"/>
+  <updated>2025-12-06T12:48:48.594Z</updated>
+  <id>https://chieh.wang/</id>
+  
+  <author>
+    <name>Chieh Wang</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AI时代，我为什么还写作？</title>
+    <link href="https://chieh.wang/2025/12/06/AI%E6%97%B6%E4%BB%A3%EF%BC%8C%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E5%86%99%E4%BD%9C%EF%BC%9F/"/>
+    <id>https://chieh.wang/2025/12/06/AI%E6%97%B6%E4%BB%A3%EF%BC%8C%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E5%86%99%E4%BD%9C%EF%BC%9F/</id>
+    <published>2025-12-06T12:48:03.000Z</published>
+    <updated>2025-12-06T12:48:48.594Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;AI 写东西又快又好，是不是自己就不该写作了？&lt;/p&gt;
+&lt;p&gt;为什么突然提起这个话题呢？我最近打算重启我的博客计划，拿起电脑刚刚敲了一会就发现不太对劲，我如果问 AI 就能很容易知道，那我为什么还要写？过去，我会用 Google 搜索各种博客来解决编程问题，现在，打开</summary>
+        
+      
+    
+    
+    
+    <category term="哲学与思考" scheme="https://chieh.wang/categories/%E5%93%B2%E5%AD%A6%E4%B8%8E%E6%80%9D%E8%80%83/"/>
+    
+    
+    <category term="写作" scheme="https://chieh.wang/tags/%E5%86%99%E4%BD%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>纳瓦尔：如何做出更好的决定？</title>
+    <link href="https://chieh.wang/2024/04/06/how-to-make-great-decision/"/>
+    <id>https://chieh.wang/2024/04/06/how-to-make-great-decision/</id>
+    <published>2024-04-06T04:20:40.000Z</published>
+    <updated>2025-12-06T12:32:47.304Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;strong&gt;清醒的头脑可以做出更好的判断，从而带来更好的结果&lt;/strong&gt;。一个快乐且平静的人，会做出更好的决定并取得更好的结果。如果你想做出更好的决定，你必须学会驯服你的思想，就像是驯服你的身体一样。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;欲望&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="哲学与思考" scheme="https://chieh.wang/categories/%E5%93%B2%E5%AD%A6%E4%B8%8E%E6%80%9D%E8%80%83/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>vue-devtools-next 背后的原理</title>
+    <link href="https://chieh.wang/2024/03/07/vue-devtools-next-source-read/"/>
+    <id>https://chieh.wang/2024/03/07/vue-devtools-next-source-read/</id>
+    <published>2024-03-07T15:40:33.000Z</published>
+    <updated>2025-12-06T12:32:47.304Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;工程目录&quot;&gt;&lt;a href=&quot;#工程目录&quot; class=&quot;headerlink&quot; title=&quot;工程目录&quot;&gt;&lt;/a&gt;工程目录&lt;/h1&gt;&lt;p&gt;在往下阅读之前我们需要先了解几个基本概念，&lt;code&gt;client&lt;/code&gt; 指 devtools 中的 UI</summary>
+        
+      
+    
+    
+    
+    <category term="前端" scheme="https://chieh.wang/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="vue" scheme="https://chieh.wang/tags/vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS：轻松解决层叠优先级</title>
+    <link href="https://chieh.wang/2024/02/07/css-the-best-way-to-fix-cascading-prioprities/"/>
+    <id>https://chieh.wang/2024/02/07/css-the-best-way-to-fix-cascading-prioprities/</id>
+    <published>2024-02-07T01:23:14.000Z</published>
+    <updated>2025-12-06T12:32:47.304Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;写 CSS 的人都一定遇到过，为什么我的这个样式没有生效？打开开发者工具一看，自己的 CSS 选择器确实选中了这个样式，但是自己的样式被其他的选择器覆盖了。最佳的解决办法就是调整优先级，让我们来看看怎么做。&lt;/p&gt;
+&lt;h2 id=&quot;案例&quot;&gt;&lt;a href=&quot;#案例&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="前端" scheme="https://chieh.wang/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="CSS" scheme="https://chieh.wang/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS 基础回顾：层叠的基本概念</title>
+    <link href="https://chieh.wang/2024/01/21/css-basic-cascade/"/>
+    <id>https://chieh.wang/2024/01/21/css-basic-cascade/</id>
+    <published>2024-01-21T15:36:11.000Z</published>
+    <updated>2025-12-06T12:32:47.303Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在解决传统编程问题时，你能通过报错或关键字来搜索，但在解决 CSS</summary>
+        
+      
+    
+    
+    
+    <category term="前端" scheme="https://chieh.wang/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+    <category term="CSS" scheme="https://chieh.wang/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2023 年终总结 | 一位普通打工人的思考</title>
+    <link href="https://chieh.wang/2024/01/15/2023-year-end-summary/"/>
+    <id>https://chieh.wang/2024/01/15/2023-year-end-summary/</id>
+    <published>2024-01-14T16:42:06.000Z</published>
+    <updated>2025-12-06T12:32:47.303Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;时光似箭，日月如梭。我从毕业（2022 年 7 月）到现在已经一年半，我的生活刚刚开始。为什么呢？从大学开始，我好像一只在海中迷路的船，随风飘着。但最近我找到了自己的灯塔，稍许准备之后，向着目标开始起航。&lt;/p&gt;
+&lt;h2 id=&quot;时间胶囊&quot;&gt;&lt;a href=&quot;#时间胶囊&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="年终总结" scheme="https://chieh.wang/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+    
+    
+  </entry>
+  
+</feed>
